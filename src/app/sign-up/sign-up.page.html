@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>signUp</ion-title>
+    <ion-title>Sign Up</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -43,7 +43,7 @@
 
     <ion-item lines="full">
       <ion-label position="floating">Phone Number</ion-label>
-      <ion-input type="text" formControlName="phone"></ion-input>
+      <ion-input type="text" formControlName="phone" placeholder="0123456789"></ion-input>
       <!-- Error Message -->
       <span>
         <ng-container
@@ -115,7 +115,7 @@
   
         <ion-item lines="full">
           <ion-label position="floating">Postal Code</ion-label>
-          <ion-input type="text" formControlName="postal"></ion-input>
+          <ion-input type="text" formControlName="postal" placeholder="(A1A 1A1)"></ion-input>
           <!-- Error Message -->
           <span>
             <ng-container
@@ -152,17 +152,16 @@
       </span>
     </ion-item>
 
-    <ion-item lines="full">
+    <!-- <ion-item lines="full">
       <ion-label position="floating">Confirm Password</ion-label>
       <ion-input type="password" formControlName="confirmPassword"></ion-input>
-      <!-- Error Message -->
       <span>
         <ng-container
           *ngIf="registrationForm.get('password').hasError('minLength') && (registrationForm.get('password').touched || registrationForm.get('password').dirty)">
           the password should be at least 8 characters
         </ng-container>
       </span>
-    </ion-item>
+    </ion-item> -->
 
     <ion-button type="submit" [disabled]="!registrationForm.valid">
       Sign Up
