@@ -1,0 +1,7 @@
+{
+  "name": "bikeTechnician",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
