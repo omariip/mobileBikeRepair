@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.page.html',
@@ -8,6 +7,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 })
 export class SignUpPage implements OnInit {
 
+  
   registrationForm = this.formBuilder.group({
     name: ['', [Validators.required, Validators.maxLength(100)]],
     email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
@@ -19,10 +19,11 @@ export class SignUpPage implements OnInit {
       postal: ['', [Validators.required, Validators.pattern(/^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i)]]
     }),
     password: ['', [Validators.required, Validators.minLength(8)]],
-    confirmPassword: ['', [Validators.required, Validators.minLength(8)]]
   });
 
-
+  getForm(): FormGroup {
+    return this.registrationForm;
+  }
   // signUp = new FormGroup({
   //   name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
   //   email: new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]),
