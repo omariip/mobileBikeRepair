@@ -72,7 +72,7 @@
     <ion-list formGroupName="address">
       <ion-item lines="full">
         <ion-label position="floating">Street</ion-label>
-        <ion-input type="text" formControlName="street"></ion-input>
+        <ion-input type="text" formControlName="street" #autocomplete></ion-input>
         <!-- Error Message -->
         <span>
           <ng-container
@@ -108,20 +108,20 @@
   
       <ion-item lines="full">
         <ion-label position="floating">Province</ion-label>
-          <ion-select cancelText="Cancel" okText="Ok" formControlName="province"> 
-            <ion-select-option [value]="AB">Alberta</ion-select-option>
-            <ion-select-option [value]="BC">British Columbia</ion-select-option>          
-            <ion-select-option [value]="MB">Manitoba</ion-select-option> 
-            <ion-select-option [value]="NB">New Brunswick</ion-select-option>
-            <ion-select-option [value]="NL">New Foundland and Labrador</ion-select-option>
-            <ion-select-option [value]="NT">Northwest Territories</ion-select-option>
-            <ion-select-option [value]="NS">Nova Scotia</ion-select-option>
-            <ion-select-option [value]="NU">Nunavut</ion-select-option>
-            <ion-select-option [value]="ON">Ontario</ion-select-option>
-            <ion-select-option [value]="PE">Prince Edward Island</ion-select-option>
-            <ion-select-option [value]="QC">Quebec</ion-select-option>
-            <ion-select-option [value]="SK">Saskatchewan</ion-select-option>
-            <ion-select-option [value]="YT">Yukon</ion-select-option>
+          <ion-select cancelText="Cancel" okText="Ok" formControlName="province" #provinceSelect>
+            <ion-select-option [value]="AB">AB</ion-select-option>
+            <ion-select-option [value]="BC">BC</ion-select-option>          
+            <ion-select-option [value]="MB">MB</ion-select-option> 
+            <ion-select-option [value]="NB">NB</ion-select-option> 
+            <ion-select-option [value]="NL">NL</ion-select-option>
+            <ion-select-option [value]="NT">NT</ion-select-option>
+            <ion-select-option [value]="NS">NS</ion-select-option>
+            <ion-select-option [value]="NU">NU</ion-select-option>
+            <ion-select-option [value]="ON">ON</ion-select-option>
+            <ion-select-option [value]="PE">PE</ion-select-option>
+            <ion-select-option [value]="QC">QC</ion-select-option>
+            <ion-select-option [value]="SK">SK</ion-select-option>
+            <ion-select-option [value]="YT">YT</ion-select-option>
           </ion-select>
           
         <span>
