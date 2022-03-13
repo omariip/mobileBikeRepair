@@ -19,6 +19,11 @@
           *ngIf="registrationForm.get('name').hasError('required') && (registrationForm.get('name').touched || registrationForm.get('name').dirty)">
           <small class="signUpError">please enter your name</small>
         </ng-container>
+
+        <ng-container
+          *ngIf="registrationForm.get('name').hasError('maxlength') && (registrationForm.get('name').touched || registrationForm.get('name').dirty)">
+          <small class="signUpError">name cannot be more than 100 characters</small>
+        </ng-container>
       </span>
 
     </ion-item>
@@ -37,6 +42,11 @@
           *ngIf="registrationForm.get('email').hasError('pattern') && (registrationForm.get('email').touched || registrationForm.get('email').dirty)">
 
           <small class="signUpError">please enter a valid email address</small>
+        </ng-container>
+        <ng-container
+          *ngIf="registrationForm.get('email').hasError('maxlength') && (registrationForm.get('email').touched || registrationForm.get('email').dirty)">
+
+          <small class="signUpError">email cannot be more than 100 characters</small>
         </ng-container>
       </span>
     </ion-item>
@@ -70,6 +80,11 @@
   
             <small class="signUpError">please enter your street address</small>
           </ng-container>
+          <ng-container
+            *ngIf="registrationForm.get('address.street').hasError('maxlength') && (registrationForm.get('address.street').touched || registrationForm.get('address.street').dirty)">
+  
+            <small class="signUpError">street cannot be more than 100 characters</small>
+          </ng-container>
         </span>
       </ion-item>
       
@@ -83,27 +98,32 @@
   
             <small class="signUpError">please enter your city</small>
           </ng-container>
+          <ng-container
+            *ngIf="registrationForm.get('address.city').hasError('maxlength') && (registrationForm.get('address.city').touched || registrationForm.get('address.city').dirty)">
+  
+            <small class="signUpError">city cannot be more than 100 characters</small>
+          </ng-container>
         </span>
       </ion-item>
   
       <ion-item lines="full">
         <ion-label position="floating">Province</ion-label>
           <ion-select cancelText="Cancel" okText="Ok" formControlName="province"> 
-            <ion-select-option [value]="NL">NL</ion-select-option>
-            <ion-select-option [value]="PE">PE</ion-select-option>
-            <ion-select-option [value]="NS">NS</ion-select-option>
-            <ion-select-option [value]="NB">NB</ion-select-option>
-            <ion-select-option [value]="QC">QC</ion-select-option>
-            <ion-select-option [value]="ON">ON</ion-select-option>
-            <ion-select-option [value]="MB">MB</ion-select-option>
-            <ion-select-option [value]="SK">SK</ion-select-option>
-            <ion-select-option [value]="AB">AB</ion-select-option>
-            <ion-select-option [value]="BC">BC</ion-select-option>          
-            <ion-select-option [value]="YT">YT</ion-select-option>
-            <ion-select-option [value]="NT">NT</ion-select-option>
-            <ion-select-option [value]="NU">NU</ion-select-option>
+            <ion-select-option [value]="AB">Alberta</ion-select-option>
+            <ion-select-option [value]="BC">British Columbia</ion-select-option>          
+            <ion-select-option [value]="MB">Manitoba</ion-select-option> 
+            <ion-select-option [value]="NB">New Brunswick</ion-select-option>
+            <ion-select-option [value]="NL">New Foundland and Labrador</ion-select-option>
+            <ion-select-option [value]="NT">Northwest Territories</ion-select-option>
+            <ion-select-option [value]="NS">Nova Scotia</ion-select-option>
+            <ion-select-option [value]="NU">Nunavut</ion-select-option>
+            <ion-select-option [value]="ON">Ontario</ion-select-option>
+            <ion-select-option [value]="PE">Prince Edward Island</ion-select-option>
+            <ion-select-option [value]="QC">Quebec</ion-select-option>
+            <ion-select-option [value]="SK">Saskatchewan</ion-select-option>
+            <ion-select-option [value]="YT">Yukon</ion-select-option>
           </ion-select>
-        
+          
         <span>
           <ng-container
             *ngIf="registrationForm.get('address.province').hasError('required') && (registrationForm.get('address.province').touched || registrationForm.get('address.province').dirty)">
