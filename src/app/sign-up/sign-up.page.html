@@ -135,14 +135,14 @@
     
 
     <ion-item lines="full">
-      <ion-label position="floating">Password</ion-label>
+      <ion-label position="floating">New password</ion-label>
       <ion-input type="password" formControlName="password"></ion-input>
       <!-- Error Message -->
       <span>
         <ng-container
           *ngIf="registrationForm.get('password').hasError('required') && (registrationForm.get('password').touched || registrationForm.get('password').dirty)">
 
-          <small class="signUpError">please enter a password</small>
+          <small class="signUpError">please enter a new password</small>
         </ng-container>
         <ng-container
           *ngIf="registrationForm.get('password').hasError('minlength') && (registrationForm.get('password').touched || registrationForm.get('password').dirty)">
