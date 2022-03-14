@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { IonInput } from '@ionic/angular';
 import { findAddressComponent, findAddressNumber, findCity, findState, findStateShortName, findStreet, findZipCode } from 'src/utils/address-utils';
+import { AuthService } from '../services/auth.service';
 
 declare var google;
 
@@ -54,7 +55,7 @@ export class SignUpPage implements OnInit {
     return this.registrationForm;
   }
  
-  constructor(private formBuilder: FormBuilder) { 
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) { 
    
   }
 
@@ -83,6 +84,6 @@ export class SignUpPage implements OnInit {
    * Submit button function
    */
   submit(){
-    console.log(this.registrationForm.value);
+    this.authService.userRegistration(this.registrationForm.value);
   }
 }
