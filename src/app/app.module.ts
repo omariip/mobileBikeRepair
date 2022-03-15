@@ -18,6 +18,7 @@ import { AuthService } from './services/auth.service';
 import { provideFirebaseApp } from '@angular/fire/app';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { Capacitor } from '@capacitor/core';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,7 +34,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule, 
   ],
   providers: 
   [
