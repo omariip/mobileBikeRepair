@@ -15,6 +15,7 @@ export class SignUpPage implements OnInit {
 
   @ViewChild('autocomplete') autocomplete: IonInput;        
 
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) { }
   /**
    * Building the form and setting the field with validators
    */
@@ -53,10 +54,6 @@ export class SignUpPage implements OnInit {
    */
   getForm(): FormGroup {
     return this.registrationForm;
-  }
- 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) { 
-   
   }
 
   ngOnInit() {
