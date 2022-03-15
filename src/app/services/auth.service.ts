@@ -10,27 +10,33 @@ import { collection } from 'firebase/firestore';
 })
 export class AuthService {
 
-  constructor(public auth: AngularFireAuth, public fireStore: AngularFirestore, public firestore: Firestore) { }
+  
+  // constructor(public firestore: Firestore){
 
-//   userRegistration(value){
+  // }
 
-//         firebase.auth().createUserWithEmailAndPassword(value.email, value.password).then((data) => {
-//           this.fireStore.collection('user').doc(data.user.uid).set({
-//             'userId': data.user.uid,
-//             'userName': value.name,
-//             'userEmail': value.email,
-//             'userPhone': value.phone,
-//             'userAddress': value.address,
-//             'userPassword': value.password,
-//             'createdAt': Date.now()
-//           })
-//         }).catch(error => {
-//           console.log(error);
-//         })
-//       } 
+  // userRegistration(value){
+  //   const userRef = collection(this.firestore, 'user');
+  //   return addDoc(userRef, value);
+  // }
 
-    userRegistration(value){
-      const userRef = collection(this.firestore, 'user');
-      return addDoc(userRef, value);
-    }
+    constructor(public auth: AngularFireAuth, public fireStore: AngularFirestore) { }
+  userRegistration(value){
+
+        firebase.auth().createUserWithEmailAndPassword(value.email, value.password).then((data) => {
+          this.fireStore.collection('user').doc(data.user.uid).set({
+            'userId': data.user.uid,
+            'userName': value.name,
+            'userEmail': value.email,
+            'userPhone': value.phone,
+            'userAddress': value.address,
+            'userPassword': value.password,
+            'createdAt': Date.now()
+          })
+        }).catch(error => {
+          console.log(error);
+        })
+      } 
+
+    
 }

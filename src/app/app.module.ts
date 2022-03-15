@@ -28,13 +28,12 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
     AppRoutingModule, 
     FormsModule, 
     ReactiveFormsModule,
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideFirestore(() => getFirestore())
+    //provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    //provideFirestore(() => getFirestore()),
 
-    //AngularFireModule.initializeApp(environment.firebaseConfig),
-
-    //AngularFireAuthModule,
-    //AngularFirestoreModule
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    AngularFirestoreModule
   ],
   providers: 
   [
