@@ -64,7 +64,7 @@
         <ng-container
           *ngIf="registrationForm.get('phone').hasError('pattern') && (registrationForm.get('phone').touched || registrationForm.get('phone').dirty)">
 
-          <small class="signUpError">please enter a valid phone number</small>
+          <small class="signUpError">please enter phone number in format 0123456789</small>
         </ng-container>
       </span>
     </ion-item>

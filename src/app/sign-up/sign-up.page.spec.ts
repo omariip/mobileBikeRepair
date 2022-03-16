@@ -1,9 +1,15 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 
 import { SignUpPage } from './sign-up.page';
 
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+
+import { AngularFireAuthModule} from '@angular/fire/compat/auth';
+import { AngularFireModule} from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { environment } from 'src/environments/environment';
 
 describe('SignUpPage', () => {
   let component: SignUpPage;
@@ -11,11 +17,21 @@ describe('SignUpPage', () => {
 
   let registrationPageForm: SignUpPage;
   let form: FormGroup;
+  let authService: AuthService;
+  let toastController: ToastController;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SignUpPage],
-      imports: [IonicModule.forRoot(), FormsModule, ReactiveFormsModule]
+      imports: [
+        IonicModule.forRoot(), 
+        FormsModule, 
+        ReactiveFormsModule,
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFireAuthModule,
+        AngularFirestoreModule
+      ],
+      providers: [ AuthService ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SignUpPage);
@@ -24,7 +40,7 @@ describe('SignUpPage', () => {
   }));
 
   beforeEach(() => {
-    registrationPageForm = new SignUpPage(new FormBuilder());
+    registrationPageForm = new SignUpPage(new FormBuilder(), authService, toastController);
     form = registrationPageForm.getForm();
   });
 
@@ -68,12 +84,22 @@ describe('SignUpPage', () => {
       expect(form.get('email').valid).toBeFalsy();
       form.get('email').setValue('aslkdaslkd@saduad');
       expect(form.get('email').valid).toBeFalsy();
+      form.get('email').setValue('aslkdaslkd@saduad.com');
+      expect(form.get('email').valid).toBeTruthy();
     });
 
   it('Email field should not be longer than 100 characters', () => {
     // passing 101 characters to setValue function
     form.get('email').setValue('aslkdnaslkdnasldknaskdnasldknsalkdnalskdnalskndalskndalskdnalskdnaskldnaslkdnalksdnalsndalskdnalsdnad');
     expect(form.get('email').valid).toBeFalsy();
+    
+    // passing 100 characters to setValue function
+    form.get('name').setValue('alkdnaslkdnasldknaskdnasldknsalkdnalskdnalskndalskndalskdnalskdnaskldnaslkdnalksdnalsndkdnl@gmail.ca');
+    expect(form.get('name').valid).toBeTruthy();
+
+    // passing 99 characters to setValue function
+    form.get('name').setValue('akdnaslkdnasldknaskdnasldknsalkdnalskdnalskndalskndalskdnalskdnaskldnaslkdnalksdnalsndals@gmail.com');
+    expect(form.get('name').valid).toBeTruthy();
   });
 
   /********************
@@ -91,6 +117,9 @@ describe('SignUpPage', () => {
     // setting value of phone to number more than 10 digits
     form.get('phone').setValue('11111111111');
     expect(form.get('phone').valid).toBeFalsy();
+    // setting value of phone to 10 digits number
+    form.get('phone').setValue('1111111111');
+    expect(form.get('phone').valid).toBeTruthy();
   });
 
   it('Phone field should be invalid when in wrong format (not 1111111111)', () => {
@@ -107,7 +136,7 @@ describe('SignUpPage', () => {
     expect(form.get('phone').valid).toBeFalsy();
   });
 
-
+  
   /********************
    * Address Fields Tests
    ********************/
@@ -195,9 +224,11 @@ describe('SignUpPage', () => {
     expect(form.get('password').valid).toBeFalsy();
 
     // setting value of password to a string of 9
+    form.get('password').setValue('aaaaaaaaa')
+    expect(form.get('password').valid).toBeTruthy();
+
+    // setting value of password to a string of 8
     form.get('password').setValue('aaaaaaaa')
     expect(form.get('password').valid).toBeTruthy();
   })
-
-
 });
