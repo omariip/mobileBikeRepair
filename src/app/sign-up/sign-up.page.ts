@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { IonInput } from '@ionic/angular';
+import { IonInput, ToastController } from '@ionic/angular';
 import { findAddressComponent, findAddressNumber, findCity, findState, findStateShortName, findStreet, findZipCode } from 'src/utils/address-utils';
 import { AuthService } from '../services/auth.service';
 
@@ -15,7 +15,7 @@ export class SignUpPage implements OnInit {
 
   @ViewChild('autocomplete') autocomplete: IonInput;        
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) { }
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private toastController: ToastController) { }
   /**
    * Building the form and setting the field with validators
    */
