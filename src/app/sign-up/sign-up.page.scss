@@ -1,4 +1,14 @@
 .signUpError{
     color: var(--ion-color-danger);
-    border-bottom: 1px solid #ff6153;
+    vertical-align: middle;
+}
+
+ion-icon {
+    color: red;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+span {
+    margin-bottom:4px;
 }
