@@ -1,44 +1,14 @@
 import { Injectable } from '@angular/core';
-import firebase from 'firebase/compat/app';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { addDoc, Firestore } from '@angular/fire/firestore';
-import { collection } from 'firebase/firestore';
+import { addDoc, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { ToastController } from '@ionic/angular';
+import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-
-  // constructor(public firestore: Firestore){
-
-  // }
-
-  // userRegistration(value){
-  //   const userRef = collection(this.firestore, 'user');
-  //   return addDoc(userRef, value);
-  // }
-
-  constructor(public auth: AngularFireAuth, public fireStore: AngularFirestore, private toastController: ToastController) { }
-  userRegistration(value) {
-    firebase.auth().createUserWithEmailAndPassword(value.email, value.password).then((data) => {
-      this.fireStore.collection('user').doc(data.user.uid).set({
-        'userId': data.user.uid,
-        'userName': value.name,
-        'userEmail': value.email,
-        'userPhone': value.phone,
-        'userAddress': value.address,
-        'userPassword': value.password,
-        'createdAt': Date.now()
-      }).then(() => {
-        this.toast('Successfully Signed Up', 'success');
-      })
-    }).catch(error => {
-      this.toast('User Already Exists', 'danger');
-    })
-  }
+  constructor(private auth: Auth, private toastController: ToastController, private firestore: Firestore) { }
 
   async toast(message, status) {
 
@@ -51,4 +21,27 @@ export class AuthService {
     toast.present();
   }
 
+  async userRegistration(value) {
+    try {
+      const user = await createUserWithEmailAndPassword(
+        this.auth,
+        value.email,
+        value.password
+      );
+
+      await setDoc(doc(this.firestore, 'user', user.user.uid), {
+        userId: user.user.uid,
+        userName: value.name,
+        userEmail: value.email,
+        userPhone: value.phone,
+        userAddress: value.address,
+        userPassword: value.password,
+        createdAt: Date.now()
+      }).then(() => {
+        this.toast('Successfully Signed Up', 'success');
+      });
+    } catch (error) {
+      this.toast('User Already Exists', 'danger');
+    }
+  }
 }

@@ -19,6 +19,5 @@ export class AppComponent {
         persistence: indexedDBLocalPersistence
       });
     }
-    //this.firestore = getFirestore(app);
   }
 }
