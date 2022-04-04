@@ -8,18 +8,9 @@ import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from
 })
 export class AuthService {
 
-  constructor(private auth: Auth, private toastController: ToastController, private firestore: Firestore) { }
+  constructor(private auth: Auth, private firestore: Firestore) { }
 
-  async toast(message, status) {
 
-    const toast = await this.toastController.create({
-      message: message,
-      color: status,
-      duration: 3000
-    });
-
-    toast.present();
-  }
 
   async userRegistration(value) {
     try {
@@ -37,11 +28,10 @@ export class AuthService {
         userAddress: value.address,
         userPassword: value.password,
         createdAt: Date.now()
-      }).then(() => {
-        this.toast('Successfully Signed Up', 'success');
       });
+      return user;
     } catch (error) {
-      this.toast('User Already Exists', 'danger');
+      return error.code;
     }
   }
 
@@ -62,24 +52,23 @@ export class AuthService {
         technicianInsurance: value.insurance,
         technicianPassword: value.password,
         createdAt: Date.now()
-      }).then(() => {
-        this.toast('Successfully Signed Up', 'success');
       });
+      return user;
     } catch (error) {
-      this.toast('User Already Exists', 'danger');
+      return error.code;
     }
   }
 
-  async signIn(value){
+  async signIn(value) {
     try {
       const user = await signInWithEmailAndPassword(
         this.auth,
         value.email,
         value.password
       );
-      this.toast('Successfully Signed in', 'success');
+      return user;
     } catch (error) {
-      this.toast('Error Signing in', 'danger');
+      return error.code;
     }
   }
 }

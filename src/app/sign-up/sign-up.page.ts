@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { IonInput, ToastController } from '@ionic/angular';
+import { IonInput, ToastController, LoadingController } from '@ionic/angular';
 import { findAddressComponent, findAddressNumber, findCity, findState, findStateShortName, findStreet, findZipCode } from 'src/utils/address-utils';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 declare var google;
 
@@ -13,9 +14,15 @@ declare var google;
 })
 export class SignUpPage implements OnInit {
 
-  @ViewChild('autocomplete') autocomplete: IonInput;        
+  @ViewChild('autocomplete') autocomplete: IonInput;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private toastController: ToastController) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private loadingController: LoadingController,
+    private toastController: ToastController,
+    private router: Router
+  ) { }
   /**
    * Building the form and setting the field with validators
    */
@@ -57,7 +64,7 @@ export class SignUpPage implements OnInit {
   }
 
   ngOnInit() {
-    
+
   }
 
   /**
@@ -66,11 +73,11 @@ export class SignUpPage implements OnInit {
    */
   ionViewDidEnter() {
     var options = {
-      componentRestrictions: {country: "ca"}
-     };
+      componentRestrictions: { country: "ca" }
+    };
     this.autocomplete.getInputElement().then((ref: any) => {
       const autocomplete = new google.maps.places.Autocomplete(ref, options);
-      
+
       autocomplete.addListener('place_changed', () => {
         this.setAddress(autocomplete.getPlace());
       })
@@ -80,7 +87,44 @@ export class SignUpPage implements OnInit {
   /**
    * Submit button function
    */
-  submit(){
-    this.authService.userRegistration(this.registrationForm.value);
+  async submit() {
+
+    const loading = await this.loadingController.create();
+    await loading.present();
+
+    const user = await this.authService.userRegistration(this.registrationForm.value);
+
+    await loading.dismiss();
+
+    if (typeof user === 'string') {
+      if (user == 'auth/email-already-in-use') {
+        this.toast('Email ' + this.registrationForm.value.email
+          + ' already in use', 'danger');
+      } else if (user == 'auth/invalid-email') {
+        this.toast('Email ' + this.registrationForm.value.email
+          + ' is invalid', 'danger');
+      } else {
+        this.toast('Unknown error', 'danger');
+      }
+    } else {
+      this.router.navigateByUrl('/home-page', { replaceUrl: true });
+      this.toast('Successfully Signed in', 'success');
+    }
+  }
+
+  /**
+   * A method to manage toasts
+   * @param message the message to be displayed
+   * @param status  the ionic color to be set on the toast
+   */
+  async toast(message, status) {
+
+    const toast = await this.toastController.create({
+      message: message,
+      color: status,
+      duration: 3000
+    });
+
+    toast.present();
   }
 }
