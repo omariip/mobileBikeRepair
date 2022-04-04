@@ -7,5 +7,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button [routerLink]="['/sign-up']">GO TO SIGN UP</ion-button>
+  <ion-label>Sign Up As:</ion-label><br><br>
+  <ion-button [routerLink]="['/sign-up']">Customer</ion-button>
+  <ion-button [routerLink]="['/sign-up-technician']">Technician</ion-button>
 </ion-content>

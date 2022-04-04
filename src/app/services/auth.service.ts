@@ -44,4 +44,29 @@ export class AuthService {
       this.toast('User Already Exists', 'danger');
     }
   }
+
+  async technichianRegistration(value) {
+    try {
+      const user = await createUserWithEmailAndPassword(
+        this.auth,
+        value.email,
+        value.password
+      );
+
+      await setDoc(doc(this.firestore, 'technician', user.user.uid), {
+        technicianId: user.user.uid,
+        technicianName: value.name,
+        technicianEmail: value.email,
+        technicianPhone: value.phone,
+        technicianAddress: value.address,
+        technicianInsurance: value.insurance,
+        technicianPassword: value.password,
+        createdAt: Date.now()
+      }).then(() => {
+        this.toast('Successfully Signed Up', 'success');
+      });
+    } catch (error) {
+      this.toast('User Already Exists', 'danger');
+    }
+  }
 }
