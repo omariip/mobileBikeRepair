@@ -11,13 +11,4 @@ import { environment } from 'src/environments/environment';
 })
 export class AppComponent {
   constructor() {}
-  
-  ngOnInit(){
-    const app = initializeApp(environment.firebaseConfig);
-    if (Capacitor.isNativePlatform) {
-      initializeAuth(app, {
-        persistence: indexedDBLocalPersistence
-      });
-    }
-  }
 }
