@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { addDoc, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { ToastController } from '@ionic/angular';
-import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +67,19 @@ export class AuthService {
       });
     } catch (error) {
       this.toast('User Already Exists', 'danger');
+    }
+  }
+
+  async signIn(value){
+    try {
+      const user = await signInWithEmailAndPassword(
+        this.auth,
+        value.email,
+        value.password
+      );
+      this.toast('Successfully Signed in', 'success');
+    } catch (error) {
+      this.toast('Error Signing in', 'danger');
     }
   }
 }

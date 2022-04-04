@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>sign-in</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="signInForm" (ngSubmit)="submit()">
+
+    <ion-item lines="full">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+      
+      <!-- Error Message -->
+      <span>
+        <ng-container
+          *ngIf="signInForm.get('email').hasError('required') && (signInForm.get('email').touched || signInForm.get('email').dirty)">
+          <ion-icon name="close-circle" size="small"></ion-icon>
+          <small class="signUpError">please enter your email</small>
+        </ng-container>
+        <ng-container
+          *ngIf="signInForm.get('email').hasError('pattern') && (signInForm.get('email').touched || signInForm.get('email').dirty)">
+          <ion-icon name="close-circle" size="small"></ion-icon>
+          <small class="signUpError">please enter a valid email address</small>
+        </ng-container>
+        <ng-container
+          *ngIf="signInForm.get('email').hasError('maxlength') && (signInForm.get('email').touched || signInForm.get('email').dirty)">
+          <ion-icon name="close-circle" size="small"></ion-icon>
+          <small class="signUpError">email cannot be more than 100 characters</small>
+        </ng-container>
+      </span>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+      
+      <!-- Error Message -->
+      <span>
+        <ng-container
+          *ngIf="signInForm.get('password').hasError('required') && (signInForm.get('password').touched || signInForm.get('password').dirty)">
+          <ion-icon name="close-circle" size="small"></ion-icon>
+          <small class="signUpError">please enter your password</small>
+        </ng-container>
+        <ng-container
+          *ngIf="signInForm.get('password').hasError('minlength') && (signInForm.get('password').touched || signInForm.get('password').dirty)">
+          <ion-icon name="close-circle" size="small"></ion-icon>
+          <small class="signUpError">the password should be at least 8 characters</small>
+        </ng-container>
+      </span>
+    </ion-item>
+
+    <ion-button type="submit" [disabled]="!signInForm.valid">
+      Sign in
+    </ion-button>
+  </form>
+
+</ion-content>
