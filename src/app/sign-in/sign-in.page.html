@@ -53,6 +53,10 @@
     <ion-button type="submit" [disabled]="!signInForm.valid">
       Sign in
     </ion-button>
+
+    <ion-button (click)="forgotPassword()" [disabled]="!signInForm.get('email').valid">
+      Forgot password?
+    </ion-button>
   </form>
 
 </ion-content>

@@ -3,6 +3,9 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { getAuth, sendPasswordResetEmail } from '@angular/fire/auth';
+import { collection, doc, updateDoc } from '@angular/fire/firestore';
+
 
 @Component({
   selector: 'app-sign-in',
@@ -51,7 +54,23 @@ export class SignInPage implements OnInit {
       this.router.navigateByUrl('/home-page', { replaceUrl: true });
       this.toast('Successfully Signed in', 'success');
     }
-    
+  }
+
+  async forgotPassword() {
+    const loading = await this.loadingController.create();
+    await loading.present();
+
+    const auth = getAuth();
+
+    sendPasswordResetEmail(auth, this.signInForm.value.email)
+      .then(() => {
+        this.toast('Reset email sent to ' + this.signInForm.value.email, 'success');
+      })
+      .catch((error) => {
+        this.toast(error.message, 'danger');
+      });
+
+    await loading.dismiss();
   }
 
   /**
