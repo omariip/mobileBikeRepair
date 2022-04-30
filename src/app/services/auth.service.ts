@@ -26,7 +26,7 @@ export class AuthService {
         userEmail: value.email,
         userPhone: value.phone,
         userAddress: value.address,
-        userPassword: value.password,
+        //userPassword: value.password,
         createdAt: Date.now()
       });
       return user;
@@ -50,7 +50,7 @@ export class AuthService {
         technicianPhone: value.phone,
         technicianAddress: value.address,
         technicianInsurance: value.insurance,
-        technicianPassword: value.password,
+        //technicianPassword: value.password,
         createdAt: Date.now()
       });
       return user;
