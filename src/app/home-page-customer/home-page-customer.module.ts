@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HomePagePageRoutingModule } from './home-page-routing.module';
+import { HomePagePageRoutingModule } from './home-page-customer-routing.module';
 
-import { HomePagePage } from './home-page.page';
+import { HomePagePage } from './home-page-customer.page';
 
 @NgModule({
   imports: [

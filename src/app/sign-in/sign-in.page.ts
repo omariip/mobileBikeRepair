@@ -4,9 +4,9 @@ import { AuthService } from '../services/auth.service';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { getAuth, sendPasswordResetEmail } from '@angular/fire/auth';
-import { collection, doc, updateDoc } from '@angular/fire/firestore';
-
-
+import { collection, doc, Firestore, updateDoc } from '@angular/fire/firestore';
+import { Auth } from '@angular/fire/auth';
+import { getDoc } from 'firebase/firestore';
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.page.html',
@@ -19,7 +19,9 @@ export class SignInPage implements OnInit {
     private authService: AuthService,
     private loadingController: LoadingController,
     private toastController: ToastController,
-    private router: Router
+    private router: Router,
+    private firestore: Firestore,
+    private auth: Auth
   ) { }
 
   signInForm = this.formBuilder.group({
@@ -51,7 +53,19 @@ export class SignInPage implements OnInit {
         this.toast('Unknown error', 'danger');
       }
     } else {
-      this.router.navigateByUrl('/home-page', { replaceUrl: true });
+      const docRef = doc(this.firestore, "user", this.auth.currentUser.uid);
+      const docSnap = await getDoc(docRef);
+
+      if(docSnap.exists()) {
+        this.router.navigateByUrl('/home-page-customer', { replaceUrl: true });
+      } else {
+        const docRef = doc(this.firestore, "technician", this.auth.currentUser.uid);
+        const docSnap = await getDoc(docRef);
+
+        if(docSnap.exists()) {
+          this.router.navigateByUrl('/home-page-technician', { replaceUrl: true });
+        }
+      }
       this.toast('Successfully Signed in', 'success');
     }
   }
