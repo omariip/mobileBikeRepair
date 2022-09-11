@@ -57,13 +57,13 @@ export class SignInPage implements OnInit {
       const docSnap = await getDoc(docRef);
 
       if(docSnap.exists()) {
-        this.router.navigateByUrl('/home-page-customer', { replaceUrl: true });
+        this.router.navigateByUrl('/customer', { replaceUrl: true });
       } else {
         const docRef = doc(this.firestore, "technician", this.auth.currentUser.uid);
         const docSnap = await getDoc(docRef);
 
         if(docSnap.exists()) {
-          this.router.navigateByUrl('/home-page-technician', { replaceUrl: true });
+          this.router.navigateByUrl('/technician', { replaceUrl: true });
         }
       }
       this.toast('Successfully Signed in', 'success');
