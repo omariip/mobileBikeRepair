@@ -61,6 +61,7 @@ export class SignInPage implements OnInit {
       const docRef = doc(this.firestore, "user", this.auth.currentUser.uid);
       const docSnap = await getDoc(docRef);
 
+       
       if(docSnap.exists()) {
         this.router.navigateByUrl('/customer', { replaceUrl: true });
       } else {
@@ -71,9 +72,10 @@ export class SignInPage implements OnInit {
           this.router.navigateByUrl('/technician', { replaceUrl: true });
         }
       }
+      await this.currentUserService.getCurrentUserType();
       this.toast('Successfully Signed in', 'success');
       
-      // this.currentUserService.getCurrentUser().then((x) => {
+      // this.currentUserService.getCurrentUserType().then((x) => {
       //     x.subscribe((x2) => {
       //       this.currentUser = x2;
       //       if(this.currentUser === "customer") { 

@@ -9,36 +9,51 @@ import { getDoc } from 'firebase/firestore';
 })
 export class CurrentUserService {
 
-  private currentUser = new BehaviorSubject('');
-  private currentUserValue = '';
+  private currentUser = new BehaviorSubject<string>('');
 
   constructor(
     private firestore: Firestore,
-    private auth: Auth
-    ) { }
+    private auth: Auth,
+  ) { }
 
-  async getCurrentUser(){
+  async getCurrentUserType() {
     return new Promise((resolve, reject) => {
 
-       this.auth.onAuthStateChanged(async (user) => {
-        if(user){
-        const docRef = await doc(this.firestore, "user", this.auth.currentUser.uid);
-        const docSnap = await getDoc(docRef);
-  
-        if(docSnap.exists()) {
-          this.currentUser.next('customer');
-          resolve(this.currentUser.value);
-        } else {
-          const docRef = doc(this.firestore, "technician", this.auth.currentUser.uid);
-          const docSnap = await getDoc(docRef);
-    
-          if(docSnap.exists()) {
-             this.currentUser.next('technician');
-             console.log(this.currentUser.value);
-             resolve(this.currentUser.value);
+      this.auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          let docRef = await doc(this.firestore, "customer", this.auth.currentUser.uid);
+          let docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            this.currentUser.next('customer');
+            console.log(this.currentUser.value);
+            resolve(this.currentUser.value);
+          } else {
+            let docRef = doc(this.firestore, "technician", this.auth.currentUser.uid);
+            let docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+              this.currentUser.next('technician');
+              console.log(this.currentUser.value);
+              resolve(this.currentUser.value);
+            }
           }
         }
-      }})
+      })
     })
+  }
+
+  async getCurrentUserDetails() {
+
+    console.log(this.currentUser.value);
+    console.log(this.auth.currentUser.uid);
+    const docRef = await doc(this.firestore, this.currentUser.value, this.auth.currentUser.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log(docSnap.data());
+    } else {
+      console.log("Error :)");
+    }
   }
 }

@@ -15,10 +15,11 @@ export class AuthGuard implements CanActivate{
 
   async canActivate() : Promise<boolean> {
     
-    await this.currentUserService.getCurrentUser().then(x=>{
-       this.currentUser = x;
-    });
-    
-    return this.currentUser === "technician";
+    // await this.currentUserService.getCurrentUserType().then(x=>{
+    //    this.currentUser = x;
+    // });
+    //return this.currentUser === "technician";
+
+    return true;
   }
 }

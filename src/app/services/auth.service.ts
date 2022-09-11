@@ -20,13 +20,13 @@ export class AuthService {
         value.password
       );
 
-      await setDoc(doc(this.firestore, 'user', user.user.uid), {
+      await setDoc(doc(this.firestore, 'customer', user.user.uid), {
         userId: user.user.uid,
         userName: value.name,
         userEmail: value.email,
         userPhone: value.phone,
         userAddress: value.address,
-        //userPassword: value.password,
+        userPassword: value.password, //remove in production
         createdAt: Date.now()
       });
       return user;
@@ -50,7 +50,7 @@ export class AuthService {
         technicianPhone: value.phone,
         technicianAddress: value.address,
         technicianInsurance: value.insurance,
-        //technicianPassword: value.password,
+        technicianPassword: value.password, //remove in production
         createdAt: Date.now()
       });
       return user;
