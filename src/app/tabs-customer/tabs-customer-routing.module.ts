@@ -10,15 +10,15 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('../home-page-customer/home-page-customer.module').then(m=>m.HomePagePageModule)
+        loadChildren: () => import('./home-page-customer/home-page-customer.module').then(m=>m.HomePagePageModule)
       },
       {
         path: 'profile',
-        loadChildren: ()=>import('../profile-page-customer/profile-page-customer.module').then(m=>m.ProfilePageCustomerPageModule)
+        loadChildren: ()=>import('./profile-page-customer/profile-page-customer.module').then(m=>m.ProfilePageCustomerPageModule)
       },
       {
         path: 'settings',
-        loadChildren: ()=>import('../settings-page-customer/settings-page-customer.module').then(m=>m.SettingsPageCustomerPageModule)
+        loadChildren: ()=>import('./settings-page-customer/settings-page-customer.module').then(m=>m.SettingsPageCustomerPageModule)
       },
       {
         path: '',

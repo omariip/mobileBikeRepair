@@ -9,8 +9,8 @@ declare var google;
 
 @Component({
   selector: 'app-sign-up',
-  templateUrl: './sign-up.page.html',
-  styleUrls: ['./sign-up.page.scss'],
+  templateUrl: './sign-up-customer.page.html',
+  styleUrls: ['./sign-up-customer.page.scss'],
 })
 export class SignUpPage implements OnInit {
 

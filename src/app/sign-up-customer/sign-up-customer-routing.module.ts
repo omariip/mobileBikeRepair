@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { SignUpPage } from './sign-up.page';
+import { SignUpPage } from './sign-up-customer.page';
 
 const routes: Routes = [
   {

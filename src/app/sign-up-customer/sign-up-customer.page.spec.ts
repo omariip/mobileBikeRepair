@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ToastController } from '@ionic/angular';
 
-import { SignUpPage } from './sign-up.page';
+import { SignUpPage } from './sign-up-customer.page';
 
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
@@ -40,7 +40,7 @@ describe('SignUpPage', () => {
   }));
 
   beforeEach(() => {
-    registrationPageForm = new SignUpPage(new FormBuilder(), authService, toastController);
+    //registrationPageForm = new SignUpPage(new FormBuilder(), authService, toastController);
     form = registrationPageForm.getForm();
   });
 

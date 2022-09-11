@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'sign-up',
-    loadChildren: () => import('./sign-up/sign-up.module').then( m => m.SignUpPageModule),
+    loadChildren: () => import('./sign-up-customer/sign-up-customer.module').then( m => m.SignUpPageModule),
     //...canActivate(redirectLoggedInToHome)
   },
   {
@@ -44,19 +44,19 @@ const routes: Routes = [
   },
   {
     path: 'profile-page-customer',
-    loadChildren: () => import('./profile-page-customer/profile-page-customer.module').then( m => m.ProfilePageCustomerPageModule)
+    loadChildren: () => import('./tabs-customer/profile-page-customer/profile-page-customer.module').then( m => m.ProfilePageCustomerPageModule)
   },
   {
     path: 'profile-page-technician',
-    loadChildren: () => import('./profile-page-technician/profile-page-technician.module').then( m => m.ProfilePageTechnicianPageModule)
+    loadChildren: () => import('./tabs-technician/profile-page-technician/profile-page-technician.module').then( m => m.ProfilePageTechnicianPageModule)
   },
   {
     path: 'settings-page-customer',
-    loadChildren: () => import('./settings-page-customer/settings-page-customer.module').then( m => m.SettingsPageCustomerPageModule)
+    loadChildren: () => import('./tabs-customer/settings-page-customer/settings-page-customer.module').then( m => m.SettingsPageCustomerPageModule)
   },
   {
     path: 'settings-page-technician',
-    loadChildren: () => import('./settings-page-technician/settings-page-technician.module').then( m => m.SettingsPageTechnicianPageModule)
+    loadChildren: () => import('./tabs-technician/settings-page-technician/settings-page-technician.module').then( m => m.SettingsPageTechnicianPageModule)
   },
   {
     path: 'tabs-customer',
