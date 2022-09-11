@@ -20,4 +20,8 @@ export class HomePagePage implements OnInit {
     this.auth.signOut();
     this.router.navigateByUrl('/home', { replaceUrl: true });
   }
+
+  id(){
+    console.log(this.auth.currentUser.uid);
+  }
 }

@@ -7,12 +7,16 @@ import { getAuth, sendPasswordResetEmail } from '@angular/fire/auth';
 import { collection, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { getDoc } from 'firebase/firestore';
+import { CurrentUserService } from '../services/current-user.service';
+
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.page.html',
   styleUrls: ['./sign-in.page.scss'],
 })
 export class SignInPage implements OnInit {
+
+  currentUser: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -21,7 +25,8 @@ export class SignInPage implements OnInit {
     private toastController: ToastController,
     private router: Router,
     private firestore: Firestore,
-    private auth: Auth
+    private auth: Auth,
+    private currentUserService: CurrentUserService
   ) { }
 
   signInForm = this.formBuilder.group({
@@ -67,6 +72,19 @@ export class SignInPage implements OnInit {
         }
       }
       this.toast('Successfully Signed in', 'success');
+      
+      // this.currentUserService.getCurrentUser().then((x) => {
+      //     x.subscribe((x2) => {
+      //       this.currentUser = x2;
+      //       if(this.currentUser === "customer") { 
+      //         this.router.navigateByUrl('/customer', { replaceUrl: true });
+      //       } else if(this.currentUser === "technician"){
+      //         this.router.navigateByUrl('/technician', { replaceUrl: true });
+      //       } else {
+      //         this.router.navigateByUrl('/sign-in', { replaceUrl: true });
+      //       }
+      //   })})
+      // this.toast('Successfully Signed in', 'success');
     }
   }
 

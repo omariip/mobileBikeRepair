@@ -107,6 +107,7 @@ export class SignUpPage implements OnInit {
         this.toast('Unknown error', 'danger');
       }
     } else {
+      
       this.router.navigateByUrl('/customer', { replaceUrl: true });
       this.toast('Successfully Signed in', 'success');
     }
