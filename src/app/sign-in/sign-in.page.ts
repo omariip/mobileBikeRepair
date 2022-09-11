@@ -58,7 +58,7 @@ export class SignInPage implements OnInit {
         this.toast('Unknown error', 'danger');
       }
     } else {
-      const docRef = doc(this.firestore, "user", this.auth.currentUser.uid);
+      const docRef = doc(this.firestore, "customer", this.auth.currentUser.uid);
       const docSnap = await getDoc(docRef);
 
        

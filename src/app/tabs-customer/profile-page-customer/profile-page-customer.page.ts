@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CurrentUserService } from 'src/app/services/current-user.service';
 
 @Component({
   selector: 'app-profile-page-customer',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfilePageCustomerPage implements OnInit {
 
-  constructor() { }
+
+  constructor(
+    private currentUser: CurrentUserService
+  ) { }
 
   ngOnInit() {
   }
 
+  getCustomerData(){
+    console.log(this.currentUser.getCurrentUserDetails());
+  }
 }
