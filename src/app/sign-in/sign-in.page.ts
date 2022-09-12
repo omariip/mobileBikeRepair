@@ -72,7 +72,7 @@ export class SignInPage implements OnInit {
           this.router.navigateByUrl('/technician', { replaceUrl: true });
         }
       }
-      await this.currentUserService.getCurrentUserType();
+      //await this.currentUserService.getCurrentUserType();
       this.toast('Successfully Signed in', 'success');
       
       // this.currentUserService.getCurrentUserType().then((x) => {
