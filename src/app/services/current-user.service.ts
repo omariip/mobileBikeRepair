@@ -14,7 +14,9 @@ export class CurrentUserService {
   constructor(
     private firestore: Firestore,
     private auth: Auth,
-  ) { }
+  ) { 
+    this.getCurrentUserType();
+  }
 
   async getCurrentUserType() {
     return new Promise((resolve, reject) => {
