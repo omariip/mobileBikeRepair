@@ -15,7 +15,7 @@ export class CurrentUserService {
     private firestore: Firestore,
     private auth: Auth,
   ) { 
-    this.getCurrentUserType();
+    //this.getCurrentUserType();
   }
 
   async getCurrentUserType() {
@@ -47,6 +47,9 @@ export class CurrentUserService {
 
   async getCurrentUserDetails() {
 
+    if(this.currentUser.value === '' || this.currentUser.value === null){
+      await this.getCurrentUserType();
+    }
     console.log(this.currentUser.value);
     console.log(this.auth.currentUser.uid);
     const docRef = await doc(this.firestore, this.currentUser.value, this.auth.currentUser.uid);
