@@ -8,24 +8,33 @@
 
   <!-- <ion-button (click)="signOut()">Sign out</ion-button>
   <ion-button (click)="id()">id</ion-button> -->
+    <div *ngIf="technicians.length !== 0; else noTech">
+      <ion-card *ngFor="let t of technicians">
+        <ion-item>
+          <ion-icon name="construct" slot="start"></ion-icon>
+          <ion-label>{{t.technicianName}}</ion-label>
+          <ion-label>{{(t.distance/1000).toFixed(1)}}km</ion-label>
+          <ion-button fill="outline" slot="end">Book</ion-button>
+        </ion-item>
+        <ion-card-content>
+          <ion-icon name="location"></ion-icon>
+          <ion-label>{{t.technicianAddress.street}},
+            {{t.technicianAddress.city}}</ion-label> <br><br>
 
-  <ion-card *ngFor="let t of technicians">
-    <ion-item>
-      <ion-icon name="construct" slot="start"></ion-icon>
-      <ion-label>{{t.technicianName}}</ion-label>
-      <ion-label>{{(t.distance/1000).toFixed(1)}}km</ion-label>
-      <ion-button fill="outline" slot="end">Book</ion-button>
-    </ion-item>
-    <ion-card-content>
-      <ion-icon name="location"></ion-icon>
-      <ion-label>{{t.technicianAddress.street}},
-        {{t.technicianAddress.city}}</ion-label> <br><br>
+          <ion-icon name="mail"></ion-icon>
+          <ion-label> {{t.technicianEmail}}</ion-label><br><br>
 
-      <ion-icon name="mail"></ion-icon>
-      <ion-label> {{t.technicianEmail}}</ion-label><br><br>
+          <ion-icon name="call"></ion-icon>
+          <ion-label> {{t.technicianPhone}}</ion-label>
+        </ion-card-content>
+      </ion-card>
+    </div>
 
-      <ion-icon name="call"></ion-icon>
-      <ion-label> {{t.technicianPhone}}</ion-label>
-    </ion-card-content> 
-  </ion-card>
+  <ng-template #noTech>
+    <ion-card>
+      <ion-icon size="large" name="alert" class="center"></ion-icon> <br>
+      <div class="ion-text-center">There is no technicians available in your area!</div>
+    </ion-card>
+    
+  </ng-template>
 </ion-content>

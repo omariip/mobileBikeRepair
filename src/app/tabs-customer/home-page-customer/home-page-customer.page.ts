@@ -76,20 +76,33 @@ export class HomePagePage implements OnInit {
       })
     }
 
-    for await (var tech of this.technicians) {
-      await this.distanceService.getDistanceinKM(this.currentUserDetails.userAddress.street, tech.technicianAddress.street).then(m => {
-        tech.distance = m
-      })
+    if (this.technicians.length !== 0) {
+      for await (var tech of this.technicians) {
+        await this.distanceService.getDistanceinKM(this.getAddressInOneLine(this.currentUserDetails.userAddress), this.getAddressInOneLine(tech.technicianAddress)).then(m => {
+          tech.distance = m;
+        })
+      }
+      await this.filterTechniciansBy50KM();
+
+      if (this.technicians.length !== 0) {
+        await this.technicians.sort((a, b) => a.distance > b.distance ? 1 : -1);
+      }
     }
+  }
 
-    await this.technicians.sort((a, b ) => a.distance > b.distance ? 1 : -1);
-    console.log(this.technicians);
-    console.log((this.technicians[0].distance / 1000).toFixed(1));
-    // console.log(this.currentUserDetails);
-    // this.distanceService.getDistanceinKM(this.currentUserDetails.userAddress.street, "4180 duke of york blvd").then(m => {
-    //   this.distance = m;
-    //   console.log(this.distance);
+  async filterTechniciansBy50KM() {
+    let i = 0;
+    for await (var t of this.technicians) {
+      if (t.distance > 50000) {
+        console.log("worked")
+        this.technicians.splice(i, 1);
+      }
+      i += 1;
+    }
+    console.log(this.technicians)
+  }
 
-    // })
+  getAddressInOneLine(t) {
+    return `${t.street}, ${t.city}, ${t.province}, ${t.postal}`;
   }
 }
