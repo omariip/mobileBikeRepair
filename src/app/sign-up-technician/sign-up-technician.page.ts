@@ -104,8 +104,8 @@ export class SignUpTechnicianPage implements OnInit {
         this.toast('Unknown error', 'danger');
       }
     } else {
-      this.router.navigateByUrl('/technician', { replaceUrl: true });
-      this.toast('Successfully Signed in', 'success');
+      this.router.navigateByUrl('/sign-in', { replaceUrl: true });
+      //this.toast('Successfully Signed in', 'success');
     }
   }
 
