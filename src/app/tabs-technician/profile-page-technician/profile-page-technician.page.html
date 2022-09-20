@@ -1,9 +1,96 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>profile-page-technician</ion-title>
-  </ion-toolbar>
-</ion-header>
+  
+<h1><ion-title>Your Profile</ion-title></h1>  
 
 <ion-content>
+  <ion-card>
+    <ion-item>
+      <ion-icon name="accessibility" slot="start"></ion-icon>
+      <ion-label>Name</ion-label>
+    </ion-item>
+    <ion-card-content *ngIf="technicianInfo !== null">
+      <h3>{{technicianInfo.technicianName}}</h3>  
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-item>
+      <ion-icon name="mail" slot="start"></ion-icon>
+      <ion-label>Email</ion-label>
+      <!--<ion-button fill="outline" slot="end">Edit</ion-button>-->
+    </ion-item>
+    <ion-card-content *ngIf="technicianInfo !== null">
+      <h3>{{technicianInfo.technicianEmail}}</h3>  
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-item>
+      <ion-icon name="call" slot="start"></ion-icon>
+      <ion-label>Phone</ion-label>
+      <ion-button fill="outline" slot="end" (ngSubmit)="editPhoneNumber()">Edit</ion-button>
+    </ion-item>
 
+
+    <!-- <form id="editPh" [formGroup]="editForm1" (ngSubmit)="submit()">
+    <ion-item  lines="full">
+      <ion-label position="floating">Phone Number</ion-label>
+      <ion-input type="text" formControlName="phone" placeholder="0123456789"></ion-input>
+      <!-- Error Message 
+      <span>
+        <ng-container
+          *ngIf="editForm1.get('phone').hasError('required') && (editForm1.get('phone').touched || editForm1.get('phone').dirty)">
+          <ion-icon name="close-circle" size="small"></ion-icon>
+          <small >please enter your phone number</small>
+        </ng-container>
+        <ng-container
+          *ngIf="editForm1.get('phone').hasError('pattern') && (editForm1.get('phone').touched || editForm1.get('phone').dirty)">
+          <ion-icon name="close-circle" size="small"></ion-icon>
+          <small >please enter phone number in format 0123456789</small>
+        </ng-container>
+      </span>
+    </ion-item>
+
+    <ion-button type="submit" [disabled]="!editForm1.valid">
+      Done
+    </ion-button>
+  </form>
+-->
+
+
+
+    <ion-card-content id="editPh2" *ngIf="technicianInfo !== null">
+      <h3>{{technicianInfo.technicianPhone}}</h3>  
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-item>
+      <ion-icon name="location" slot="start"></ion-icon>
+      <ion-label>Address</ion-label>
+      <ion-button fill="outline" slot="end">Edit</ion-button>
+    </ion-item>
+    <ion-card-content *ngIf="technicianInfo !== null">
+      <h3>{{technicianInfo.technicianAddress.street}}</h3>
+      <h3>{{technicianInfo.technicianAddress.city}}</h3>
+      <h3>{{technicianInfo.technicianAddress.province}}</h3>
+      <h3>{{technicianInfo.technicianAddress.postal}}</h3>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-item>
+      <ion-icon name="bandage" slot="start"></ion-icon>
+      <ion-label>Insurance Company</ion-label>
+      <!--<ion-button fill="outline" slot="end">Edit</ion-button>-->
+    </ion-item>
+    <ion-card-content *ngIf="technicianInfo !== null">
+      <h3>{{technicianInfo.technicianInsurance.insuranceCompany}}</h3>  
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-item>
+      <ion-icon name="ellipsis-horizontal" slot="start"></ion-icon>
+      <ion-label>Insurance Number</ion-label>
+      <!--<ion-button fill="outline" slot="end">Edit</ion-button>-->
+    </ion-item>
+    <ion-card-content *ngIf="technicianInfo !== null">
+      <h3>{{technicianInfo.technicianInsurance.insuranceNumber}}</h3>  
+    </ion-card-content>
+  </ion-card>
 </ion-content>

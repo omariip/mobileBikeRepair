@@ -8,15 +8,17 @@ import { CurrentUserService } from 'src/app/services/current-user.service';
 })
 export class ProfilePageCustomerPage implements OnInit {
 
-
+  customerInfo = null;
+  //temp = document.getElementById("editPh");
   constructor(
-    private currentUser: CurrentUserService
-  ) { }
+    private currentUser: CurrentUserService 
+  ) {  }
 
   ngOnInit() {
-  }
-
-  getCustomerData(){
-    console.log(this.currentUser.getCurrentUserDetails());
-  }
+    this.currentUser.getCurrentUserDetails().then(data =>{
+    console.log(data);
+    this.customerInfo = data;
+    
+  })}
+ 
 }

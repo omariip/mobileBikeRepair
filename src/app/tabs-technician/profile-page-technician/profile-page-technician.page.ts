@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CurrentUserService } from 'src/app/services/current-user.service';
 
 @Component({
   selector: 'app-profile-page-technician',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfilePageTechnicianPage implements OnInit {
 
-  constructor() { }
+  technicianInfo = null;
+  //temp = document.getElementById("editPh");
+  constructor(
+    private currentUser: CurrentUserService
+    ) { 
+      
+    }
 
   ngOnInit() {
-  }
+    this.currentUser.getCurrentUserDetails().then(data =>{
 
-}
+      this.technicianInfo = data;
+  })}
+
+  editPhoneNumber() {
+    //this.temp.hidden=false;
+  }
+  }
