@@ -36,6 +36,9 @@ export class ProfilePageTechnicianPage implements OnInit {
 
   cancel() {
     this.modal.dismiss(null, 'cancel');
+    this.title = "";
+    this.description = "";
+    this.price = "";
   }
 
   async confirm() {
