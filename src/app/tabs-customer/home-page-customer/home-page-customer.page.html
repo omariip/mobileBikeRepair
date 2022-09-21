@@ -16,27 +16,27 @@
         <ion-label>{{(t.distance/1000).toFixed(1)}}km</ion-label>
         <ion-button fill="outline" slot="end">Book</ion-button>
       </ion-item>
-      <ion-card-content>
-        <ion-list lines="none">
+      <ion-card-content class="ion-card-style">
+        <ion-list lines="none" class="ion-list-style">
           <ion-item class="ion-no-padding">
-            <ion-icon name="location" size="small"></ion-icon>
+            <ion-icon name="location" class="ion-icon-listing"></ion-icon>
             <ion-label class="ion-item-listing">{{t.technicianAddress.street}},
               {{t.technicianAddress.city}}</ion-label> <br><br>
           </ion-item>
 
           <ion-item class="ion-no-padding">
-            <ion-icon name="mail" size="small"></ion-icon>
+            <ion-icon name="mail" size="small" class="ion-icon-listing"></ion-icon>
             <ion-label class="ion-item-listing"> {{t.technicianEmail}}</ion-label><br><br>
           </ion-item>
 
           <ion-item class="ion-no-padding">
-            <ion-icon name="call" size="small"></ion-icon>
+            <ion-icon name="call" size="small" class="ion-icon-listing"></ion-icon>
             <ion-label class="ion-item-listing"> {{t.technicianPhone}}</ion-label><br><br>
           </ion-item>
           <div id="{{'open-modal' + i}}">
             <ion-item *ngIf="t.hasOwnProperty('service') && t.service?.length !== 0" class="ion-no-padding">
-              <ion-icon name="cash" size="small"></ion-icon>
-              <ion-label class="ion-item-listing" color="secondary">Show services and prices</ion-label>
+              <ion-icon name="cash" size="small" class="ion-icon-listing"></ion-icon>
+              <ion-label class="price" color="secondary">Show services and prices</ion-label>
             </ion-item>
           </div>
         </ion-list>
@@ -57,7 +57,7 @@
             <ion-list>
               <ion-item *ngFor="let s of t.service">
                 <ion-label class="ion-no-padding">
-                  <ion-label>{{s.title}}</ion-label>
+                  <ion-label>{{s.title}}</ion-label><br>
                   <ion-textarea color="medium">{{s.description}}</ion-textarea>
                 </ion-label>
                 <ion-label slot="end">${{s.price}}</ion-label>
