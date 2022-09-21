@@ -7,220 +7,262 @@
 <ion-content>
 
   <!-- Sign up Form-->
-  <form [formGroup]="registrationForm" (ngSubmit)="submit()">
+  <ion-accordion-group>
+    <form [formGroup]="registrationForm" (ngSubmit)="submit()">
+      <ion-accordion>
+        <ion-item slot="header">
+          Personal Info
+          <ion-icon name="close-circle-outline" size="small" class="iconError" *ngIf="checkAccordionError(0)"></ion-icon>
+        </ion-item>
 
-    <ion-item lines="full">
-      <ion-label position="floating">Name</ion-label>
-      <ion-input type="text" formControlName="name"></ion-input>
+        <ion-item lines="full" slot="content">
+          <ion-label position="floating" class="labels">Name</ion-label>
+          <ion-input type="text" formControlName="name"></ion-input>
 
-      <!-- Error Message -->
-      <span>
-        <ng-container
-          *ngIf="registrationForm.get('name').hasError('required') && (registrationForm.get('name').touched || registrationForm.get('name').dirty)">
-          <ion-icon name="close-circle" size="small"></ion-icon>
-          <small class="signUpError">please enter your name</small>
-        </ng-container>
+          <!-- Error Message -->
+          <span>
+            <ng-container
+              *ngIf="registrationForm.get('name').hasError('required') && (registrationForm.get('name').touched || registrationForm.get('name').dirty)">
+              <ion-icon name="close-circle" size="small"></ion-icon>
+              <small class="signUpError">please enter your name</small>
+            </ng-container>
 
-        <ng-container
-          *ngIf="registrationForm.get('name').hasError('maxlength') && (registrationForm.get('name').touched || registrationForm.get('name').dirty)">
-          <ion-icon name="close-circle" size="small"></ion-icon>
-          <small class="signUpError">name cannot be more than 100 characters</small>
-        </ng-container>
-      </span>
+            <ng-container
+              *ngIf="registrationForm.get('name').hasError('maxlength') && (registrationForm.get('name').touched || registrationForm.get('name').dirty)">
+              <ion-icon name="close-circle" size="small"></ion-icon>
+              <small class="signUpError">name cannot be more than 100 characters</small>
+            </ng-container>
+          </span>
 
-    </ion-item>
+        </ion-item>
 
-    <ion-item lines="full">
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="email" formControlName="email"></ion-input>
-      <!-- Error Message -->
-      <span>
-        <ng-container
-          *ngIf="registrationForm.get('email').hasError('required') && (registrationForm.get('email').touched || registrationForm.get('email').dirty)">
-          <ion-icon name="close-circle" size="small"></ion-icon>
-          <small class="signUpError">please enter your email</small>
-        </ng-container>
-        <ng-container
-          *ngIf="registrationForm.get('email').hasError('pattern') && (registrationForm.get('email').touched || registrationForm.get('email').dirty)">
-          <ion-icon name="close-circle" size="small"></ion-icon>
-          <small class="signUpError">please enter a valid email address</small>
-        </ng-container>
-        <ng-container
-          *ngIf="registrationForm.get('email').hasError('maxlength') && (registrationForm.get('email').touched || registrationForm.get('email').dirty)">
-          <ion-icon name="close-circle" size="small"></ion-icon>
-          <small class="signUpError">email cannot be more than 100 characters</small>
-        </ng-container>
-      </span>
-    </ion-item>
+        <ion-item lines="full" slot="content">
+          <ion-label position="floating" class="labels">Email</ion-label>
+          <ion-input type="email" formControlName="email"></ion-input>
+          <!-- Error Message -->
+          <span>
+            <ng-container
+              *ngIf="registrationForm.get('email').hasError('required') && (registrationForm.get('email').touched || registrationForm.get('email').dirty)">
+              <ion-icon name="close-circle" size="small"></ion-icon>
+              <small class="signUpError">please enter your email</small>
+            </ng-container>
+            <ng-container
+              *ngIf="registrationForm.get('email').hasError('pattern') && (registrationForm.get('email').touched || registrationForm.get('email').dirty)">
+              <ion-icon name="close-circle" size="small"></ion-icon>
+              <small class="signUpError">please enter a valid email address</small>
+            </ng-container>
+            <ng-container
+              *ngIf="registrationForm.get('email').hasError('maxlength') && (registrationForm.get('email').touched || registrationForm.get('email').dirty)">
+              <ion-icon name="close-circle" size="small"></ion-icon>
+              <small class="signUpError">email cannot be more than 100 characters</small>
+            </ng-container>
+          </span>
+        </ion-item>
 
-    <ion-item lines="full">
-      <ion-label position="floating">Phone Number</ion-label>
-      <ion-input type="text" formControlName="phone" placeholder="0123456789"></ion-input>
-      <!-- Error Message -->
-      <span>
-        <ng-container
-          *ngIf="registrationForm.get('phone').hasError('required') && (registrationForm.get('phone').touched || registrationForm.get('phone').dirty)">
-          <ion-icon name="close-circle" size="small"></ion-icon>
-          <small class="signUpError">please enter your phone number</small>
-        </ng-container>
-        <ng-container
-          *ngIf="registrationForm.get('phone').hasError('pattern') && (registrationForm.get('phone').touched || registrationForm.get('phone').dirty)">
-          <ion-icon name="close-circle" size="small"></ion-icon>
-          <small class="signUpError">please enter phone number in format 0123456789</small>
-        </ng-container>
-      </span>
-    </ion-item>
+        <ion-item lines="full" slot="content">
+          <ion-label position="floating" class="labels">Phone Number</ion-label>
+          <ion-input type="text" formControlName="phone" placeholder="0123456789"></ion-input>
+          <!-- Error Message -->
+          <span>
+            <ng-container
+              *ngIf="registrationForm.get('phone').hasError('required') && (registrationForm.get('phone').touched || registrationForm.get('phone').dirty)">
+              <ion-icon name="close-circle" size="small"></ion-icon>
+              <small class="signUpError">please enter your phone number</small>
+            </ng-container>
+            <ng-container
+              *ngIf="registrationForm.get('phone').hasError('pattern') && (registrationForm.get('phone').touched || registrationForm.get('phone').dirty)">
+              <ion-icon name="close-circle" size="small"></ion-icon>
+              <small class="signUpError">please enter phone number in format 0123456789</small>
+            </ng-container>
+          </span>
+        </ion-item>
+      </ion-accordion>
 
-    <ion-list formGroupName="address">
-      <ion-item lines="full">
-        <ion-label position="floating">Street</ion-label>
-        <ion-input type="text" formControlName="street" #autocomplete></ion-input>
-        <!-- Error Message -->
-        <span>
-          <ng-container
-            *ngIf="registrationForm.get('address.street').hasError('required') && (registrationForm.get('address.street').touched || registrationForm.get('address.street').dirty)">
-            <ion-icon name="close-circle" size="small"></ion-icon>
-            <small class="signUpError">please enter your street address</small>
-          </ng-container>
-          <ng-container
-            *ngIf="registrationForm.get('address.street').hasError('maxlength') && (registrationForm.get('address.street').touched || registrationForm.get('address.street').dirty)">
-            <ion-icon name="close-circle" size="small"></ion-icon>
-            <small class="signUpError">street cannot be more than 100 characters</small>
-          </ng-container>
-        </span>
-      </ion-item>
+      <ion-accordion>
+        <ion-item slot="header">
+          Address
+          <ion-icon name="close-circle-outline" size="small" class="iconError" *ngIf="checkAccordionError(1)"></ion-icon>
+        </ion-item>
+        <ion-list formGroupName="address" slot="content">
+          <ion-item lines="full">
+            <ion-label position="floating" class="labels">Street</ion-label>
+            <ion-input type="text" formControlName="street" #autocomplete></ion-input>
+            <!-- Error Message -->
+            <span>
+              <ng-container
+                *ngIf="registrationForm.get('address.street').hasError('required') && (registrationForm.get('address.street').touched || registrationForm.get('address.street').dirty)">
+                <ion-icon name="close-circle" size="small"></ion-icon>
+                <small class="signUpError">please enter your street address</small>
+              </ng-container>
+              <ng-container
+                *ngIf="registrationForm.get('address.street').hasError('maxlength') && (registrationForm.get('address.street').touched || registrationForm.get('address.street').dirty)">
+                <ion-icon name="close-circle" size="small"></ion-icon>
+                <small class="signUpError">street cannot be more than 100 characters</small>
+              </ng-container>
+            </span>
+          </ion-item>
 
-      <ion-item lines="full">
-        <ion-label position="floating">City</ion-label>
-        <ion-input type="text" formControlName="city"></ion-input>
-        <!-- Error Message -->
-        <span>
-          <ng-container
-            *ngIf="registrationForm.get('address.city').hasError('required') && (registrationForm.get('address.city').touched || registrationForm.get('address.city').dirty)">
-            <ion-icon name="close-circle" size="small"></ion-icon>
-            <small class="signUpError">please enter your city</small>
-          </ng-container>
-          <ng-container
-            *ngIf="registrationForm.get('address.city').hasError('maxlength') && (registrationForm.get('address.city').touched || registrationForm.get('address.city').dirty)">
-            <ion-icon name="close-circle" size="small"></ion-icon>
-            <small class="signUpError">city cannot be more than 100 characters</small>
-          </ng-container>
-        </span>
-      </ion-item>
+          <ion-item lines="full">
+            <ion-label position="floating" class="labels">City</ion-label>
+            <ion-input type="text" formControlName="city"></ion-input>
+            <!-- Error Message -->
+            <span>
+              <ng-container
+                *ngIf="registrationForm.get('address.city').hasError('required') && (registrationForm.get('address.city').touched || registrationForm.get('address.city').dirty)">
+                <ion-icon name="close-circle" size="small"></ion-icon>
+                <small class="signUpError">please enter your city</small>
+              </ng-container>
+              <ng-container
+                *ngIf="registrationForm.get('address.city').hasError('maxlength') && (registrationForm.get('address.city').touched || registrationForm.get('address.city').dirty)">
+                <ion-icon name="close-circle" size="small"></ion-icon>
+                <small class="signUpError">city cannot be more than 100 characters</small>
+              </ng-container>
+            </span>
+          </ion-item>
 
-      <ion-item lines="full">
-        <ion-label position="floating">Province</ion-label>
-        <ion-select cancelText="Cancel" okText="Ok" formControlName="province" #provinceSelect>
-          <ion-select-option [value]="AB">AB</ion-select-option>
-          <ion-select-option [value]="BC">BC</ion-select-option>
-          <ion-select-option [value]="MB">MB</ion-select-option>
-          <ion-select-option [value]="NB">NB</ion-select-option>
-          <ion-select-option [value]="NL">NL</ion-select-option>
-          <ion-select-option [value]="NT">NT</ion-select-option>
-          <ion-select-option [value]="NS">NS</ion-select-option>
-          <ion-select-option [value]="NU">NU</ion-select-option>
-          <ion-select-option [value]="ON">ON</ion-select-option>
-          <ion-select-option [value]="PE">PE</ion-select-option>
-          <ion-select-option [value]="QC">QC</ion-select-option>
-          <ion-select-option [value]="SK">SK</ion-select-option>
-          <ion-select-option [value]="YT">YT</ion-select-option>
-        </ion-select>
+          <ion-item lines="full">
+            <ion-label position="floating" class="labels">Province</ion-label>
+            <ion-select cancelText="Cancel" okText="Ok" formControlName="province" #provinceSelect>
+              <ion-select-option [value]="AB">AB</ion-select-option>
+              <ion-select-option [value]="BC">BC</ion-select-option>
+              <ion-select-option [value]="MB">MB</ion-select-option>
+              <ion-select-option [value]="NB">NB</ion-select-option>
+              <ion-select-option [value]="NL">NL</ion-select-option>
+              <ion-select-option [value]="NT">NT</ion-select-option>
+              <ion-select-option [value]="NS">NS</ion-select-option>
+              <ion-select-option [value]="NU">NU</ion-select-option>
+              <ion-select-option [value]="ON">ON</ion-select-option>
+              <ion-select-option [value]="PE">PE</ion-select-option>
+              <ion-select-option [value]="QC">QC</ion-select-option>
+              <ion-select-option [value]="SK">SK</ion-select-option>
+              <ion-select-option [value]="YT">YT</ion-select-option>
+            </ion-select>
 
-        <span>
-          <ng-container
-            *ngIf="registrationForm.get('address.province').hasError('required') && (registrationForm.get('address.province').touched || registrationForm.get('address.province').dirty)">
-            <ion-icon name="close-circle" size="small"></ion-icon>
-            <small class="signUpError">please enter your province</small>
-          </ng-container>
-        </span>
-      </ion-item>
+            <span>
+              <ng-container
+                *ngIf="registrationForm.get('address.province').hasError('required') && (registrationForm.get('address.province').touched || registrationForm.get('address.province').dirty)">
+                <ion-icon name="close-circle" size="small"></ion-icon>
+                <small class="signUpError">please enter your province</small>
+              </ng-container>
+            </span>
+          </ion-item>
 
-      <ion-item lines="full">
-        <ion-label position="floating">Postal Code</ion-label>
-        <ion-input type="text" formControlName="postal" placeholder="(A1A 1A1)"></ion-input>
-        <!-- Error Message -->
-        <span>
-          <ng-container
-            *ngIf="registrationForm.get('address.postal').hasError('required') && (registrationForm.get('address.postal').touched || registrationForm.get('address.postal').dirty)">
-            <ion-icon name="close-circle" size="small"></ion-icon>
-            <small class="signUpError">please enter your postal code</small>
-          </ng-container>
-          <ng-container
-            *ngIf="registrationForm.get('address.postal').hasError('pattern') && (registrationForm.get('address.postal').touched || registrationForm.get('address.postal').dirty)">
-            <ion-icon name="close-circle" size="small"></ion-icon>
-            <small class="signUpError">please enter a valid postal code</small>
-          </ng-container>
-        </span>
-      </ion-item>
+          <ion-item lines="full">
+            <ion-label position="floating" class="labels">Postal Code</ion-label>
+            <ion-input type="text" formControlName="postal" placeholder="(A1A 1A1)"></ion-input>
+            <!-- Error Message -->
+            <span>
+              <ng-container
+                *ngIf="registrationForm.get('address.postal').hasError('required') && (registrationForm.get('address.postal').touched || registrationForm.get('address.postal').dirty)">
+                <ion-icon name="close-circle" size="small"></ion-icon>
+                <small class="signUpError">please enter your postal code</small>
+              </ng-container>
+              <ng-container
+                *ngIf="registrationForm.get('address.postal').hasError('pattern') && (registrationForm.get('address.postal').touched || registrationForm.get('address.postal').dirty)">
+                <ion-icon name="close-circle" size="small"></ion-icon>
+                <small class="signUpError">please enter a valid postal code</small>
+              </ng-container>
+            </span>
+          </ion-item>
 
-    </ion-list>
+        </ion-list>
+      </ion-accordion>
 
+      <ion-accordion>
+        <ion-item slot="header">
+          Insurance Info
+          <ion-icon name="close-circle-outline" size="small" class="iconError" *ngIf="checkAccordionError(2)"></ion-icon>
+        </ion-item>
+        <ion-list formGroupName="insurance" slot="content">
+          <ion-item lines="full">
+            <ion-label position="floating" class="labels">Insurance Company</ion-label>
+            <ion-input type="text" formControlName="insuranceCompany"></ion-input>
 
-    <ion-list formGroupName="insurance">
-      <ion-item lines="full">
-        <ion-label position="floating">Insurance Company</ion-label>
-        <ion-input type="text" formControlName="insuranceCompany"></ion-input>
+            <!-- Error Message -->
+            <span>
+              <ng-container
+                *ngIf="registrationForm.get('insurance.insuranceCompany').hasError('required') && (registrationForm.get('insurance.insuranceCompany').touched || registrationForm.get('insurance.insuranceCompany').dirty)">
+                <ion-icon name="close-circle" size="small"></ion-icon>
+                <small class="signUpError">please enter your insurance company's name</small>
+              </ng-container>
 
-        <!-- Error Message -->
-        <span>
-          <ng-container
-            *ngIf="registrationForm.get('insurance.insuranceCompany').hasError('required') && (registrationForm.get('insurance.insuranceCompany').touched || registrationForm.get('insurance.insuranceCompany').dirty)">
-            <ion-icon name="close-circle" size="small"></ion-icon>
-            <small class="signUpError">please enter your insurance company's name</small>
-          </ng-container>
+              <ng-container
+                *ngIf="registrationForm.get('insurance.insuranceNumber').hasError('maxlength') && (registrationForm.get('insurance.insuranceCompany').touched || registrationForm.get('insurance.insuranceCompany').dirty)">
+                <ion-icon name="close-circle" size="small"></ion-icon>
+                <small class="signUpError">insurance company's name cannot be more than 100 characters</small>
+              </ng-container>
+            </span>
 
-          <ng-container
-            *ngIf="registrationForm.get('insurance.insuranceNumber').hasError('maxlength') && (registrationForm.get('insurance.insuranceCompany').touched || registrationForm.get('insurance.insuranceCompany').dirty)">
-            <ion-icon name="close-circle" size="small"></ion-icon>
-            <small class="signUpError">insurance company's name cannot be more than 100 characters</small>
-          </ng-container>
-        </span>
+          </ion-item>
 
-      </ion-item>
+          <ion-item lines="full">
+            <ion-label position="floating" class="labels">Insurance Policy Number</ion-label>
+            <ion-input type="text" formControlName="insuranceNumber"></ion-input>
 
-      <ion-item lines="full">
-        <ion-label position="floating">Insurance Policy Number</ion-label>
-        <ion-input type="text" formControlName="insuranceNumber"></ion-input>
+            <!-- Error Message -->
+            <span>
+              <ng-container
+                *ngIf="registrationForm.get('insurance.insuranceNumber').hasError('required') && (registrationForm.get('insurance.insuranceNumber').touched || registrationForm.get('insurance.insuranceNumber').dirty)">
+                <ion-icon name="close-circle" size="small"></ion-icon>
+                <small class="signUpError">please enter your insurance nubmer</small>
+              </ng-container>
 
-        <!-- Error Message -->
-        <span>
-          <ng-container
-            *ngIf="registrationForm.get('insurance.insuranceNumber').hasError('required') && (registrationForm.get('insurance.insuranceNumber').touched || registrationForm.get('insurance.insuranceNumber').dirty)">
-            <ion-icon name="close-circle" size="small"></ion-icon>
-            <small class="signUpError">please enter your insurance nubmer</small>
-          </ng-container>
+              <ng-container
+                *ngIf="registrationForm.get('insurance.insuranceNumber').hasError('maxlength') && (registrationForm.get('insurance.insuranceNumber').touched || registrationForm.get('insurance.insuranceNumber').dirty)">
+                <ion-icon name="close-circle" size="small"></ion-icon>
+                <small class="signUpError">insurance number cannot be more than 100 characters</small>
+              </ng-container>
+            </span>
 
-          <ng-container
-            *ngIf="registrationForm.get('insurance.insuranceNumber').hasError('maxlength') && (registrationForm.get('insurance.insuranceNumber').touched || registrationForm.get('insurance.insuranceNumber').dirty)">
-            <ion-icon name="close-circle" size="small"></ion-icon>
-            <small class="signUpError">insurance number cannot be more than 100 characters</small>
-          </ng-container>
-        </span>
+          </ion-item>
+        </ion-list>
+      </ion-accordion>
 
-      </ion-item>
-    </ion-list>
+      <ion-accordion>
+        <ion-item slot="header">
+          New Password
+          <ion-icon name="close-circle-outline" size="small" class="iconError" *ngIf="checkAccordionError(3)"></ion-icon>
+        </ion-item>
+        <ion-item lines="full" slot="content">
+          <ion-label position="floating" class="labels">New password</ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+          <!-- Error Message -->
+          <span>
+            <ng-container
+              *ngIf="registrationForm.get('password').hasError('required') && (registrationForm.get('password').touched || registrationForm.get('password').dirty)">
+              <ion-icon name="close-circle" size="small"></ion-icon>
+              <small class="signUpError">please enter a new password</small>
+            </ng-container>
+            <ng-container
+              *ngIf="registrationForm.get('password').hasError('minlength') && (registrationForm.get('password').touched || registrationForm.get('password').dirty)">
+              <ion-icon name="close-circle" size="small"></ion-icon>
+              <small class="signUpError">the password should be at least 8 characters</small>
+            </ng-container>
+          </span>
+        </ion-item>
 
-    <ion-item lines="full">
-      <ion-label position="floating">New password</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
-      <!-- Error Message -->
-      <span>
-        <ng-container
-          *ngIf="registrationForm.get('password').hasError('required') && (registrationForm.get('password').touched || registrationForm.get('password').dirty)">
-          <ion-icon name="close-circle" size="small"></ion-icon>
-          <small class="signUpError">please enter a new password</small>
-        </ng-container>
-        <ng-container
-          *ngIf="registrationForm.get('password').hasError('minlength') && (registrationForm.get('password').touched || registrationForm.get('password').dirty)">
-          <ion-icon name="close-circle" size="small"></ion-icon>
-          <small class="signUpError">the password should be at least 8 characters</small>
-        </ng-container>
-      </span>
-    </ion-item>
+        <ion-item lines="full" slot="content">
+          <ion-label position="floating" class="labels">Confirm password</ion-label>
+          <ion-input type="password" formControlName="confirmPassword"></ion-input>
+          <!-- Error Message -->
+          <span>
+            <ng-container
+              *ngIf="registrationForm.get('confirmPassword').hasError('required') && (registrationForm.get('confirmPassword').touched || registrationForm.get('confirmPassword').dirty)">
+              <ion-icon name="close-circle" size="small"></ion-icon>
+              <small class="signUpError">please confirm your new password</small>
+            </ng-container>
+            <ng-container
+              *ngIf="registrationForm.get('confirmPassword').hasError('confirmPasswordMatch') && (registrationForm.get('confirmPassword').touched || registrationForm.get('confirmPassword').dirty)">
+              <ion-icon name="close-circle" size="small"></ion-icon>
+              <small class="signUpError">passwords don't match</small>
+            </ng-container>
+          </span>
+        </ion-item>
 
-    <ion-button type="submit" [disabled]="!registrationForm.valid">
-      Sign Up
-    </ion-button>
-  </form>
-
+      </ion-accordion>
+      <ion-button type="submit" [disabled]="!registrationForm.valid">
+        Sign Up
+      </ion-button>
+    </form>
+  </ion-accordion-group>
 </ion-content>

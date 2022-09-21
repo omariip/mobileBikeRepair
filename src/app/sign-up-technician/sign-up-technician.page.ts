@@ -14,6 +14,7 @@ declare var google;
 export class SignUpTechnicianPage implements OnInit {
 
   @ViewChild('autocomplete') autocomplete: IonInput;
+  fieldHasError = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,7 +42,8 @@ export class SignUpTechnicianPage implements OnInit {
       insuranceNumber: ['', [Validators.required, Validators.maxLength(100)]]
     }),
     password: ['', [Validators.required, Validators.minLength(8)]],
-  });
+    confirmPassword: ['', [Validators.required, Validators.minLength(8)]]
+  }, { validators: this.passwordMatchingValidatior() });
 
   /**
    * A function that is called when the user selects google autocomplete
@@ -80,6 +82,45 @@ export class SignUpTechnicianPage implements OnInit {
         this.setAddress(autocomplete.getPlace());
       })
     })
+  }
+
+  checkAccordionError(index) {
+    // return (this.registrationForm.get('name').hasError('required') && (this.registrationForm.get('name').touched || this.registrationForm.get('name').dirty))
+    // || this.registrationForm.get('name').hasError('maxlength') && (this.registrationForm.get('name').touched || this.registrationForm.get('name').dirty)
+    // || registrationForm.get('email').hasError('required') && (registrationForm.get('email').touched || registrationForm.get('email').dirty)
+    // || registrationForm.get('email').hasError('pattern') && (registrationForm.get('email').touched || registrationForm.get('email').dirty)
+    // || 
+
+    if (index === 0) {
+      return (this.registrationForm.get('name').invalid && (this.registrationForm.get('name').touched || this.registrationForm.get('name').dirty)) ||
+        (this.registrationForm.get('email').invalid && (this.registrationForm.get('email').touched || this.registrationForm.get('email').dirty)) ||
+        (this.registrationForm.get('phone').invalid && (this.registrationForm.get('phone').touched || this.registrationForm.get('phone').dirty))
+    } else if (index === 1) {
+      return (this.registrationForm.get('address.street').invalid && (this.registrationForm.get('address.street').touched || this.registrationForm.get('address.street').dirty))
+        || (this.registrationForm.get('address.city').invalid && (this.registrationForm.get('address.city').touched || this.registrationForm.get('address.city').dirty))
+        || (this.registrationForm.get('address.province').invalid && (this.registrationForm.get('address.province').touched || this.registrationForm.get('address.province').dirty))
+        || (this.registrationForm.get('address.postal').invalid && (this.registrationForm.get('address.postal').touched || this.registrationForm.get('address.postal').dirty))
+    } else if (index === 2) {
+      return (this.registrationForm.get('insurance.insuranceCompany').invalid && (this.registrationForm.get('insurance.insuranceCompany').touched || this.registrationForm.get('insurance.insuranceCompany').dirty))
+        || (this.registrationForm.get('insurance.insuranceNumber').invalid && (this.registrationForm.get('insurance.insuranceNumber').touched || this.registrationForm.get('insurance.insuranceNumber').dirty))
+    } else if (index === 3) {
+      return (this.registrationForm.get('password').invalid && (this.registrationForm.get('password').touched || this.registrationForm.get('password').dirty)) 
+      || (this.registrationForm.get('confirmPassword').invalid && (this.registrationForm.get('confirmPassword').touched || this.registrationForm.get('confirmPassword').dirty)) 
+    }
+  }
+
+  passwordMatchingValidatior() {
+    return (formGroup: FormGroup) => {
+
+      const password = formGroup.get('password').value;
+      const confirmation = formGroup.get('confirmPassword').value;
+
+      if (password !== confirmation) {
+        formGroup.get('confirmPassword').setErrors({ confirmPasswordMatch: true });
+      } else {
+        formGroup.get('confirmPassword').setErrors(null);
+      }
+    }
   }
 
   /**
