@@ -29,7 +29,7 @@ describe('SignUpPage', () => {
         ReactiveFormsModule,
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFireAuthModule,
-        AngularFirestoreModule
+        AngularFirestoreModule,
       ],
       providers: [ AuthService ]
     }).compileComponents();
