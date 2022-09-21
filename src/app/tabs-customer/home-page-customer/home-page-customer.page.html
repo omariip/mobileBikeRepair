@@ -8,33 +8,73 @@
 
   <!-- <ion-button (click)="signOut()">Sign out</ion-button>
   <ion-button (click)="id()">id</ion-button> -->
-    <div *ngIf="technicians.length !== 0; else noTech">
-      <ion-card *ngFor="let t of technicians">
-        <ion-item>
-          <ion-icon name="construct" slot="start"></ion-icon>
-          <ion-label>{{t.technicianName}}</ion-label>
-          <ion-label>{{(t.distance/1000).toFixed(1)}}km</ion-label>
-          <ion-button fill="outline" slot="end">Book</ion-button>
-        </ion-item>
-        <ion-card-content>
-          <ion-icon name="location"></ion-icon>
-          <ion-label>{{t.technicianAddress.street}},
-            {{t.technicianAddress.city}}</ion-label> <br><br>
+  <div *ngIf="technicians.length !== 0; else noTech">
+    <ion-card *ngFor="let t of technicians; index as i">
+      <ion-item>
+        <ion-icon name="construct" slot="start"></ion-icon>
+        <ion-label>{{t.technicianName}}</ion-label>
+        <ion-label>{{(t.distance/1000).toFixed(1)}}km</ion-label>
+        <ion-button fill="outline" slot="end">Book</ion-button>
+      </ion-item>
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item class="ion-no-padding">
+            <ion-icon name="location" size="small"></ion-icon>
+            <ion-label class="ion-item-listing">{{t.technicianAddress.street}},
+              {{t.technicianAddress.city}}</ion-label> <br><br>
+          </ion-item>
 
-          <ion-icon name="mail"></ion-icon>
-          <ion-label> {{t.technicianEmail}}</ion-label><br><br>
+          <ion-item class="ion-no-padding">
+            <ion-icon name="mail" size="small"></ion-icon>
+            <ion-label class="ion-item-listing"> {{t.technicianEmail}}</ion-label><br><br>
+          </ion-item>
 
-          <ion-icon name="call"></ion-icon>
-          <ion-label> {{t.technicianPhone}}</ion-label>
-        </ion-card-content>
-      </ion-card>
-    </div>
+          <ion-item class="ion-no-padding">
+            <ion-icon name="call" size="small"></ion-icon>
+            <ion-label class="ion-item-listing"> {{t.technicianPhone}}</ion-label><br><br>
+          </ion-item>
+          <div id="{{'open-modal' + i}}">
+            <ion-item *ngIf="t.hasOwnProperty('service') && t.service?.length !== 0" class="ion-no-padding">
+              <ion-icon name="cash" size="small"></ion-icon>
+              <ion-label class="ion-item-listing" color="secondary">Show services and prices</ion-label>
+            </ion-item>
+          </div>
+        </ion-list>
+      </ion-card-content>
+
+      <ion-modal #modal trigger="{{'open-modal' + i}}" [presentingElement]="presentingElement">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>{{t.technicianName}} services and prices</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="modal.dismiss()">Close</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+
+          <ion-content>
+            <ion-list>
+              <ion-item *ngFor="let s of t.service">
+                <ion-label class="ion-no-padding">
+                  <ion-label>{{s.title}}</ion-label>
+                  <ion-textarea color="medium">{{s.description}}</ion-textarea>
+                </ion-label>
+                <ion-label slot="end">${{s.price}}</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-content>
+
+        </ng-template>
+      </ion-modal>
+    </ion-card>
+  </div>
 
   <ng-template #noTech>
     <ion-card>
       <ion-icon size="large" name="alert" class="center"></ion-icon> <br>
       <div class="ion-text-center">There is no technicians available in your area!</div>
     </ion-card>
-    
+
   </ng-template>
 </ion-content>
