@@ -1,5 +1,6 @@
-  
-<h1><ion-title>Your Profile</ion-title></h1>  
+<h1>
+  <ion-title>Your Profile</ion-title>
+</h1>
 
 <ion-content>
   <ion-card>
@@ -8,7 +9,7 @@
       <ion-label>Name</ion-label>
     </ion-item>
     <ion-card-content *ngIf="technicianInfo !== null">
-      <h3>{{technicianInfo.technicianName}}</h3>  
+      <h3>{{technicianInfo.technicianName}}</h3>
     </ion-card-content>
   </ion-card>
   <ion-card>
@@ -18,7 +19,7 @@
       <!--<ion-button fill="outline" slot="end">Edit</ion-button>-->
     </ion-item>
     <ion-card-content *ngIf="technicianInfo !== null">
-      <h3>{{technicianInfo.technicianEmail}}</h3>  
+      <h3>{{technicianInfo.technicianEmail}}</h3>
     </ion-card-content>
   </ion-card>
   <ion-card>
@@ -57,7 +58,7 @@
 
 
     <ion-card-content id="editPh2" *ngIf="technicianInfo !== null">
-      <h3>{{technicianInfo.technicianPhone}}</h3>  
+      <h3>{{technicianInfo.technicianPhone}}</h3>
     </ion-card-content>
   </ion-card>
   <ion-card>
@@ -80,7 +81,7 @@
       <!--<ion-button fill="outline" slot="end">Edit</ion-button>-->
     </ion-item>
     <ion-card-content *ngIf="technicianInfo !== null">
-      <h3>{{technicianInfo.technicianInsurance.insuranceCompany}}</h3>  
+      <h3>{{technicianInfo.technicianInsurance.insuranceCompany}}</h3>
     </ion-card-content>
   </ion-card>
   <ion-card>
@@ -90,7 +91,58 @@
       <!--<ion-button fill="outline" slot="end">Edit</ion-button>-->
     </ion-item>
     <ion-card-content *ngIf="technicianInfo !== null">
-      <h3>{{technicianInfo.technicianInsurance.insuranceNumber}}</h3>  
+      <h3>{{technicianInfo.technicianInsurance.insuranceNumber}}</h3>
     </ion-card-content>
   </ion-card>
+
+  <ion-card>
+    <ion-item>
+      <ion-icon name="construct" slot="start"></ion-icon>
+      <ion-label>Services and Pricing</ion-label>
+      <ion-button fill="outline" slot="end" id="open-modal" expand="block">Add</ion-button><br>
+    </ion-item>
+    <ion-card-content *ngIf="technicianInfo?.service !== null">
+      <ion-card *ngFor="let s of technicianInfo.service">
+        <ion-item>
+          <ion-label>{{s.title}}</ion-label>
+          <ion-label slot="end">${{s.price}}</ion-label>
+        </ion-item>
+        <ion-card-content>
+          {{s.description}}
+        </ion-card-content>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-modal trigger="open-modal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Add Service and Pricing</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Add</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="floating">Service Title</ion-label>
+          <ion-input type="text" [(ngModel)]="title"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Description</ion-label>
+          <ion-textarea placeholder="Describe the service" rows="7" [(ngModel)]="description"></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Price of Service</ion-label>
+          <ion-input type="number" [(ngModel)]="price"></ion-input>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
