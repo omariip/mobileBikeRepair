@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CurrentUserService } from 'src/app/services/current-user.service';
 import { IonModal } from '@ionic/angular';
-import { doc, Firestore, setDoc, updateDoc } from '@angular/fire/firestore';
-import { arrayUnion } from 'firebase/firestore';
+import { arrayRemove, doc, Firestore, setDoc, updateDoc } from '@angular/fire/firestore';
+import { arrayUnion, FieldValue } from 'firebase/firestore';
 @Component({
   selector: 'app-profile-page-technician',
   templateUrl: './profile-page-technician.page.html',
@@ -12,9 +12,9 @@ export class ProfilePageTechnicianPage implements OnInit {
 
   @ViewChild(IonModal) modal: IonModal;
   technicianInfo = null;
-  title;
-  description;
-  price;
+  title = "";
+  description = "";
+  price = "";
   service = null;
 
   constructor(
@@ -48,6 +48,14 @@ export class ProfilePageTechnicianPage implements OnInit {
     this.title = "";
     this.description = "";
     this.price = "";
+    this.ngOnInit();
+  }
+
+  async delete(i){
+    const tech = doc(this.firestore, "technician", this.technicianInfo.technicianId);
+    await updateDoc(tech, {
+      service: arrayRemove(this.technicianInfo.service[i])
+    })
     this.ngOnInit();
   }
 

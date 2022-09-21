@@ -102,17 +102,29 @@
       <ion-button fill="outline" slot="end" id="open-modal" expand="block">Add</ion-button><br>
     </ion-item>
     <ion-card-content *ngIf="technicianInfo?.service !== null">
-      <ion-card *ngFor="let s of technicianInfo.service">
+
+      <ion-card *ngFor="let s of technicianInfo.service; index as i">
         <ion-item>
           <ion-label>{{s.title}}</ion-label>
           <ion-label slot="end">${{s.price}}</ion-label>
+          <ion-icon name="ellipsis-vertical" size="small" slot="end" id="{{'popover-button' + i}}"></ion-icon>
         </ion-item>
         <ion-card-content>
-          {{s.description}}
+          <ion-label>{{s.description}}</ion-label>
         </ion-card-content>
+        <ion-popover trigger="{{'popover-button' + i}}" [dismissOnSelect]="true">
+          <ng-template>
+            <ion-content>
+                <ion-item [button]="true" [detail]="false" (click)="delete(i)">Delete</ion-item>
+            </ion-content>
+          </ng-template>
+        </ion-popover>
       </ion-card>
+
+      
     </ion-card-content>
   </ion-card>
+
 
   <ion-modal trigger="open-modal">
     <ng-template>
@@ -123,7 +135,7 @@
           </ion-buttons>
           <ion-title>Add Service and Pricing</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="confirm()" [strong]="true">Add</ion-button>
+            <ion-button (click)="confirm()" [disabled]="title === '' || price === ''" [strong]="true">Add</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -134,7 +146,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-label position="floating">Description</ion-label>
+          <ion-label position="floating">Description (optional)</ion-label>
           <ion-textarea placeholder="Describe the service" rows="7" [(ngModel)]="description"></ion-textarea>
         </ion-item>
 
