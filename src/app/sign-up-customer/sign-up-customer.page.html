@@ -10,7 +10,7 @@
   <ion-accordion-group>
     <form [formGroup]="registrationForm" (ngSubmit)="submit()">
 
-      <ion-accordion>
+      <ion-accordion class="accordion">
         <ion-item slot="header">
           Personal Info
           <ion-icon name="close-circle-outline" size="small" class="iconError" *ngIf="checkAccordionError(0)">
@@ -80,7 +80,7 @@
         </ion-item>
       </ion-accordion>
 
-      <ion-accordion>
+      <ion-accordion class="accordion">
         <ion-item slot="header">
           Address
           <ion-icon name="close-circle-outline" size="small" class="iconError" *ngIf="checkAccordionError(1)">
@@ -173,7 +173,7 @@
         </ion-list>
       </ion-accordion>
 
-      <ion-accordion>
+      <ion-accordion class="accordion">
         <ion-item slot="header">
           New Password
           <ion-icon name="close-circle-outline" size="small" class="iconError" *ngIf="checkAccordionError(2)">
@@ -217,7 +217,7 @@
         </ion-item>
 
       </ion-accordion>
-      <ion-button type="submit" [disabled]="!registrationForm.valid">
+      <ion-button type="submit" [disabled]="!registrationForm.valid" expand="block">
         Sign Up
       </ion-button>
     </form>
