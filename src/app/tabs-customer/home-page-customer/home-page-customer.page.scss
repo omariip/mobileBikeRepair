@@ -1,15 +1,15 @@
-.center{
+.center {
     margin: auto;
     text-align: center;
 }
 
-.ion-item-listing{
+.ion-item-listing {
     font-size: 0.9em;
 
     color: rgb(117, 115, 115);
 }
 
-ion-card-content{
+ion-card-content {
     padding-top: 5px;
 }
 
@@ -19,13 +19,23 @@ ion-card-content{
     color: rgb(139, 138, 138);
 }
 
-.ion-card-style{
+.ion-card-style {
     padding: 0px;
     margin: 0px;
 }
 
-.ion-list-style{
+.ion-list-style {
     padding-left: 1.5em;
     padding-bottom: 0.6em;
     padding-top: 0.6em;
+}
+
+.icon-center {
+    margin-top: 50%;
+    margin-left: 50%;
+}
+
+.label-center {
+    display: flex;
+    justify-content: center;
 }
