@@ -19,8 +19,7 @@ export class ProfilePageTechnicianPage implements OnInit {
 
   constructor(
     private currentUser: CurrentUserService,
-    private firestore: Firestore,
-    private currentUserService: CurrentUserService
+    private firestore: Firestore
 
   ) {
 
