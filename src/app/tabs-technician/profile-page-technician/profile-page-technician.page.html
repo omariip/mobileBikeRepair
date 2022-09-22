@@ -140,20 +140,19 @@
         </ion-toolbar>
       </ion-header>
       <ion-content>
+        <ion-item>
+          <ion-label position="floating">Service Title</ion-label>
+          <ion-input type="text" [(ngModel)]="title"></ion-input>
+        </ion-item>
 
-        <ion-label position="floating" class="ion-padding">Service Title</ion-label>
-        <ion-input type="text" [(ngModel)]="title" class="ion-padding"></ion-input>
-
-
-
-        <ion-label position="floating">Description (optional)</ion-label>
-        <ion-textarea placeholder="Describe the service" rows="7" [(ngModel)]="description"></ion-textarea>
-
-
-
-        <ion-label position="floating">Price of Service</ion-label>
-        <ion-input type="number" [(ngModel)]="price"></ion-input>
-
+        <ion-item>
+          <ion-label position="floating">Description (optional)</ion-label>
+          <ion-textarea placeholder="Describe the service" rows="7" [(ngModel)]="description"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Price of Service</ion-label>
+          <ion-input type="number" [(ngModel)]="price"></ion-input>
+        </ion-item>
       </ion-content>
     </ng-template>
   </ion-modal>
