@@ -1,11 +1,11 @@
-<h1>
+<!-- <h1>
   <ion-title>Your Profile</ion-title>
-</h1>
+</h1> -->
 
 <ion-content>
   <ion-card>
     <ion-item>
-      <ion-icon name="accessibility" slot="start"></ion-icon>
+      <ion-icon name="person-circle" slot="start"></ion-icon>
       <ion-label>Name</ion-label>
     </ion-item>
     <ion-card-content *ngIf="technicianInfo !== null">
@@ -28,34 +28,6 @@
       <ion-label>Phone</ion-label>
       <ion-button fill="outline" slot="end" (click)="presentPhoneAlert()">Edit</ion-button>
     </ion-item>
-
-
-    <!-- <form id="editPh" [formGroup]="editForm1" (ngSubmit)="submit()">
-    <ion-item  lines="full">
-      <ion-label position="floating">Phone Number</ion-label>
-      <ion-input type="text" formControlName="phone" placeholder="0123456789"></ion-input>
-      <!-- Error Message 
-      <span>
-        <ng-container
-          *ngIf="editForm1.get('phone').hasError('required') && (editForm1.get('phone').touched || editForm1.get('phone').dirty)">
-          <ion-icon name="close-circle" size="small"></ion-icon>
-          <small >please enter your phone number</small>
-        </ng-container>
-        <ng-container
-          *ngIf="editForm1.get('phone').hasError('pattern') && (editForm1.get('phone').touched || editForm1.get('phone').dirty)">
-          <ion-icon name="close-circle" size="small"></ion-icon>
-          <small >please enter phone number in format 0123456789</small>
-        </ng-container>
-      </span>
-    </ion-item>
-
-    <ion-button type="submit" [disabled]="!editForm1.valid">
-      Done
-    </ion-button>
-  </form>
--->
-
-
 
     <ion-card-content id="editPh2" *ngIf="technicianInfo !== null">
       <h3>{{technicianInfo.technicianPhone}}</h3>
@@ -96,33 +68,37 @@
   </ion-card>
 
   <ion-card>
-    <ion-item>
-      <ion-icon name="construct" slot="start"></ion-icon>
-      <ion-label>Services and Pricing</ion-label>
-      <ion-button fill="outline" slot="end" id="open-modal" expand="block">Add</ion-button><br>
-    </ion-item>
-    <ion-card-content *ngIf="technicianInfo?.service !== null">
-
-      <ion-card *ngFor="let s of technicianInfo.service; index as i">
-        <ion-item>
-          <ion-label>{{s.title}}</ion-label>
-          <ion-label slot="end">${{s.price}}</ion-label>
-          <ion-icon name="ellipsis-vertical" size="small" slot="end" id="{{'popover-button' + i}}"></ion-icon>
+    <ion-accordion-group>
+      <ion-accordion value="first">
+        <ion-item slot="header">
+          <ion-icon name="construct" slot="start"></ion-icon>
+          <ion-label>Services and Pricing</ion-label>
+          <ion-button fill="outline" slot="end" id="open-modal" expand="block">Add</ion-button><br>
         </ion-item>
-        <ion-card-content>
-          <ion-textarea>{{s.description}}</ion-textarea>
-        </ion-card-content>
-        <ion-popover trigger="{{'popover-button' + i}}" [dismissOnSelect]="true">
-          <ng-template>
-            <ion-content>
-              <ion-item [button]="true" [detail]="false" (click)="delete(i)">Delete</ion-item>
-            </ion-content>
-          </ng-template>
-        </ion-popover>
-      </ion-card>
 
-
-    </ion-card-content>
+        <div slot="content">
+          <div *ngIf="technicianInfo?.service !== null">
+            <ion-card *ngFor="let s of technicianInfo.service; index as i">
+              <ion-item>
+                <ion-label text-wrap>{{s.title}}</ion-label>
+                <ion-label slot="end">${{s.price}}</ion-label>
+                <ion-icon name="ellipsis-vertical" size="small" slot="end" id="{{'popover-button' + i}}"></ion-icon>
+              </ion-item>
+              <ion-card-content *ngIf="s.description">
+                <ion-textarea readonly autoGrow="true">{{s.description}}</ion-textarea>
+              </ion-card-content>
+              <ion-popover trigger="{{'popover-button' + i}}" [dismissOnSelect]="true">
+                <ng-template>
+                  <ion-content>
+                    <ion-item [button]="true" [detail]="false" (click)="delete(i)">Delete</ion-item>
+                  </ion-content>
+                </ng-template>
+              </ion-popover>
+            </ion-card>
+          </div>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
   </ion-card>
 
 
@@ -141,7 +117,7 @@
       </ion-header>
       <ion-content>
         <ion-item>
-          <ion-label position="floating">Service Title</ion-label>
+          <ion-label position="floating" text-wrap>Service Title</ion-label>
           <ion-input type="text" [(ngModel)]="title"></ion-input>
         </ion-item>
 
