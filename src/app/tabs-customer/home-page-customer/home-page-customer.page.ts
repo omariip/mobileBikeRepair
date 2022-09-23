@@ -5,6 +5,7 @@ import { CurrentUserService } from 'src/app/services/current-user.service';
 import { Firestore } from '@angular/fire/firestore';
 import { collection, doc, getDoc, getDocs, query, where, limit } from 'firebase/firestore';
 import { GoogleDistanceService } from 'src/app/services/google-distance.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home-page-customer',
@@ -23,7 +24,8 @@ export class HomePagePage implements OnInit {
     private router: Router,
     private service: CurrentUserService,
     private firestore: Firestore,
-    private distanceService: GoogleDistanceService
+    private distanceService: GoogleDistanceService,
+    private loadingController: LoadingController
   ) { }
 
   async ngOnInit() {
@@ -47,6 +49,9 @@ export class HomePagePage implements OnInit {
 
   async getTechnicians() {
 
+    const loading = await this.loadingController.create();
+    await loading.present();
+
     const techRef = collection(this.firestore, "technician");
     const q = query(techRef, where("technicianAddress.province", "==", this.currentUserDetails.userAddress.province));
 
@@ -66,6 +71,8 @@ export class HomePagePage implements OnInit {
         })
       }
       await this.filterandSortTechniciansByKM(50);
+
+      await loading.dismiss();
     }
   }
 
@@ -81,6 +88,8 @@ export class HomePagePage implements OnInit {
     if (this.techniciansFiltered.length !== 0) {
       await this.techniciansFiltered.sort((a, b) => a.distance > b.distance ? 1 : -1);
     }
+
+    
   }
 
   async filterChanged(e) {
