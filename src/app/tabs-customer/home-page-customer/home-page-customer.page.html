@@ -2,14 +2,30 @@
   <!-- <ion-toolbar>
     <ion-title>home-page-customer</ion-title>
   </ion-toolbar> -->
+  
 </ion-header>
 
 <ion-content>
-
+  
+  <ion-list>
+    <ion-item>
+      <ion-select 
+        interface="alert" 
+        placeholder="Filter by distance"
+        (ionChange)="filterChanged($event)"
+        >
+        <ion-select-option value="5">5km</ion-select-option>
+        <ion-select-option value="10">10km</ion-select-option>
+        <ion-select-option value="20">20km</ion-select-option>
+        <ion-select-option value="50">50km</ion-select-option>
+        <ion-select-option value="100">100km</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
   <!-- <ion-button (click)="signOut()">Sign out</ion-button>
   <ion-button (click)="id()">id</ion-button> -->
-  <div *ngIf="technicians.length !== 0; else noTech">
-    <ion-card *ngFor="let t of technicians; index as i">
+  <div *ngIf="techniciansFiltered.length !== 0; else noTech">
+    <ion-card *ngFor="let t of techniciansFiltered; index as i">
       <ion-item>
         <ion-icon name="construct" slot="start"></ion-icon>
         <ion-label>{{t.technicianName}}</ion-label>

@@ -16,7 +16,7 @@ export class HomePagePage implements OnInit {
   distance;
   currentUserDetails;
   technicians = [];
-  techniciansSorted = [];
+  techniciansFiltered = []; 
 
   constructor(
     private auth: Auth,
@@ -46,23 +46,6 @@ export class HomePagePage implements OnInit {
   }
 
   async getTechnicians() {
-    // const techRef = collection(this.firestore, "technician");
-    // const q = query(techRef, where("technicianAddress.city", "==", "Toronto"));
-
-    // const querySnapshot = await getDocs(techRef);
-    // if(querySnapshot.empty){
-    //   console.log("No nearby technicians available")
-    // } else {
-    //   querySnapshot.forEach((doc) => {
-    //     console.log(doc.data());
-    //   })
-    // } 
-
-    // const q = query(collection(this.firestore, "technician"));
-    // const querySnapshot = await getDocs(q);
-    // querySnapshot.forEach((doc) => {
-    //   console.log(doc.data());
-    // })
 
     const techRef = collection(this.firestore, "technician");
     const q = query(techRef, where("technicianAddress.province", "==", this.currentUserDetails.userAddress.province));
@@ -79,27 +62,29 @@ export class HomePagePage implements OnInit {
     if (this.technicians.length !== 0) {
       for await (var tech of this.technicians) {
         await this.distanceService.getDistanceinKM(this.getAddressInOneLine(this.currentUserDetails.userAddress), this.getAddressInOneLine(tech.technicianAddress)).then(m => {
-          tech.distance = m;
+          tech.distance = m
         })
       }
-      await this.filterTechniciansBy50KM();
-
-      if (this.technicians.length !== 0) {
-        await this.technicians.sort((a, b) => a.distance > b.distance ? 1 : -1);
-      }
+      await this.filterandSortTechniciansByKM(50);
     }
   }
 
-  async filterTechniciansBy50KM() {
-    let i = 0;
-    for await (var t of this.technicians) {
-      if (t.distance > 50000) {
-        console.log("worked")
-        this.technicians.splice(i, 1);
+  async filterandSortTechniciansByKM(km) {
+    this.techniciansFiltered = this.technicians.slice();
+
+    for (var i = 0; i < this.techniciansFiltered.length; i++) {
+      if ((this.techniciansFiltered[i].distance)/1000 > km) {
+        this.techniciansFiltered.splice(i, 1);
+        i--;
       }
-      i += 1;
     }
-    console.log(this.technicians)
+    if (this.techniciansFiltered.length !== 0) {
+      await this.techniciansFiltered.sort((a, b) => a.distance > b.distance ? 1 : -1);
+    }
+  }
+
+  async filterChanged(e) {
+    await this.filterandSortTechniciansByKM(e.detail.value);
   }
 
   getAddressInOneLine(t) {
