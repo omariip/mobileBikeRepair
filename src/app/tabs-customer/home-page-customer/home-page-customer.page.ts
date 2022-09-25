@@ -49,7 +49,10 @@ export class HomePagePage implements OnInit {
 
   async getTechnicians() {
 
-    const loading = await this.loadingController.create();
+    const loading = await this.loadingController.create({
+      message: 'Fetching available technicians...',
+      spinner: 'dots'
+    });
     await loading.present();
 
     const techRef = collection(this.firestore, "technician");

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CurrentUserService } from 'src/app/services/current-user.service';
 import { arrayRemove, doc, Firestore, setDoc, updateDoc } from '@angular/fire/firestore';
-import { IonModal, AlertController, ToastController, IonInput } from '@ionic/angular';
+import { IonModal, AlertController, ToastController, IonInput, LoadingController } from '@ionic/angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { findAddressNumber, findStreet, findCity, findState, findZipCode } from 'src/utils/address-utils';
 declare var google;
@@ -18,13 +18,15 @@ export class ProfilePageCustomerPage implements OnInit {
 
   customerInfo = null;
   newPhoneNumber = "";
+  loading = null;
 
   constructor(
     private currentUser: CurrentUserService,
     private firestore: Firestore,
     private alertController: AlertController,
     private toastController: ToastController,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private loadingCtrl: LoadingController
   ) { }
 
   registrationForm = this.formBuilder.group({
@@ -82,6 +84,7 @@ export class ProfilePageCustomerPage implements OnInit {
 
   async editPhoneNumber() {
     const customer = doc(this.firestore, "customer", this.customerInfo.userId);
+    this.showLoading("Editing phone number...");
     await updateDoc(customer, {
       userPhone: this.newPhoneNumber
     }).then(() => {
@@ -89,30 +92,26 @@ export class ProfilePageCustomerPage implements OnInit {
     }).catch(() => {
       this.presentToast("Something went wrong!", "danger")
     })
+    this.loading.dismiss();
     this.ngOnInit();
   }
 
   cancelAddress() {
     this.modal.dismiss(null, 'cancel');
-    this.registrationForm.get('address.street').setValue("");
-    this.registrationForm.get('address.city').setValue("");
-    this.registrationForm.get('address.province').setValue("");
-    this.registrationForm.get('address.postal').setValue("");
+    this.registrationForm.reset();
   }
 
   async confirmAddress() {
 
     this.modal.dismiss('confirm');
     await this.editAddress();
-    this.registrationForm.get('address.street').setValue("");
-    this.registrationForm.get('address.city').setValue("");
-    this.registrationForm.get('address.province').setValue("");
-    this.registrationForm.get('address.postal').setValue("");
+    this.registrationForm.reset();
     this.ngOnInit();
   }
 
-  async editAddress(){
+  async editAddress() {
     const tech = doc(this.firestore, "customer", this.customerInfo.userId);
+    this.showLoading("Editing your location...");
     await updateDoc(tech, {
       userAddress: this.registrationForm.get('address').value
     }).then(() => {
@@ -120,6 +119,7 @@ export class ProfilePageCustomerPage implements OnInit {
     }).catch(() => {
       this.presentToast("Something went wrong!", "danger")
     })
+    this.loading.dismiss();
   }
 
   setAddress(place) {
@@ -131,18 +131,26 @@ export class ProfilePageCustomerPage implements OnInit {
     addressForm.get('postal').setValue(findZipCode(place.address_components));
   }
 
-  editAddressClicked(){
+  editAddressClicked() {
     setTimeout(() => {
       var options = {
         componentRestrictions: { country: "ca" }
       };
       this.autocomplete.getInputElement().then((ref: any) => {
         const autocomplete = new google.maps.places.Autocomplete(ref, options);
-  
+
         autocomplete.addListener('place_changed', () => {
           this.setAddress(autocomplete.getPlace());
         })
       })
     }, 500)
+  }
+
+  async showLoading(message) {
+    this.loading = await this.loadingCtrl.create({
+      message: message,
+      spinner: 'dots'
+    })
+    this.loading.present();
   }
 }

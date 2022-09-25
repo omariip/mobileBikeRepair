@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CurrentUserService } from 'src/app/services/current-user.service';
-import { IonModal, AlertController, ToastController, IonInput } from '@ionic/angular';
+import { IonModal, AlertController, ToastController, IonInput, LoadingController } from '@ionic/angular';
 import { arrayRemove, doc, Firestore, setDoc, updateDoc } from '@angular/fire/firestore';
 import { arrayUnion, FieldValue } from 'firebase/firestore';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
@@ -24,13 +24,15 @@ export class ProfilePageTechnicianPage implements OnInit {
   price = "";
   service = null;
   newPhoneNumber = "";
+  loading = null;
 
   constructor(
     private currentUser: CurrentUserService,
     private firestore: Firestore,
     private alertController: AlertController,
     private toastController: ToastController,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private loadingCtrl: LoadingController
   ) {
   }
 
@@ -89,6 +91,7 @@ export class ProfilePageTechnicianPage implements OnInit {
 
   async editPhoneNumber() {
     const tech = doc(this.firestore, "technician", this.technicianInfo.technicianId);
+    this.showLoading("Editing phone number...");
     await updateDoc(tech, {
       technicianPhone: this.newPhoneNumber
     }).then(() => {
@@ -96,6 +99,7 @@ export class ProfilePageTechnicianPage implements OnInit {
     }).catch(() => {
       this.presentToast("Something went wrong!", "danger")
     })
+    this.loading.dismiss();
     this.ngOnInit();
   }
 
@@ -108,10 +112,7 @@ export class ProfilePageTechnicianPage implements OnInit {
 
   cancelAddress() {
     this.modal2.dismiss(null, 'cancel');
-    this.registrationForm.get('address.street').setValue("");
-    this.registrationForm.get('address.city').setValue("");
-    this.registrationForm.get('address.province').setValue("");
-    this.registrationForm.get('address.postal').setValue("");
+    this.registrationForm.reset();
   }
 
   async confirmService() {
@@ -135,6 +136,7 @@ export class ProfilePageTechnicianPage implements OnInit {
       price: this.price
     }
     const tech = doc(this.firestore, "technician", this.technicianInfo.technicianId);
+    this.showLoading("Adding service...");
     await updateDoc(tech, {
       service: arrayUnion(this.service)
     }).then(() => {
@@ -145,22 +147,21 @@ export class ProfilePageTechnicianPage implements OnInit {
     }).catch(() => {
       this.presentToast("Something went wrong!", "danger")
     })
+    this.loading.dismiss()
   }
 
   async editAddress() {
     const tech = doc(this.firestore, "technician", this.technicianInfo.technicianId);
+    this.showLoading("Editing your location...");
     await updateDoc(tech, {
       technicianAddress: this.registrationForm.get('address').value
     }).then(() => {
       this.presentToast("Successfully edited your location!", "success");
-      this.registrationForm.get('address.street').setValue("");
-      this.registrationForm.get('address.city').setValue("");
-      this.registrationForm.get('address.province').setValue("");
-      this.registrationForm.get('address.postal').setValue("");
+      this.registrationForm.reset();
     }).catch(() => {
       this.presentToast("Something went wrong!", "danger")
     })
-
+    this.loading.dismiss()
   }
 
   async delete(i) {
@@ -199,5 +200,13 @@ export class ProfilePageTechnicianPage implements OnInit {
         })
       })
     }, 500)
+  }
+
+  async showLoading(message) {
+    this.loading = await this.loadingCtrl.create({
+      message: message,
+      spinner: 'dots'
+    })
+    this.loading.present();
   }
 }
