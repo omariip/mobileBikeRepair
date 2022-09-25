@@ -105,11 +105,19 @@ export class ProfilePageTechnicianPage implements OnInit {
 
   cancelAddress() {
     this.modal2.dismiss(null, 'cancel');
+    this.registrationForm.get('address.street').setValue("");
+    this.registrationForm.get('address.city').setValue("");
+    this.registrationForm.get('address.province').setValue("");
+    this.registrationForm.get('address.postal').setValue("");
   }
 
   async confirmService() {
 
     this.modal2.dismiss('confirm');
+    this.registrationForm.get('address.street').setValue("");
+    this.registrationForm.get('address.city').setValue("");
+    this.registrationForm.get('address.province').setValue("");
+    this.registrationForm.get('address.postal').setValue("");
     await this.addService();
     this.ngOnInit();
   }
