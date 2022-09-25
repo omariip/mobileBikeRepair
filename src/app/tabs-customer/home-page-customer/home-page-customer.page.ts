@@ -88,8 +88,6 @@ export class HomePagePage implements OnInit {
     if (this.techniciansFiltered.length !== 0) {
       await this.techniciansFiltered.sort((a, b) => a.distance > b.distance ? 1 : -1);
     }
-
-    
   }
 
   async filterChanged(e) {

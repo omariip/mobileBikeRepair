@@ -91,9 +91,12 @@ export class ProfilePageTechnicianPage implements OnInit {
     const tech = doc(this.firestore, "technician", this.technicianInfo.technicianId);
     await updateDoc(tech, {
       technicianPhone: this.newPhoneNumber
+    }).then(() => {
+      this.presentToast("Successfully edited phone number", "success");
+    }).catch(() => {
+      this.presentToast("Something went wrong!", "danger")
     })
     this.ngOnInit();
-    this.presentToast("Successfully edited phone number", "success");
   }
 
   cancelService() {
@@ -138,13 +141,21 @@ export class ProfilePageTechnicianPage implements OnInit {
     const tech = doc(this.firestore, "technician", this.technicianInfo.technicianId);
     await updateDoc(tech, {
       service: arrayUnion(this.service)
-    });
+    }).then(() => {
+      this.presentToast("Successfully added a new service to your profile!", "success")
+    }).catch(() => {
+      this.presentToast("Something went wrong!", "danger")
+    })
   }
 
   async editAddress(){
     const tech = doc(this.firestore, "technician", this.technicianInfo.technicianId);
     await updateDoc(tech, {
       technicianAddress: this.registrationForm.get('address').value
+    }).then(() => {
+      this.presentToast("Successfully edited your location!", "success");
+    }).catch(() => {
+      this.presentToast("Something went wrong!", "danger")
     })
   }
 
@@ -152,6 +163,10 @@ export class ProfilePageTechnicianPage implements OnInit {
     const tech = doc(this.firestore, "technician", this.technicianInfo.technicianId);
     await updateDoc(tech, {
       service: arrayRemove(this.technicianInfo.service[i])
+    }).then(() => {
+      this.presentToast("Successfully deleted this service!", "success");
+    }).catch(() => {
+      this.presentToast("Something went wrong!", "danger")
     })
     this.ngOnInit();
   }

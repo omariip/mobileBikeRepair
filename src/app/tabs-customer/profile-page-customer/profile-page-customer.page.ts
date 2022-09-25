@@ -84,9 +84,12 @@ export class ProfilePageCustomerPage implements OnInit {
     const customer = doc(this.firestore, "customer", this.customerInfo.userId);
     await updateDoc(customer, {
       userPhone: this.newPhoneNumber
+    }).then(() => {
+      this.presentToast("Successfully edited phone number", "success");
+    }).catch(() => {
+      this.presentToast("Something went wrong!", "danger")
     })
     this.ngOnInit();
-    this.presentToast("Successfully edited phone number", "success");
   }
 
   cancelAddress() {
@@ -112,6 +115,10 @@ export class ProfilePageCustomerPage implements OnInit {
     const tech = doc(this.firestore, "customer", this.customerInfo.userId);
     await updateDoc(tech, {
       userAddress: this.registrationForm.get('address').value
+    }).then(() => {
+      this.presentToast("Successfully edited your location!", "success");
+    }).catch(() => {
+      this.presentToast("Something went wrong!", "danger")
     })
   }
 
