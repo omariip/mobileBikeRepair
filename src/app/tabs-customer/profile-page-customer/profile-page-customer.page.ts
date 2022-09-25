@@ -149,7 +149,6 @@ export class ProfilePageCustomerPage implements OnInit {
   async showLoading(message) {
     this.loading = await this.loadingCtrl.create({
       message: message,
-      spinner: 'dots'
     })
     this.loading.present();
   }

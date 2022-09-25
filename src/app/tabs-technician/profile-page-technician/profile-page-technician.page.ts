@@ -204,8 +204,7 @@ export class ProfilePageTechnicianPage implements OnInit {
 
   async showLoading(message) {
     this.loading = await this.loadingCtrl.create({
-      message: message,
-      spinner: 'dots'
+      message: message
     })
     this.loading.present();
   }

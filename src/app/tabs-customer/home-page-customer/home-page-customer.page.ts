@@ -51,7 +51,6 @@ export class HomePagePage implements OnInit {
 
     const loading = await this.loadingController.create({
       message: 'Fetching available technicians...',
-      spinner: 'dots'
     });
     await loading.present();
 
