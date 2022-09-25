@@ -17,7 +17,7 @@ export class ProfilePageTechnicianPage implements OnInit {
   @ViewChild('modal') modal: IonModal;
   @ViewChild('modal2') modal2: IonModal;
   @ViewChild('autocomplete', { static: false }) autocomplete: IonInput;
-  
+
   technicianInfo = null;
   title = "";
   description = "";
@@ -118,10 +118,6 @@ export class ProfilePageTechnicianPage implements OnInit {
 
     this.modal2.dismiss('confirm');
     await this.addService();
-    this.registrationForm.get('address.street').setValue("");
-    this.registrationForm.get('address.city').setValue("");
-    this.registrationForm.get('address.province').setValue("");
-    this.registrationForm.get('address.postal').setValue("");
     this.ngOnInit();
   }
 
@@ -142,21 +138,29 @@ export class ProfilePageTechnicianPage implements OnInit {
     await updateDoc(tech, {
       service: arrayUnion(this.service)
     }).then(() => {
-      this.presentToast("Successfully added a new service to your profile!", "success")
+      this.presentToast("Successfully added a new service to your profile!", "success");
+      this.title = "";
+      this.description = "";
+      this.price = "";
     }).catch(() => {
       this.presentToast("Something went wrong!", "danger")
     })
   }
 
-  async editAddress(){
+  async editAddress() {
     const tech = doc(this.firestore, "technician", this.technicianInfo.technicianId);
     await updateDoc(tech, {
       technicianAddress: this.registrationForm.get('address').value
     }).then(() => {
       this.presentToast("Successfully edited your location!", "success");
+      this.registrationForm.get('address.street').setValue("");
+      this.registrationForm.get('address.city').setValue("");
+      this.registrationForm.get('address.province').setValue("");
+      this.registrationForm.get('address.postal').setValue("");
     }).catch(() => {
       this.presentToast("Something went wrong!", "danger")
     })
+
   }
 
   async delete(i) {
@@ -171,7 +175,7 @@ export class ProfilePageTechnicianPage implements OnInit {
     this.ngOnInit();
   }
 
-  
+
 
   setAddress(place) {
     const addressForm = this.registrationForm.get('address');
@@ -182,14 +186,14 @@ export class ProfilePageTechnicianPage implements OnInit {
     addressForm.get('postal').setValue(findZipCode(place.address_components));
   }
 
-  editAddressClicked(){
+  editAddressClicked() {
     setTimeout(() => {
       var options = {
         componentRestrictions: { country: "ca" }
       };
       this.autocomplete.getInputElement().then((ref: any) => {
         const autocomplete = new google.maps.places.Autocomplete(ref, options);
-  
+
         autocomplete.addListener('place_changed', () => {
           this.setAddress(autocomplete.getPlace());
         })
