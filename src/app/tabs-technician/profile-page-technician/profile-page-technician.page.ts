@@ -114,11 +114,11 @@ export class ProfilePageTechnicianPage implements OnInit {
   async confirmService() {
 
     this.modal2.dismiss('confirm');
+    await this.addService();
     this.registrationForm.get('address.street').setValue("");
     this.registrationForm.get('address.city').setValue("");
     this.registrationForm.get('address.province').setValue("");
     this.registrationForm.get('address.postal').setValue("");
-    await this.addService();
     this.ngOnInit();
   }
 
