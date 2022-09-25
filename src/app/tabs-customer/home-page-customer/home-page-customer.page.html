@@ -2,18 +2,14 @@
   <!-- <ion-toolbar>
     <ion-title>home-page-customer</ion-title>
   </ion-toolbar> -->
-  
+
 </ion-header>
 
 <ion-content>
-  
+
   <ion-list>
     <ion-item>
-      <ion-select 
-        interface="alert" 
-        placeholder="Filter by distance"
-        (ionChange)="filterChanged($event)"
-        >
+      <ion-select interface="alert" placeholder="Filter by distance" (ionChange)="filterChanged($event)">
         <ion-select-option value="5">5km</ion-select-option>
         <ion-select-option value="10">10km</ion-select-option>
         <ion-select-option value="20">20km</ion-select-option>
@@ -28,15 +24,15 @@
     <ion-card *ngFor="let t of techniciansFiltered; index as i">
       <ion-item>
         <ion-icon name="construct" slot="start"></ion-icon>
-        <ion-label>{{t.technicianName}}</ion-label>
-        <ion-label>{{(t.distance/1000).toFixed(1)}}km</ion-label>
+        <ion-label class="ion-text-wrap">{{t.technicianName}}</ion-label>
+        <ion-label class="ion-text-wrap">{{(t.distance/1000).toFixed(1)}}km</ion-label>
         <ion-button fill="outline" slot="end">Book</ion-button>
       </ion-item>
       <ion-card-content class="ion-card-style">
         <ion-list lines="none" class="ion-list-style">
           <ion-item class="ion-no-padding">
             <ion-icon name="location" class="ion-icon-listing"></ion-icon>
-            <ion-label class="ion-item-listing">{{t.technicianAddress.street}},
+            <ion-label class="ion-item-listing ion-text-wrap">{{t.technicianAddress.street}},
               {{t.technicianAddress.city}}</ion-label> <br><br>
           </ion-item>
 
@@ -58,11 +54,15 @@
         </ion-list>
       </ion-card-content>
 
-      <ion-modal #modal trigger="{{'open-modal' + i}}" [presentingElement]="presentingElement">
+      <ion-modal #modal trigger="{{'open-modal' + i}}" [presentingElement]="presentingElement" swipe-to-close="true">
         <ng-template>
           <ion-header>
             <ion-toolbar>
-              <ion-title>{{t.technicianName}} services and prices</ion-title>
+              <ion-title>
+                <div class="ion-text-wrap">
+                  {{t.technicianName}} services
+                </div>
+              </ion-title>
               <ion-buttons slot="end">
                 <ion-button (click)="modal.dismiss()">Close</ion-button>
               </ion-buttons>
@@ -87,9 +87,9 @@
   </div>
 
   <ng-template #noTech>
-    
-      <ion-icon size="large" name="alert" class="icon-center"></ion-icon><br>
-      <ion-label class="ion-text-wrap label-center">There are no technicians available in your area!</ion-label>
+
+    <ion-icon size="large" name="alert" class="icon-center"></ion-icon><br>
+    <ion-label class="ion-text-wrap label-center">There are no technicians available in your area!</ion-label>
 
   </ng-template>
 </ion-content>
