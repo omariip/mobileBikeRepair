@@ -1,0 +1,32 @@
+.signUpError {
+    color: var(--ion-color-danger);
+    vertical-align: middle;
+}
+
+span {
+    margin-bottom: 4px;
+}
+
+.labels {
+    margin-left: 10px;
+    font-size: 0.8em;
+}
+
+.iconError {
+    margin-left: 5px;
+}
+
+.accordion{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+ion-button{
+    margin-top: 20px;
+}
+
+.addressForm ion-icon {
+    color: red;
+    margin-right: 4px;
+    vertical-align: middle;
+}
