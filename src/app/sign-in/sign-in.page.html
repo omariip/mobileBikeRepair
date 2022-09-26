@@ -50,11 +50,11 @@
       </span>
     </ion-item>
 
-    <ion-button type="submit" [disabled]="!signInForm.valid">
+    <ion-button type="submit" [disabled]="!signInForm.valid" expand="block">
       Sign in
     </ion-button>
 
-    <ion-button (click)="forgotPassword()" [disabled]="!signInForm.get('email').valid">
+    <ion-button (click)="forgotPassword()" [disabled]="!signInForm.get('email').valid" expand="block">
       Forgot password?
     </ion-button>
   </form>
