@@ -95,7 +95,7 @@ export class ProfilePageTechnicianPage implements OnInit {
    */
   async confirmService() {
 
-    this.modal2.dismiss('confirm');
+    this.modal.dismiss('confirm');
     await this.addService();
     this.ngOnInit();
   }
@@ -133,7 +133,7 @@ export class ProfilePageTechnicianPage implements OnInit {
     }).catch(() => {
       this.presentToast("Something went wrong!", "danger")
     })
-    this.loading.dismiss()
+    await this.loading.dismiss();
   }
 
   /**
@@ -151,7 +151,7 @@ export class ProfilePageTechnicianPage implements OnInit {
     }).catch(() => {
       this.presentToast("Something went wrong!", "danger")
     })
-    this.loading.dismiss()
+    await this.loading.dismiss()
   }
 
   /**
@@ -161,6 +161,7 @@ export class ProfilePageTechnicianPage implements OnInit {
    */
   async delete(i) {
     const tech = doc(this.firestore, "technician", this.technicianInfo.technicianId);
+    this.showLoading("Deleting this service...")
     await updateDoc(tech, {
       service: arrayRemove(this.technicianInfo.service[i])
     }).then(() => {
@@ -168,6 +169,7 @@ export class ProfilePageTechnicianPage implements OnInit {
     }).catch(() => {
       this.presentToast("Something went wrong!", "danger")
     })
+    await this.loading.dismiss()
     this.ngOnInit();
   }
 
