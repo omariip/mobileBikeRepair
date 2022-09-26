@@ -7,10 +7,22 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-label>Sign Up As:</ion-label><br><br>
-  <ion-button [routerLink]="['/sign-up-customer']">Customer</ion-button>
-  <ion-button [routerLink]="['/sign-up-technician']">Technician</ion-button><br><br><br>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Sign Up</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button [routerLink]="['/sign-up-customer']" expand="full">Customer</ion-button>
+      <ion-button [routerLink]="['/sign-up-technician']" expand="full">Technician</ion-button>
+    </ion-card-content>
+  </ion-card>
 
-  <ion-label>Sign in:</ion-label><br><br>
-  <ion-button [routerLink]="['/sign-in']">Sign in</ion-button>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Sign In</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button [routerLink]="['/sign-in']" expand="full">Sign in</ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
