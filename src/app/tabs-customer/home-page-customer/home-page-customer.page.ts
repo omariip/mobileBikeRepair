@@ -56,6 +56,7 @@ export class HomePagePage implements OnInit {
     const querySnapshot = await getDocs(q);
     if (querySnapshot.empty) {
       console.log("No nearby technicians available")
+      await loading.dismiss();
     } else {
       await querySnapshot.forEach((doc) => {
         this.technicians.push(doc.data());
