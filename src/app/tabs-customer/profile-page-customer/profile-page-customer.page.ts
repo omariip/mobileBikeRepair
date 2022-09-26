@@ -54,12 +54,13 @@ export class ProfilePageCustomerPage implements OnInit {
     this.showLoading("Editing phone number...");
     await updateDoc(customer, {
       userPhone: this.newPhoneNumber
-    }).then(() => {
+    }).then(async () => {
       this.presentToast("Successfully edited phone number", "success");
-    }).catch(() => {
-      this.presentToast("Something went wrong!", "danger")
+      await this.loading.dismiss();
+    }).catch(async () => {
+      this.presentToast("Something went wrong!", "danger");
+      await this.loading.dismiss();
     })
-    this.loading.dismiss();
     this.ngOnInit();
   }
 

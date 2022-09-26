@@ -62,12 +62,13 @@ export class ProfilePageTechnicianPage implements OnInit {
     this.showLoading("Editing phone number...");
     await updateDoc(tech, {
       technicianPhone: this.newPhoneNumber
-    }).then(() => {
+    }).then(async () => {
       this.presentToast("Successfully edited phone number", "success");
-    }).catch(() => {
-      this.presentToast("Something went wrong!", "danger")
+      await this.loading.dismiss();
+    }).catch(async () => {
+      this.presentToast("Something went wrong!", "danger");
+      await this.loading.dismiss();
     })
-    this.loading.dismiss();
     this.ngOnInit();
   }
 
@@ -125,15 +126,17 @@ export class ProfilePageTechnicianPage implements OnInit {
     this.showLoading("Adding service...");
     await updateDoc(tech, {
       service: arrayUnion(this.service)
-    }).then(() => {
+    }).then(async () => {
       this.presentToast("Successfully added a new service to your profile!", "success");
       this.title = "";
       this.description = "";
       this.price = "";
-    }).catch(() => {
-      this.presentToast("Something went wrong!", "danger")
+      await this.loading.dismiss();
+    }).catch(async () => {
+      this.presentToast("Something went wrong!", "danger");
+      await this.loading.dismiss();
     })
-    await this.loading.dismiss();
+    
   }
 
   /**
@@ -164,12 +167,14 @@ export class ProfilePageTechnicianPage implements OnInit {
     this.showLoading("Deleting this service...")
     await updateDoc(tech, {
       service: arrayRemove(this.technicianInfo.service[i])
-    }).then(() => {
+    }).then(async () => {
       this.presentToast("Successfully deleted this service!", "success");
-    }).catch(() => {
-      this.presentToast("Something went wrong!", "danger")
+      await this.loading.dismiss();
+    }).catch(async () => {
+      this.presentToast("Something went wrong!", "danger");
+      await this.loading.dismiss();
     })
-    await this.loading.dismiss()
+    
     this.ngOnInit();
   }
 

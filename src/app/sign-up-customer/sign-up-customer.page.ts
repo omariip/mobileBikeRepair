@@ -135,7 +135,7 @@ export class SignUpPage implements OnInit {
 
     const user = await this.authService.userRegistration(this.registrationForm.value);
 
-    this.loading.dismiss();
+    await this.loading.dismiss();
 
     if (typeof user === 'string') {
       if (user == 'auth/email-already-in-use') {

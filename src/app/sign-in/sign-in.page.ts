@@ -89,14 +89,14 @@ export class SignInPage implements OnInit {
     const auth = getAuth();
 
     sendPasswordResetEmail(auth, this.signInForm.value.email)
-      .then(() => {
+      .then(async () => {
         this.toast('Reset email sent to ' + this.signInForm.value.email, 'success');
+        await this.loading.dismiss();
       })
-      .catch((error) => {
+      .catch(async (error) => {
         this.toast(error.message, 'danger');
-      });
-
-    this.loading.dismiss();
+        await this.loading.dismiss();
+      });    
   }
 
   /**
