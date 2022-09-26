@@ -45,7 +45,110 @@ export class ProfilePageCustomerPage implements OnInit {
     })
   }
 
-  async presentPhoneAlert() {
+  /**
+   * A function to edit the phone number of the
+   * current customer in firestore
+   */
+  async editPhoneNumber() {
+    const customer = doc(this.firestore, "customer", this.customerInfo.userId);
+    this.showLoading("Editing phone number...");
+    await updateDoc(customer, {
+      userPhone: this.newPhoneNumber
+    }).then(() => {
+      this.presentToast("Successfully edited phone number", "success");
+    }).catch(() => {
+      this.presentToast("Something went wrong!", "danger")
+    })
+    this.loading.dismiss();
+    this.ngOnInit();
+  }
+
+  /**
+   * A function that closes the address modal
+   */
+  cancelAddress() {
+    this.modal.dismiss(null, 'cancel');
+    this.registrationForm.reset();
+  }
+
+  /**
+   * A function that calls editAddress() when confirm
+   * edit address is pressed
+   */
+  async confirmAddress() {
+
+    this.modal.dismiss('confirm');
+    await this.editAddress();
+    this.registrationForm.reset();
+    this.ngOnInit();
+  }
+
+  /**
+   * A function that edits the address details of 
+   * the current customer in firestore
+   */
+  async editAddress() {
+    const tech = doc(this.firestore, "customer", this.customerInfo.userId);
+    this.showLoading("Editing your location...");
+    await updateDoc(tech, {
+      userAddress: this.registrationForm.get('address').value
+    }).then(() => {
+      this.presentToast("Successfully edited your location!", "success");
+    }).catch(() => {
+      this.presentToast("Something went wrong!", "danger")
+    })
+    this.loading.dismiss();
+  }
+
+  /**
+   * A function that is called when the user selects google autocomplete's
+   * address, it will set all the address fields in the form
+   * @param place 
+   */
+  setAddress(place) {
+    const addressForm = this.registrationForm.get('address');
+
+    addressForm.get('street').setValue(findAddressNumber(place.address_components) + " " + findStreet(place.address_components));
+    addressForm.get('city').setValue(findCity(place.address_components));
+    addressForm.get('province').setValue(findState(place.address_components));
+    addressForm.get('postal').setValue(findZipCode(place.address_components));
+  }
+
+  /**
+   * A function that fires when edit address is clicked,
+   * it listens to changes on streed field in order for
+   * google autocomplete address is to work
+   */
+  editAddressClicked() {
+    setTimeout(() => {
+      var options = {
+        componentRestrictions: { country: "ca" }
+      };
+      this.autocomplete.getInputElement().then((ref: any) => {
+        const autocomplete = new google.maps.places.Autocomplete(ref, options);
+
+        autocomplete.addListener('place_changed', () => {
+          this.setAddress(autocomplete.getPlace());
+        })
+      })
+    }, 500)
+  }
+
+  /**
+   * A function that shows a loading screen
+   * @param message message to display
+   */
+  async showLoading(message) {
+    this.loading = await this.loadingCtrl.create({
+      message: message,
+    })
+    this.loading.present();
+  }
+
+  /**
+   * A function that fires an alert controller with phone field
+   */
+   async presentPhoneAlert() {
 
     const alert = await this.alertController.create({
       header: 'Edit phone number',
@@ -73,6 +176,11 @@ export class ProfilePageCustomerPage implements OnInit {
     await alert.present();
   }
 
+  /**
+    * A method to present toasts
+    * @param message the message to be displayed
+    * @param status  the ionic color to be set on the toast
+    */
   async presentToast(message, color) {
     const toast = await this.toastController.create({
       message: message,
@@ -80,76 +188,5 @@ export class ProfilePageCustomerPage implements OnInit {
       color: color
     })
     await toast.present();
-  }
-
-  async editPhoneNumber() {
-    const customer = doc(this.firestore, "customer", this.customerInfo.userId);
-    this.showLoading("Editing phone number...");
-    await updateDoc(customer, {
-      userPhone: this.newPhoneNumber
-    }).then(() => {
-      this.presentToast("Successfully edited phone number", "success");
-    }).catch(() => {
-      this.presentToast("Something went wrong!", "danger")
-    })
-    this.loading.dismiss();
-    this.ngOnInit();
-  }
-
-  cancelAddress() {
-    this.modal.dismiss(null, 'cancel');
-    this.registrationForm.reset();
-  }
-
-  async confirmAddress() {
-
-    this.modal.dismiss('confirm');
-    await this.editAddress();
-    this.registrationForm.reset();
-    this.ngOnInit();
-  }
-
-  async editAddress() {
-    const tech = doc(this.firestore, "customer", this.customerInfo.userId);
-    this.showLoading("Editing your location...");
-    await updateDoc(tech, {
-      userAddress: this.registrationForm.get('address').value
-    }).then(() => {
-      this.presentToast("Successfully edited your location!", "success");
-    }).catch(() => {
-      this.presentToast("Something went wrong!", "danger")
-    })
-    this.loading.dismiss();
-  }
-
-  setAddress(place) {
-    const addressForm = this.registrationForm.get('address');
-
-    addressForm.get('street').setValue(findAddressNumber(place.address_components) + " " + findStreet(place.address_components));
-    addressForm.get('city').setValue(findCity(place.address_components));
-    addressForm.get('province').setValue(findState(place.address_components));
-    addressForm.get('postal').setValue(findZipCode(place.address_components));
-  }
-
-  editAddressClicked() {
-    setTimeout(() => {
-      var options = {
-        componentRestrictions: { country: "ca" }
-      };
-      this.autocomplete.getInputElement().then((ref: any) => {
-        const autocomplete = new google.maps.places.Autocomplete(ref, options);
-
-        autocomplete.addListener('place_changed', () => {
-          this.setAddress(autocomplete.getPlace());
-        })
-      })
-    }, 500)
-  }
-
-  async showLoading(message) {
-    this.loading = await this.loadingCtrl.create({
-      message: message,
-    })
-    this.loading.present();
   }
 }

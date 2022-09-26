@@ -9,22 +9,8 @@ import { CurrentUserService } from 'src/app/services/current-user.service';
 })
 export class HomePageTechnicianPage implements OnInit {
 
-  constructor(
-    private auth: Auth,
-    private router: Router,
-    private service: CurrentUserService
-    ) { }
+  constructor() { }
 
   ngOnInit() {
-  }
-
-  signOut(){
-    this.auth.signOut();
-    this.router.navigateByUrl('/home', { replaceUrl: true });
-  }
-
-  id(){
-    console.log(this.auth.currentUser.uid);
-    console.log(this.service.getCurrentUserDetails());
   }
 }

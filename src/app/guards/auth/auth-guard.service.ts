@@ -13,13 +13,15 @@ export class AuthGuard implements CanActivate{
     private auth: Auth) { }
   currentUser;
 
+  /**
+   * This function checks if the currently logged in user is a technician
+   * @returns boolean of current user type
+   */
   async canActivate() : Promise<boolean> {
     
     await this.currentUserService.getCurrentUserType().then(x=>{
        this.currentUser = x;
     });
     return this.currentUser === "technician";
-
-    //return true;
   }
 }

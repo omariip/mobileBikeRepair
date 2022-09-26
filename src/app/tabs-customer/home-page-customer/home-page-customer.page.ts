@@ -28,25 +28,21 @@ export class HomePagePage implements OnInit {
     private loadingController: LoadingController
   ) { }
 
+  /**
+   * Gets current customer details and gets the technicians
+   */
   async ngOnInit() {
 
     await this.service.getCurrentUserDetails().then(m => {
       this.currentUserDetails = m;
-      console.log(this.currentUserDetails.userAddress);
     })
     await this.getTechnicians();
   }
 
-  signOut() {
-    this.auth.signOut();
-    this.router.navigateByUrl('/home', { replaceUrl: true });
-  }
-
-  id() {
-    console.log(this.auth.currentUser.uid);
-    console.log(this.currentUserDetails);
-  }
-
+  /**
+   * Retrieves technicians from firebase from the same province as
+   * the current customer's provice
+   */
   async getTechnicians() {
 
     const loading = await this.loadingController.create({
@@ -78,6 +74,10 @@ export class HomePagePage implements OnInit {
     }
   }
 
+  /**
+   * Filters technicians by distance and sorts them by distance
+   * @param km filter distance
+   */
   async filterandSortTechniciansByKM(km) {
     this.techniciansFiltered = this.technicians.slice();
 
@@ -92,10 +92,19 @@ export class HomePagePage implements OnInit {
     }
   }
 
+  /**
+   * Filters technicians by a new filter
+   * @param e event
+   */
   async filterChanged(e) {
     await this.filterandSortTechniciansByKM(e.detail.value);
   }
 
+  /**
+   * Arranges the address as a single line
+   * @param t address
+   * @returns address in one line
+   */
   getAddressInOneLine(t) {
     return `${t.street}, ${t.city}, ${t.province}, ${t.postal}`;
   }

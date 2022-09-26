@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings-page-technician',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsPageTechnicianPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private auth: Auth,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
   }
 
+  /**
+   * Signs out the technician
+   */
+  signOut(){
+    this.auth.signOut();
+    this.router.navigateByUrl('/home', { replaceUrl: true });
+  }
 }

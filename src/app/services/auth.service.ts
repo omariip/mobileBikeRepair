@@ -10,8 +10,12 @@ export class AuthService {
 
   constructor(private auth: Auth, private firestore: Firestore) { }
 
-
-
+  /**
+   * Creates a new customer to firebase auhentication and adds 
+   * their details to firestore
+   * @param value customer info
+   * @returns customer if success, error code if failed
+   */
   async userRegistration(value) {
     try {
       const user = await createUserWithEmailAndPassword(
@@ -35,6 +39,12 @@ export class AuthService {
     }
   }
 
+  /**
+   * Creates a new customer to firebase authentication and
+   * adds their details to firestore
+   * @param value 
+   * @returns 
+   */
   async technichianRegistration(value) {
     try {
       const user = await createUserWithEmailAndPassword(
@@ -59,6 +69,11 @@ export class AuthService {
     }
   }
 
+  /**
+   * Signs the user in to firebase authentication
+   * @param value user details
+   * @returns user if success, error code if failed
+   */
   async signIn(value) {
     try {
       const user = await signInWithEmailAndPassword(

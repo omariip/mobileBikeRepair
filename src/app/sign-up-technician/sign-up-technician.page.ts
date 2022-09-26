@@ -15,11 +15,12 @@ export class SignUpTechnicianPage implements OnInit {
 
   @ViewChild('autocomplete') autocomplete: IonInput;
   fieldHasError = 0;
+  loading = null;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private loadingController: LoadingController,
+    private loadingCtrl: LoadingController,
     private toastController: ToastController,
     private router: Router
   ) { }
@@ -84,12 +85,12 @@ export class SignUpTechnicianPage implements OnInit {
     })
   }
 
+  /**
+   * This function checks under which accordion is the field error
+   * @param index the index of the accordion
+   * @returns boolean if the accordion has and error in it's fields or not
+   */
   checkAccordionError(index) {
-    // return (this.registrationForm.get('name').hasError('required') && (this.registrationForm.get('name').touched || this.registrationForm.get('name').dirty))
-    // || this.registrationForm.get('name').hasError('maxlength') && (this.registrationForm.get('name').touched || this.registrationForm.get('name').dirty)
-    // || registrationForm.get('email').hasError('required') && (registrationForm.get('email').touched || registrationForm.get('email').dirty)
-    // || registrationForm.get('email').hasError('pattern') && (registrationForm.get('email').touched || registrationForm.get('email').dirty)
-    // || 
 
     if (index === 0) {
       return (this.registrationForm.get('name').invalid && (this.registrationForm.get('name').touched || this.registrationForm.get('name').dirty)) ||
@@ -109,9 +110,12 @@ export class SignUpTechnicianPage implements OnInit {
     }
   }
 
+  /**
+   * Validates if the password field matches confirm password field
+   * @returns form group
+   */
   passwordMatchingValidatior() {
     return (formGroup: FormGroup) => {
-
       const password = formGroup.get('password').value;
       const confirmation = formGroup.get('confirmPassword').value;
 
@@ -124,15 +128,15 @@ export class SignUpTechnicianPage implements OnInit {
   }
 
   /**
-   * Submit button function
+   * Signs up technician using firestore authentication and redirects
+   * to the appropriate page
    */
   async submit() {
-    const loading = await this.loadingController.create();
-    await loading.present();
+    this.showLoading("Signing up...")
 
     const user = await this.authService.technichianRegistration(this.registrationForm.value);
 
-    await loading.dismiss();
+    this.loading.dismiss();
 
     if (typeof user === 'string') {
       if (user == 'auth/email-already-in-use') {
@@ -164,6 +168,17 @@ export class SignUpTechnicianPage implements OnInit {
     });
 
     toast.present();
+  }
+
+  /**
+   * A function that shows a loading screen
+   * @param message message to display
+   */
+   async showLoading(message) {
+    this.loading = await this.loadingCtrl.create({
+      message: message,
+    })
+    this.loading.present();
   }
 
   ngOnInit() {

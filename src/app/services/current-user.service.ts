@@ -14,10 +14,15 @@ export class CurrentUserService {
   constructor(
     private firestore: Firestore,
     private auth: Auth,
-  ) { 
+  ) {
     //this.getCurrentUserType();
   }
 
+  /**
+   * This function returns the currently logged in
+   * user type, customer or technician
+   * @returns promise of customer or technician
+   */
   async getCurrentUserType() {
     return new Promise((resolve, reject) => {
 
@@ -45,9 +50,14 @@ export class CurrentUserService {
     })
   }
 
+  /**
+   * This function returns the currently logged in
+   * user details from firestore
+   * @returns user details
+   */
   async getCurrentUserDetails() {
 
-    if(this.currentUser.value === '' || this.currentUser.value === null){
+    if (this.currentUser.value === '' || this.currentUser.value === null) {
       await this.getCurrentUserType();
     }
     console.log(this.currentUser.value);

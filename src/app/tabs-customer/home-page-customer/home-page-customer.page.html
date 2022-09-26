@@ -18,8 +18,7 @@
       </ion-select>
     </ion-item>
   </ion-list>
-  <!-- <ion-button (click)="signOut()">Sign out</ion-button>
-  <ion-button (click)="id()">id</ion-button> -->
+
   <div *ngIf="techniciansFiltered.length !== 0; else noTech">
     <ion-card *ngFor="let t of techniciansFiltered; index as i">
       <ion-item>

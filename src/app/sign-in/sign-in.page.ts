@@ -17,11 +17,12 @@ import { CurrentUserService } from '../services/current-user.service';
 export class SignInPage implements OnInit {
 
   currentUser: string;
+  loading = null;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private loadingController: LoadingController,
+    private loadingCtrl: LoadingController,
     private toastController: ToastController,
     private router: Router,
     private firestore: Firestore,
@@ -34,13 +35,16 @@ export class SignInPage implements OnInit {
     password: ['', [Validators.required, Validators.minLength(8)]],
   });
 
+
+  /**
+   * A function to submit login credentials to firebase authentication
+   */
   async submit() {
-    const loading = await this.loadingController.create();
-    await loading.present();
+    this.showLoading("Signing In...")
 
     const user = await this.authService.signIn(this.signInForm.value);
 
-    await loading.dismiss();
+    await this.loading.dismiss();
 
     if (typeof user === 'string') {
       if (user == 'auth/invalid-email') {
@@ -72,27 +76,15 @@ export class SignInPage implements OnInit {
           this.router.navigateByUrl('/technician', { replaceUrl: true });
         }
       }
-      //await this.currentUserService.getCurrentUserType();
       this.toast('Successfully Signed in', 'success');
-      
-      // this.currentUserService.getCurrentUserType().then((x) => {
-      //     x.subscribe((x2) => {
-      //       this.currentUser = x2;
-      //       if(this.currentUser === "customer") { 
-      //         this.router.navigateByUrl('/customer', { replaceUrl: true });
-      //       } else if(this.currentUser === "technician"){
-      //         this.router.navigateByUrl('/technician', { replaceUrl: true });
-      //       } else {
-      //         this.router.navigateByUrl('/sign-in', { replaceUrl: true });
-      //       }
-      //   })})
-      // this.toast('Successfully Signed in', 'success');
     }
   }
 
+  /**
+   * A function to reset password using firebase authentication
+   */
   async forgotPassword() {
-    const loading = await this.loadingController.create();
-    await loading.present();
+    this.showLoading("Reseting password...")
 
     const auth = getAuth();
 
@@ -104,7 +96,7 @@ export class SignInPage implements OnInit {
         this.toast(error.message, 'danger');
       });
 
-    await loading.dismiss();
+    this.loading.dismiss();
   }
 
   /**
@@ -123,7 +115,17 @@ export class SignInPage implements OnInit {
     toast.present();
   }
 
+  /**
+   * A function that shows a loading screen
+   * @param message message to display
+   */
+   async showLoading(message) {
+    this.loading = await this.loadingCtrl.create({
+      message: message,
+    })
+    this.loading.present();
+  }
+  
   ngOnInit() {
   }
-
 }

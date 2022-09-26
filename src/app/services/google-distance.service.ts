@@ -9,6 +9,13 @@ export class GoogleDistanceService {
 
   constructor() { }
 
+  /**
+   * This function uses google matrix api service to 
+   * return the distance between two given addresses
+   * @param origin the first address
+   * @param destination the second address
+   * @returns the distance between the two addresses
+   */
   getDistanceinKM(origin, destination){
     const matrix = new google.maps.DistanceMatrixService();
     return new Promise((resolve, reject) => {
