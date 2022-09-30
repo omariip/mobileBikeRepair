@@ -40,7 +40,7 @@ export class SignInPage implements OnInit {
    * A function to submit login credentials to firebase authentication
    */
   async submit() {
-    this.showLoading("Signing In...")
+    await this.showLoading("Signing In...")
 
     const user = await this.authService.signIn(this.signInForm.value);
 
@@ -84,7 +84,7 @@ export class SignInPage implements OnInit {
    * A function to reset password using firebase authentication
    */
   async forgotPassword() {
-    this.showLoading("Reseting password...")
+    await this.showLoading("Reseting password...")
 
     const auth = getAuth();
 
@@ -123,7 +123,7 @@ export class SignInPage implements OnInit {
     this.loading = await this.loadingCtrl.create({
       message: message,
     })
-    this.loading.present();
+    await this.loading.present();
   }
   
   ngOnInit() {
