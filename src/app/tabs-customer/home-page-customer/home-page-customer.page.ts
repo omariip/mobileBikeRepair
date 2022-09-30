@@ -2,11 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { CurrentUserService } from 'src/app/services/current-user.service';
-import { Firestore } from '@angular/fire/firestore';
+import { addDoc, Firestore } from '@angular/fire/firestore';
 import { collection, doc, getDoc, getDocs, query, where, limit } from 'firebase/firestore';
 import { GoogleDistanceService } from 'src/app/services/google-distance.service';
 import { LoadingController } from '@ionic/angular';
 import { format, parseISO } from 'date-fns';
+
+export class booking {
+  bookingService: string = "";
+  bookingDescription: string = "";
+  bookingImage: string = "";
+  bookingDate: string = "";
+}
 
 @Component({
   selector: 'app-home-page-customer',
@@ -21,7 +28,8 @@ export class HomePagePage implements OnInit {
   techniciansFiltered = []; 
   showPicker = false;
   currentDate = (new Date()).toISOString();
-  dateValue = "";
+
+  bookingDetails = new booking();
 
   constructor(
     private auth: Auth,
@@ -31,8 +39,6 @@ export class HomePagePage implements OnInit {
     private distanceService: GoogleDistanceService,
     private loadingController: LoadingController
   ) { 
-    console.log(this.currentDate);
-    console.log(this.dateValue);
   }
 
   /**
@@ -117,7 +123,15 @@ export class HomePagePage implements OnInit {
     return `${t.street}, ${t.city}, ${t.province}, ${t.postal}`;
   }
 
-  confirmBooking(){
-    console.log(this.dateValue)
+  async confirmBooking(index){
+    const focRef = await addDoc(collection(this.firestore, "appointments"), {
+      appointmentStatus: "pending",
+      appointmentTitle: this.bookingDetails.bookingService,
+      appointmentDescription: this.bookingDetails.bookingDescription,
+      appointmentImage: this.bookingDetails.bookingImage,
+      appointmentDate: this.bookingDetails.bookingDate,
+      customerId: this.currentUserDetails.userId,
+      technicianId: this.techniciansFiltered[index].technicianId
+    });
   }
 }
