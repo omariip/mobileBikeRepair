@@ -21,7 +21,7 @@ export class HomePagePage implements OnInit {
   techniciansFiltered = []; 
   showPicker = false;
   currentDate = (new Date()).toISOString();
-  dateValue= (new Date()).toISOString();
+  dateValue = "";
 
   constructor(
     private auth: Auth,
