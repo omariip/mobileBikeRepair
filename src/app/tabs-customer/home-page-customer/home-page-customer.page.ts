@@ -6,6 +6,7 @@ import { Firestore } from '@angular/fire/firestore';
 import { collection, doc, getDoc, getDocs, query, where, limit } from 'firebase/firestore';
 import { GoogleDistanceService } from 'src/app/services/google-distance.service';
 import { LoadingController } from '@ionic/angular';
+import { format, parseISO } from 'date-fns';
 
 @Component({
   selector: 'app-home-page-customer',
@@ -20,6 +21,7 @@ export class HomePagePage implements OnInit {
   techniciansFiltered = []; 
   showPicker = false;
   currentDate = (new Date()).toISOString();
+  dateValue= (new Date()).toISOString();
 
   constructor(
     private auth: Auth,
@@ -28,7 +30,10 @@ export class HomePagePage implements OnInit {
     private firestore: Firestore,
     private distanceService: GoogleDistanceService,
     private loadingController: LoadingController
-  ) { }
+  ) { 
+    console.log(this.currentDate);
+    console.log(this.dateValue);
+  }
 
   /**
    * Gets current customer details and gets the technicians
@@ -113,6 +118,6 @@ export class HomePagePage implements OnInit {
   }
 
   confirmBooking(){
-
+    console.log(this.dateValue)
   }
 }

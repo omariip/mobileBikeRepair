@@ -100,7 +100,7 @@
           <ion-content>
             <ion-list>
               <ion-item>
-                <ion-label position="floating" class="labels">Service Title</ion-label>
+                <ion-label position="floating" class="labels">Service Type</ion-label>
                 <ion-input type="text"></ion-input>
               </ion-item>
               <ion-item>
@@ -110,16 +110,27 @@
               <ion-item lines="none">
                 <ion-label class="labels ion-text-wrap">Upload an Image of your Bike</ion-label>
               </ion-item>
-              <ion-item >
+              <ion-item>
                 <ion-input type="file" accept="image/*"></ion-input>
               </ion-item>
-              <ion-item (click)="showPicker = !showPicker" lines="none">
-                <ion-label class="labels">Pick Date and Time</ion-label>
+              <ion-item lines="none" id="picker">
+                <ion-label class="labels">Pick Date and Time</ion-label><br>
+                <ion-label>{{dateValue | date: 'short'}}</ion-label>
                 <ion-icon name="calendar" slot="end"></ion-icon>
               </ion-item>
               <ion-item>
-                <ion-datetime presentation="date-time" size="cover" *ngIf="showPicker" min="{{currentDate}}">
-                </ion-datetime>
+                <ion-modal trigger="picker">
+                  <ng-template>
+                    <ion-content>
+                      <ion-datetime
+                        min="{{currentDate}}" 
+                        [(ngModel)]="dateValue"
+                        showDefaultButtons="true" 
+                        size="cover">
+                      </ion-datetime>
+                    </ion-content>
+                  </ng-template>
+                </ion-modal>
               </ion-item>
             </ion-list>
           </ion-content>
