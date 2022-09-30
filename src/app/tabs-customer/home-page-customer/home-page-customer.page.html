@@ -25,7 +25,7 @@
         <ion-icon name="construct" slot="start"></ion-icon>
         <ion-label class="ion-text-wrap">{{t.technicianName}}</ion-label>
         <ion-label class="ion-text-wrap">{{(t.distance/1000).toFixed(1)}}km</ion-label>
-        <ion-button fill="outline" slot="end">Book</ion-button>
+        <ion-button fill="outline" slot="end" id="{{'open-modal2' + i}}">Book</ion-button>
       </ion-item>
       <ion-card-content class="ion-card-style">
         <ion-list lines="none" class="ion-list-style">
@@ -80,6 +80,49 @@
             </ion-list>
           </ion-content>
 
+        </ng-template>
+      </ion-modal>
+
+      <ion-modal #modal2 trigger="{{'open-modal2' + i}}" [presentingElement]="presentingElement" swipe-to-close="true">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-buttons slot="start">
+                <ion-button (click)="modal2.dismiss()">Cancel</ion-button>
+              </ion-buttons>
+              <ion-title>Book Appointment</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="confirmBooking()" [strong]="true">Book</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+
+          <ion-content>
+            <ion-list>
+              <ion-item>
+                <ion-label position="floating" class="labels">Service Title</ion-label>
+                <ion-input type="text"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Describe your problem</ion-label>
+                <ion-textarea rows="7"></ion-textarea>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label class="labels ion-text-wrap">Upload an Image of your Bike</ion-label>
+              </ion-item>
+              <ion-item >
+                <ion-input type="file" accept="image/*"></ion-input>
+              </ion-item>
+              <ion-item (click)="showPicker = !showPicker" lines="none">
+                <ion-label class="labels">Pick Date and Time</ion-label>
+                <ion-icon name="calendar" slot="end"></ion-icon>
+              </ion-item>
+              <ion-item>
+                <ion-datetime presentation="date-time" size="cover" *ngIf="showPicker" min="{{currentDate}}">
+                </ion-datetime>
+              </ion-item>
+            </ion-list>
+          </ion-content>
         </ng-template>
       </ion-modal>
     </ion-card>

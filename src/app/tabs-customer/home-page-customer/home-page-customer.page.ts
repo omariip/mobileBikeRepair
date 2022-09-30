@@ -18,6 +18,8 @@ export class HomePagePage implements OnInit {
   currentUserDetails;
   technicians = [];
   techniciansFiltered = []; 
+  showPicker = false;
+  currentDate = (new Date()).toISOString();
 
   constructor(
     private auth: Auth,
@@ -108,5 +110,9 @@ export class HomePagePage implements OnInit {
    */
   getAddressInOneLine(t) {
     return `${t.street}, ${t.city}, ${t.province}, ${t.postal}`;
+  }
+
+  confirmBooking(){
+
   }
 }
