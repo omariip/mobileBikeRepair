@@ -22,7 +22,7 @@
     "@angular/router": "~13.2.2",
     "@capacitor/android": "4.3.0",
     "@capacitor/app": "4.0.1",
-    "@capacitor/camera": "4.1.2",
+    "@capacitor/camera": "^4.1.2",
     "@capacitor/core": "4.3.0",
     "@capacitor/haptics": "4.0.1",
     "@capacitor/ios": "4.3.0",
