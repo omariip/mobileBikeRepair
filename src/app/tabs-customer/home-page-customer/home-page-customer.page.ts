@@ -10,7 +10,7 @@ import { format, parseISO } from 'date-fns';
 import { getDownloadURL, ref, Storage, uploadString } from '@angular/fire/storage';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 
-export class booking {
+export class Booking {
   bookingService: string = "";
   bookingDescription: string = "";
   bookingImage: string = "";
@@ -33,7 +33,7 @@ export class HomePagePage implements OnInit {
   showPicker = false;
   currentDate = (new Date()).toISOString();
 
-  bookingDetails = new booking();
+  bookingDetails = new Booking();
   image;
   displayImage = "";
 
@@ -193,7 +193,10 @@ export class HomePagePage implements OnInit {
 
         this.loading.dismiss();
         this.presentToast("Request sent successfully", "success");
-        this.bookingModal.dismiss('book');
+        this.bookingDetails = new Booking();
+        this.image = "";
+        this.displayImage = "";
+        await this.bookingModal.dismiss('book');
       } catch (e) {
         this.loading.dismiss();
         this.presentToast("Something went wrong, please try again", "danger");
