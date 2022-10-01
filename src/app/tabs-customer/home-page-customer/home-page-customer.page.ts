@@ -25,7 +25,7 @@ export class Booking {
 export class HomePagePage implements OnInit {
 
   @ViewChild('modal2') bookingModal: IonModal;
-  
+
   distance;
   currentUserDetails;
   technicians = [];
@@ -34,7 +34,7 @@ export class HomePagePage implements OnInit {
   currentDate = (new Date()).toISOString();
 
   bookingDetails = new Booking();
-  image;
+  image = null;
   displayImage = "";
 
   loading = null;
@@ -144,8 +144,8 @@ export class HomePagePage implements OnInit {
       console.log(e);
     })
 
-    if(this.image){
-      this.displayImage = "data:image/jpeg;base64,"+this.image.base64String;
+    if (this.image) {
+      this.displayImage = "data:image/jpeg;base64," + this.image.base64String;
     }
   }
 
@@ -201,6 +201,9 @@ export class HomePagePage implements OnInit {
         this.loading.dismiss();
         this.presentToast("Something went wrong, please try again", "danger");
       }
+    } else {
+      this.loading.dismiss();
+      this.presentToast("Something went wrong, please try again", "danger");
     }
   }
 
@@ -208,7 +211,7 @@ export class HomePagePage implements OnInit {
    * A function that shows a loading screen
    * @param message message to display
    */
-   async showLoading(message) {
+  async showLoading(message) {
     this.loading = await this.loadingCtrl.create({
       message: message,
     })
@@ -220,7 +223,7 @@ export class HomePagePage implements OnInit {
     * @param message the message to be displayed
     * @param status  the ionic color to be set on the toast
     */
-   async presentToast(message, color) {
+  async presentToast(message, color) {
     const toast = await this.toastController.create({
       message: message,
       duration: 1500,

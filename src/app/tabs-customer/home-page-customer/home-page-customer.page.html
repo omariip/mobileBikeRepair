@@ -92,7 +92,10 @@
               </ion-buttons>
               <ion-title>Book Appointment</ion-title>
               <ion-buttons slot="end">
-                <ion-button (click)="confirmBooking(i)" [strong]="true">Book</ion-button>
+                <ion-button (click)="confirmBooking(i)" 
+                [strong]="true" 
+                [disabled]='bookingDetails.bookingService === "" || bookingDetails.bookingDescription === "" || bookingDetails.bookingDate === "" || image === null'
+                >Book</ion-button>
               </ion-buttons>
             </ion-toolbar>
           </ion-header>
