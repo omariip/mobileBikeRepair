@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { CurrentUserService } from 'src/app/services/current-user.service';
-import { addDoc, Firestore } from '@angular/fire/firestore';
+import { addDoc, arrayUnion, Firestore, setDoc, updateDoc } from '@angular/fire/firestore';
 import { collection, doc, getDoc, getDocs, query, where, limit } from 'firebase/firestore';
 import { GoogleDistanceService } from 'src/app/services/google-distance.service';
-import { LoadingController } from '@ionic/angular';
+import { IonModal, LoadingController, ToastController } from '@ionic/angular';
 import { format, parseISO } from 'date-fns';
+import { getDownloadURL, ref, Storage, uploadString } from '@angular/fire/storage';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 
 export class booking {
   bookingService: string = "";
@@ -22,14 +24,20 @@ export class booking {
 })
 export class HomePagePage implements OnInit {
 
+  @ViewChild('modal2') bookingModal: IonModal;
+  
   distance;
   currentUserDetails;
   technicians = [];
-  techniciansFiltered = []; 
+  techniciansFiltered = [];
   showPicker = false;
   currentDate = (new Date()).toISOString();
 
   bookingDetails = new booking();
+  image;
+  displayImage = "";
+
+  loading = null;
 
   constructor(
     private auth: Auth,
@@ -37,8 +45,11 @@ export class HomePagePage implements OnInit {
     private service: CurrentUserService,
     private firestore: Firestore,
     private distanceService: GoogleDistanceService,
-    private loadingController: LoadingController
-  ) { 
+    private loadingController: LoadingController,
+    private storage: Storage,
+    private loadingCtrl: LoadingController,
+    private toastController: ToastController,
+  ) {
   }
 
   /**
@@ -96,7 +107,7 @@ export class HomePagePage implements OnInit {
     this.techniciansFiltered = this.technicians.slice();
 
     for (var i = 0; i < this.techniciansFiltered.length; i++) {
-      if ((this.techniciansFiltered[i].distance)/1000 > km) {
+      if ((this.techniciansFiltered[i].distance) / 1000 > km) {
         this.techniciansFiltered.splice(i, 1);
         i--;
       }
@@ -123,15 +134,95 @@ export class HomePagePage implements OnInit {
     return `${t.street}, ${t.city}, ${t.province}, ${t.postal}`;
   }
 
-  async confirmBooking(index){
-    const focRef = await addDoc(collection(this.firestore, "appointments"), {
+  async uploadImage() {
+    this.image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Prompt
+    }).catch((e) => {
+      console.log(e);
+    })
+
+    if(this.image){
+      this.displayImage = "data:image/jpeg;base64,"+this.image.base64String;
+    }
+  }
+
+  async confirmBooking(index) {
+    await this.showLoading("Sending booking request...");
+    const docRef = await addDoc(collection(this.firestore, "appointments"), {
       appointmentStatus: "pending",
       appointmentTitle: this.bookingDetails.bookingService,
       appointmentDescription: this.bookingDetails.bookingDescription,
-      appointmentImage: this.bookingDetails.bookingImage,
       appointmentDate: this.bookingDetails.bookingDate,
       customerId: this.currentUserDetails.userId,
       technicianId: this.techniciansFiltered[index].technicianId
     });
+
+    if (this.image) {
+      const path = `uploads/${docRef.id}/bikeImage.png`;
+      const storageRef = ref(this.storage, path);
+
+      try {
+        await uploadString(storageRef, this.image.base64String, 'base64').catch((e) => {
+          console.log(e);
+        })
+
+        const imageUrl = await getDownloadURL(storageRef).catch((e) => {
+          console.log(e);
+        });
+
+        await updateDoc(docRef, {
+          appointmentImage: imageUrl
+        }).catch((e) => {
+          console.log(e);
+        });
+
+        const customerDocRef = doc(this.firestore, `customer/${this.currentUserDetails.userId}`);
+        await updateDoc(customerDocRef, {
+          appointmentsReference: arrayUnion(docRef.id)
+        }).catch((e) => {
+          console.log(e);
+        });
+
+        const technicianDocRef = doc(this.firestore, `technician/${this.techniciansFiltered[index].technicianId}`);
+        await updateDoc(technicianDocRef, {
+          appointmentsReference: arrayUnion(docRef.id)
+        });
+
+        this.loading.dismiss();
+        this.presentToast("Request sent successfully", "success");
+        this.bookingModal.dismiss('book');
+      } catch (e) {
+        this.loading.dismiss();
+        this.presentToast("Something went wrong, please try again", "danger");
+      }
+    }
+  }
+
+  /**
+   * A function that shows a loading screen
+   * @param message message to display
+   */
+   async showLoading(message) {
+    this.loading = await this.loadingCtrl.create({
+      message: message,
+    })
+    this.loading.present();
+  }
+
+  /**
+    * A method to present toasts
+    * @param message the message to be displayed
+    * @param status  the ionic color to be set on the toast
+    */
+   async presentToast(message, color) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 1500,
+      color: color
+    })
+    await toast.present();
   }
 }
