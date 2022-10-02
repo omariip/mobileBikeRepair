@@ -17,8 +17,8 @@ const routes: Routes = [
         loadChildren: ()=>import('./profile-page-customer/profile-page-customer.module').then(m=>m.ProfilePageCustomerPageModule)
       },
       {
-        path: 'settings',
-        loadChildren: ()=>import('./settings-page-customer/settings-page-customer.module').then(m=>m.SettingsPageCustomerPageModule)
+        path: 'appointments',
+        loadChildren: ()=>import('./appointments-page-customer/appointments-page-customer.module').then(m=>m.AppointmentsPageCustomerPageModule)
       },
       {
         path: '',
