@@ -4,18 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ProfilePageCustomerPageRoutingModule } from './profile-page-customer-routing.module';
+import { SettingsPageCustomerPageRoutingModule } from './settings-page-customer-routing.module';
 
-import { ProfilePageCustomerPage } from './profile-page-customer.page';
+import { SettingsPageCustomerPage } from './settings-page-customer.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ProfilePageCustomerPageRoutingModule,
+    SettingsPageCustomerPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [ProfilePageCustomerPage]
+  declarations: [SettingsPageCustomerPage]
 })
-export class ProfilePageCustomerPageModule {}
+export class SettingsPageCustomerPageModule {}

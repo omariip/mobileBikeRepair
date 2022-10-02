@@ -1,6 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ProfilePageCustomerPage } from '../profile-page-customer/profile-page-customer.page';
+import { SettingsPageCustomerPage } from '../settings-page-customer/settings-page-customer.page';
 
 import { HomePagePage } from './home-page-customer.page';
 

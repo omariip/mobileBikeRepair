@@ -9,11 +9,11 @@ import { Router } from '@angular/router';
 declare var google;
 
 @Component({
-  selector: 'app-profile-page-customer',
-  templateUrl: './profile-page-customer.page.html',
-  styleUrls: ['./profile-page-customer.page.scss'],
+  selector: 'app-settings-page-customer',
+  templateUrl: './settings-page-customer.page.html',
+  styleUrls: ['./settings-page-customer.page.scss'],
 })
-export class ProfilePageCustomerPage implements OnInit {
+export class SettingsPageCustomerPage implements OnInit {
 
   @ViewChild('modal') modal: IonModal;
   @ViewChild('autocomplete', { static: false }) autocomplete: IonInput;

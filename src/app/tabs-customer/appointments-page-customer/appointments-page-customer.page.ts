@@ -16,5 +16,4 @@ export class AppointmentsPageCustomerPage implements OnInit {
   }
 
   
-
 }
