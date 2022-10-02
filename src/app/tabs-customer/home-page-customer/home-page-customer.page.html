@@ -83,17 +83,16 @@
         </ng-template>
       </ion-modal>
 
-      <ion-modal #modal2 trigger="{{'open-modal2' + i}}" [presentingElement]="presentingElement">
+      <ion-modal #modal2 trigger="{{'open-modal2' + i}}" [presentingElement]="presentingElement" class="modal2">
         <ng-template>
           <ion-header>
             <ion-toolbar>
+              <ion-title>Book Appointment</ion-title>
               <ion-buttons slot="start">
                 <ion-button (click)="modal2.dismiss()">Cancel</ion-button>
               </ion-buttons>
-              <ion-title>Book Appointment</ion-title>
               <ion-buttons slot="end">
                 <ion-button (click)="confirmBooking(i)" 
-                [strong]="true" 
                 [disabled]='bookingDetails.bookingService === "" || bookingDetails.bookingDescription === "" || bookingDetails.bookingDate === "" || image === null'
                 >Book</ion-button>
               </ion-buttons>
@@ -113,29 +112,32 @@
               <ion-item lines="none">
                 <ion-label class="labels ion-text-wrap">Upload an Image of your Bike</ion-label>
               </ion-item>
-              <ion-item lines="none">
+              <ion-item >
                 <ion-button (click)="uploadImage()">Select</ion-button>
+                <ion-item *ngIf="image" lines="none">
+                  <img [src]="displayImage" class="displayImg">
+                </ion-item>
               </ion-item>
-              <ion-item *ngIf="image">
-                <img [src]="displayImage" class="displayImg">
-              </ion-item>
+              
               <ion-item lines="none" id="picker">
-                <ion-label class="labels">Pick Date and Time</ion-label><br>
-                <ion-label>{{bookingDetails.bookingDate | date: 'short'}}</ion-label>
+                <ion-label class="labels">Pick Date and Time</ion-label>
                 <ion-icon name="calendar" slot="end"></ion-icon>
               </ion-item>
               <ion-item>
-                <ion-modal trigger="picker" class="dateModal">
-                  <ng-template>
-                    <ion-content>
-                      <ion-datetime min="{{currentDate}}" [(ngModel)]="bookingDetails.bookingDate"
-                        showDefaultButtons="true" size="cover">
-                      </ion-datetime>
-                    </ion-content>
-                  </ng-template>
-                </ion-modal>
+                <ion-label>{{bookingDetails.bookingDate | date: 'short'}}</ion-label>
               </ion-item>
             </ion-list>
+            <ion-item lines="none">
+              <ion-modal trigger="picker" class="dateModal" mode="md">
+                <ng-template>
+                  <ion-content>
+                    <ion-datetime min="{{currentDate}}" [(ngModel)]="bookingDetails.bookingDate"
+                      showDefaultButtons="true" size="cover">
+                    </ion-datetime>
+                  </ion-content>
+                </ng-template>
+              </ion-modal>
+            </ion-item>
           </ion-content>
         </ng-template>
       </ion-modal>

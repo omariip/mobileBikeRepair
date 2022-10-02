@@ -50,9 +50,10 @@ ion-card-content {
     ion-content {
         --background: transparent;
 
-        --padding-top: 25vh;
-        --padding-start: 20px;
-        --padding-end: 20px;
+        --padding-top: 50%;
+        //--padding-bottom: 10vh;
+        // --padding-start: 20px;
+        // --padding-end: 20px;
         --background: transparent;
 
         ion-datetime {
@@ -67,3 +68,25 @@ ion-card-content {
     border-radius: 10px;
     margin-bottom: 20px;
 }
+
+// ion-modal {
+//     --height: 70vh;
+//     --border-radius: 16px;
+//     --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+// }
+
+//   ion-modal::part(backdrop) {
+//     background: rgba(209, 213, 219);
+//     opacity: 1;
+//   }
+
+// ion-modal ion-toolbar {
+//     --background: rgb(14 116 144);
+//     --color: white;
+// }
+
+// .bookButton {
+//     color:white;
+//     background-color: seagreen;
+//     border-radius: 5px;
+// }
