@@ -4,6 +4,8 @@ import { arrayRemove, doc, Firestore, setDoc, updateDoc } from '@angular/fire/fi
 import { IonModal, AlertController, ToastController, IonInput, LoadingController } from '@ionic/angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { findAddressNumber, findStreet, findCity, findState, findZipCode } from 'src/utils/address-utils';
+import { Auth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 declare var google;
 
 @Component({
@@ -26,7 +28,9 @@ export class ProfilePageCustomerPage implements OnInit {
     private alertController: AlertController,
     private toastController: ToastController,
     private formBuilder: FormBuilder,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private auth: Auth,
+    private router: Router
   ) { }
 
   registrationForm = this.formBuilder.group({
@@ -133,6 +137,14 @@ export class ProfilePageCustomerPage implements OnInit {
         })
       })
     }, 500)
+  }
+
+  /**
+   * Signs out the customer
+   */
+   signOut() {
+    this.auth.signOut();
+    this.router.navigateByUrl('/home', { replaceUrl: true });
   }
 
   /**

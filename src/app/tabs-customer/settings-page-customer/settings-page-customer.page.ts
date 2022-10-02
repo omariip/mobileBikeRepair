@@ -10,18 +10,11 @@ import { Router } from '@angular/router';
 export class SettingsPageCustomerPage implements OnInit {
 
   constructor(
-    private auth: Auth,
-    private router: Router,) { }
+    ) { }
 
   ngOnInit() {
   }
 
-  /**
-   * Signs out the customer
-   */
-   signOut() {
-    this.auth.signOut();
-    this.router.navigateByUrl('/home', { replaceUrl: true });
-  }
+  
 
 }
