@@ -156,6 +156,9 @@ export class HomePagePage implements OnInit {
       appointmentTitle: this.bookingDetails.bookingService,
       appointmentDescription: this.bookingDetails.bookingDescription,
       appointmentDate: this.bookingDetails.bookingDate,
+      // appointmentAddress: this.currentUserDetails.userAddress,
+      // customerName: this.currentUserDetails.userName,
+      // technicianName: this.techniciansFiltered[index].technicianName,
       customerId: this.currentUserDetails.userId,
       technicianId: this.techniciansFiltered[index].technicianId
     });
