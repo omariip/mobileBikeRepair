@@ -12,8 +12,7 @@ import { CurrentUserService } from 'src/app/services/current-user.service';
 export class AppointmentsPageCustomerPage implements OnInit {
 
   customerInfo = null;
-  appointmentsIds = [];
-  appointments = [];
+  appointments = null;
   displayImage = false;
 
   constructor(
@@ -22,7 +21,7 @@ export class AppointmentsPageCustomerPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-
+    console.log(this.appointments)
     this.getData();
   }
 
@@ -31,24 +30,20 @@ export class AppointmentsPageCustomerPage implements OnInit {
       console.log(data);
       this.customerInfo = data;
     });
-    this.appointmentsIds = this.customerInfo.appointmentsReference;
-    console.log(this.appointments);
-    for (let i = 0; i < this.appointmentsIds.length; i++) {
-      const docRef = doc(this.firestore, "appointments", this.appointmentsIds[i]);
-      const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        this.appointments.push(docSnap.data());
-      }
+    this.appointments = this.customerInfo.appointments;
+    if (this.appointments !== null && this.appointments !== undefined && this.appointments.length !== 0) {
+
+      this.sortAppointments();
     }
-
-    this.sortAppointments();
   }
 
   async sortAppointments() {
 
     await this.appointments.sort((a, b) => a.appointmentDate > b.appointmentDate ? 1 : -1);
+    console.log(this.appointments);
   }
+
   async doRefresh(event) {
     this.appointments = [];
     await this.getData();

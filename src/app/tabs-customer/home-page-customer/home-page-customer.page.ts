@@ -9,6 +9,7 @@ import { IonModal, LoadingController, ToastController } from '@ionic/angular';
 import { format, parseISO } from 'date-fns';
 import { getDownloadURL, ref, Storage, uploadString } from '@angular/fire/storage';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { v4 as uuidv4 } from 'uuid';
 
 export class Booking {
   bookingService: string = "";
@@ -36,6 +37,8 @@ export class HomePagePage implements OnInit {
   bookingDetails = new Booking();
   image = null;
   displayImage = "";
+
+  imageUrl: any;
 
   loading = null;
 
@@ -144,70 +147,78 @@ export class HomePagePage implements OnInit {
       console.log(e);
     })
 
-    if (this.image) {
+    console.log(this.image)
+    if (this.image !== null && this.image !== undefined) {
       this.displayImage = "data:image/jpeg;base64," + this.image.base64String;
+    } else {
+      this.image = null;
     }
   }
 
   async confirmBooking(index) {
+
     await this.showLoading("Sending booking request...");
-    const docRef = await addDoc(collection(this.firestore, "appointments"), {
-      appointmentStatus: "pending",
-      appointmentTitle: this.bookingDetails.bookingService,
-      appointmentDescription: this.bookingDetails.bookingDescription,
-      appointmentDate: this.bookingDetails.bookingDate,
-      // appointmentAddress: this.currentUserDetails.userAddress,
-      // customerName: this.currentUserDetails.userName,
-      // technicianName: this.techniciansFiltered[index].technicianName,
-      customerId: this.currentUserDetails.userId,
-      technicianId: this.techniciansFiltered[index].technicianId
-    });
 
-    if (this.image) {
-      const path = `uploads/${docRef.id}/bikeImage.png`;
-      const storageRef = ref(this.storage, path);
+    const path = `bikeImages/${uuidv4()}`;
+    const storageRef = ref(this.storage, path);
 
-      try {
-        await uploadString(storageRef, this.image.base64String, 'base64').catch((e) => {
-          console.log(e);
-        })
+    try {
+      await uploadString(storageRef, this.image.base64String, 'base64').catch((e) => {
+        console.log(e);
+      })
 
-        const imageUrl = await getDownloadURL(storageRef).catch((e) => {
-          console.log(e);
-        });
+      this.imageUrl = await getDownloadURL(storageRef).catch((e) => {
+        console.log(e);
+      });
 
-        await updateDoc(docRef, {
-          appointmentImage: imageUrl
-        }).catch((e) => {
-          console.log(e);
-        });
-
-        const customerDocRef = doc(this.firestore, `customer/${this.currentUserDetails.userId}`);
-        await updateDoc(customerDocRef, {
-          appointmentsReference: arrayUnion(docRef.id)
-        }).catch((e) => {
-          console.log(e);
-        });
-
-        const technicianDocRef = doc(this.firestore, `technician/${this.techniciansFiltered[index].technicianId}`);
-        await updateDoc(technicianDocRef, {
-          appointmentsReference: arrayUnion(docRef.id)
-        });
-
-        this.loading.dismiss();
-        this.presentToast("Request sent successfully", "success");
-        this.bookingDetails = new Booking();
-        this.image = "";
-        this.displayImage = "";
-        await this.bookingModal.dismiss('book');
-      } catch (e) {
-        this.loading.dismiss();
-        this.presentToast("Something went wrong, please try again", "danger");
-      }
-    } else {
+    } catch (e) {
       this.loading.dismiss();
       this.presentToast("Something went wrong, please try again", "danger");
     }
+
+    const customerRef = doc(this.firestore, "customer", this.currentUserDetails.userId);
+    const technicianRef = doc(this.firestore, "technician", this.techniciansFiltered[index].technicianId);
+
+    await updateDoc(customerRef, {
+      appointments: arrayUnion({
+        appointmentStatus: "pending",
+        appointmentTitle: this.bookingDetails.bookingService,
+        appointmentDescription: this.bookingDetails.bookingDescription,
+        appointmentDate: this.bookingDetails.bookingDate,
+        appointmentImage: this.imageUrl,
+        technician: {
+          technicianId: this.techniciansFiltered[index].technicianId,
+          technicianEmail: this.techniciansFiltered[index].technicianEmail,
+          technicianName: this.techniciansFiltered[index].technicianName,
+          technicianPhone: this.techniciansFiltered[index].technicianPhone,
+          technicianAddress: this.techniciansFiltered[index].technicianAddress
+        }
+      })
+    });
+
+    await updateDoc(technicianRef, {
+      appointments: arrayUnion({
+        appointmentStatus: "pending",
+        appointmentTitle: this.bookingDetails.bookingService,
+        appointmentDescription: this.bookingDetails.bookingDescription,
+        appointmentDate: this.bookingDetails.bookingDate,
+        appointmentImage: this.imageUrl,
+        customer: {
+          userId: this.currentUserDetails.userId,
+          userName: this.currentUserDetails.userName,
+          userEmail: this.currentUserDetails.userEmail,
+          userPhone: this.currentUserDetails.userPhone,
+          userAddress: this.currentUserDetails.userAddress
+        }
+      })
+    });
+
+    await this.bookingModal.dismiss('book');
+    this.loading.dismiss();
+    this.presentToast("Request sent successfully", "success");
+    this.bookingDetails = new Booking();
+    this.image = "";
+    this.displayImage = "";
   }
 
   /**

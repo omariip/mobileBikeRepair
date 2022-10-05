@@ -6,39 +6,53 @@
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-            <ion-card *ngFor="let app of appointments; index as i">
-                <img src="{{app.appointmentImage}}">
-                <ion-card-header>
-                    <ion-card-subtitle>{{app.appointmentDate | date: 'MMM d, y, h:mm a'}}</ion-card-subtitle>
-                    <ion-card-title>{{app.appointmentTitle}}</ion-card-title>
-                </ion-card-header>
+    <div *ngIf="appointments !== null && appointments !== undefined && appointments?.length !== 0; else noAppointments">
+        <ion-card *ngFor="let app of appointments; index as i">
+            <img src="{{app.appointmentImage}}">
+            <ion-card-header>
+                <ion-card-subtitle>{{app.appointmentDate | date: 'MMM d, y, h:mm a'}}</ion-card-subtitle>
+                <ion-card-title>{{app.appointmentTitle}}</ion-card-title>
+            </ion-card-header>
 
-                <ion-card-content>
-                    <ion-item>
-                        <ion-icon name="document-text-outline" class="ion-icon-listing"></ion-icon>
-                        <ion-label class="ion-item-listing ion-text-wrap">{{app.appointmentDescription}}</ion-label>
-                    </ion-item>
-                    <ion-item>
-                        <ion-icon name="person-circle-outline" class="ion-icon-listing"></ion-icon>
-                        <ion-label class="ion-item-listing ion-text-wrap">{{app.customerId}}</ion-label>
-                    </ion-item>
-                    <ion-item>
-                        <ion-icon name="construct-outline" class="ion-icon-listing"></ion-icon>
-                        <ion-label class="ion-item-listing ion-text-wrap">{{app.technicianId}}</ion-label>
-                    </ion-item>
-                    <ion-item *ngIf='app.appointmentStatus === "pending"'>
-                        <ion-icon name="time" class="ion-icon-listing"></ion-icon>
-                        <ion-label class="ion-item-listing ion-text-wrap" color="">Status: {{app.appointmentStatus}}
-                            approval</ion-label>
-                    </ion-item>
-                    <ion-item >
-                        <ion-icon name="checkmark-circle" class="ion-icon-listing-nocolor" color="success"></ion-icon>
-                        <ion-label class="ion-item-listing ion-text-wrap">Status: {{app.appointmentStatus}}</ion-label>
-                    </ion-item>
-                    <ion-item>
-                        <ion-icon name="close-circle" class="ion-icon-listing-nocolor" color="danger"></ion-icon>
-                        <ion-label class="ion-item-listing ion-text-wrap">Status: {{app.appointmentStatus}}</ion-label>
-                    </ion-item>
-                </ion-card-content>
-            </ion-card>
+            <ion-card-content>
+                <ion-item>
+                    <ion-icon name="document-text-outline" class="ion-icon-listing"></ion-icon>
+                    <ion-label class="ion-item-listing ion-text-wrap">{{app.appointmentDescription}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-icon name="person-circle-outline" class="ion-icon-listing"></ion-icon>
+                    <ion-label class="ion-item-listing ion-text-wrap">{{app.technician.technicianName}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-icon name="mail-outline" class="ion-icon-listing"></ion-icon>
+                    <ion-label class="ion-item-listing ion-text-wrap">{{app.technician.technicianEmail}}</ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-icon name="call-outline" class="ion-icon-listing"></ion-icon>
+                    <ion-label class="ion-item-listing ion-text-wrap">{{app.technician.technicianPhone}}</ion-label>
+                </ion-item>
+                <ion-item *ngIf='app.appointmentStatus === "pending"' lines="none">
+                    <ion-icon name="time" class="ion-icon-listing"></ion-icon>
+                    <ion-label class="ion-item-listing ion-text-wrap" color="">Status: {{app.appointmentStatus}}
+                        approval</ion-label>
+                </ion-item>
+                <ion-item *ngIf='app.appointmentStatus === "approved"' lines="none">
+                    <ion-icon name="checkmark-circle" class="ion-icon-listing-nocolor" color="success"></ion-icon>
+                    <ion-label class="ion-item-listing ion-text-wrap">Status: {{app.appointmentStatus}}</ion-label>
+                </ion-item>
+                <ion-item *ngIf='app.appointmentStatus === "declined"' lines="none">
+                    <ion-icon name="close-circle" class="ion-icon-listing-nocolor" color="danger"></ion-icon>
+                    <ion-label class="ion-item-listing ion-text-wrap">Status: {{app.appointmentStatus}}</ion-label>
+                </ion-item>
+            </ion-card-content>
+        </ion-card>
+    </div>
+
+    <ng-template #noAppointments>
+        <ion-card color="danger">
+            <ion-card-content class="ion-text-center">
+                You haven't booked any appointments yet
+            </ion-card-content>
+        </ion-card>
+    </ng-template>
 </ion-content>
