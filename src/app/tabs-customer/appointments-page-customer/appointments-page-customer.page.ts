@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { collection, doc, Firestore, getDoc, getDocs, query } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 import { CurrentUserService } from 'src/app/services/current-user.service';
 
 @Component({
@@ -14,10 +15,12 @@ export class AppointmentsPageCustomerPage implements OnInit {
   customerInfo = null;
   appointments = null;
   displayImage = false;
+  loading = null;
 
   constructor(
     private currentUser: CurrentUserService,
     private firestore: Firestore,
+    private loadingCtrl: LoadingController
   ) { }
 
   async ngOnInit() {
@@ -26,6 +29,7 @@ export class AppointmentsPageCustomerPage implements OnInit {
   }
 
   async getData() {
+    this.showLoading("Loading appointments...");
     await this.currentUser.getCurrentUserDetails().then(data => {
       console.log(data);
       this.customerInfo = data;
@@ -36,6 +40,7 @@ export class AppointmentsPageCustomerPage implements OnInit {
 
       this.sortAppointments();
     }
+    this.loading.dismiss();
   }
 
   async sortAppointments() {
@@ -48,5 +53,16 @@ export class AppointmentsPageCustomerPage implements OnInit {
     this.appointments = [];
     await this.getData();
     event.target.complete();
+  }
+
+  /**
+   * A function that shows a loading screen
+   * @param message message to display
+   */
+  async showLoading(message) {
+    this.loading = await this.loadingCtrl.create({
+      message: message,
+    })
+    this.loading.present();
   }
 }
