@@ -25,28 +25,63 @@
                 </ion-item>
                 <ion-item>
                     <ion-icon name="mail-outline" class="ion-icon-listing"></ion-icon>
-                    <ion-label class="ion-item-listing ion-text-wrap"><a href="mailto:{{app.technician.technicianEmail}}">{{app.technician.technicianEmail}}</a></ion-label>
+                    <ion-label class="ion-item-listing ion-text-wrap"><a
+                            href="mailto:{{app.technician.technicianEmail}}">{{app.technician.technicianEmail}}</a>
+                    </ion-label>
                 </ion-item>
                 <ion-item>
                     <ion-icon name="call-outline" class="ion-icon-listing"></ion-icon>
-                    <ion-label class="ion-item-listing ion-text-wrap"><a href="tel:{{app.technician.technicianPhone}}">{{app.technician.technicianPhone}}</a></ion-label>
+                    <ion-label class="ion-item-listing ion-text-wrap"><a
+                            href="tel:{{app.technician.technicianPhone}}">{{app.technician.technicianPhone}}</a>
+                    </ion-label>
                 </ion-item>
-                
+
                 <ion-item *ngIf='app.appointmentStatus === "pending"' lines="none">
+                    <ion-icon name="help-circle-outline" slot="end" class="ion-icon-listing" id="popoverPending{{i}}">
+                    </ion-icon>
                     <ion-icon name="time" class="ion-icon-listing"></ion-icon>
                     <ion-label class="ion-item-listing ion-text-wrap" color="">Status: {{app.appointmentStatus}}
                         approval</ion-label>
+
+                    <ion-popover trigger="popoverPending{{i}}" triggerAction="click" side="top">
+                        <ng-template>
+                            <ion-content class="ion-padding">
+                                appointment is awaitng confirmation from the technician
+                            </ion-content>
+                        </ng-template>
+                    </ion-popover>
                 </ion-item>
-                <ion-item *ngIf='app.appointmentStatus === "approved"' lines="none">
+
+                <ion-item lines="none" *ngIf='app.appointmentStatus === "approved"'>
+                    <ion-icon name="help-circle-outline" slot="end" class="ion-icon-listing" id="popoverApproved{{i}}"></ion-icon>
                     <ion-icon name="checkmark-circle" class="ion-icon-listing-nocolor" color="success"></ion-icon>
                     <ion-label class="ion-item-listing ion-text-wrap">Status: {{app.appointmentStatus}}</ion-label>
+
+                    <ion-popover trigger="popoverApproved{{i}}" triggerAction="click" side="top">
+                        <ng-template>
+                            <ion-content class="ion-padding">
+                                the technician has approved your appointment
+                            </ion-content>
+                        </ng-template>
+                    </ion-popover>
                 </ion-item>
-                <ion-item *ngIf='app.appointmentStatus === "declined"' lines="none">
-                    <ion-icon name="close-circle" class="ion-icon-listing-nocolor" color="danger"></ion-icon>
+
+                <ion-item *ngIf='app.appointmentStatus === "declined"' lines="none" >
+                    <ion-icon name="help-circle-outline" slot="end" class="ion-icon-listing" id="popoverDeclined{{i}}"></ion-icon>
+                    <ion-icon name="close-circle" class="ion-icon-listing-nocolor" color="danger" slot="start"></ion-icon>
                     <ion-label class="ion-item-listing ion-text-wrap">Status: {{app.appointmentStatus}}</ion-label>
+
+                    <ion-popover trigger="popoverDeclined{{i}}" triggerAction="click" side="top">
+                        <ng-template>
+                            <ion-content class="ion-padding">
+                                the technician has declined your appointment, contact them to re-book
+                            </ion-content>
+                        </ng-template>
+                    </ion-popover>
                 </ion-item>
             </ion-card-content>
         </ion-card>
+
     </div>
 
     <ng-template #noAppointments>
