@@ -25,12 +25,13 @@
                 </ion-item>
                 <ion-item>
                     <ion-icon name="mail-outline" class="ion-icon-listing"></ion-icon>
-                    <ion-label class="ion-item-listing ion-text-wrap">{{app.technician.technicianEmail}}</ion-label>
+                    <ion-label class="ion-item-listing ion-text-wrap"><a href="mailto:{{app.technician.technicianEmail}}">{{app.technician.technicianEmail}}</a></ion-label>
                 </ion-item>
                 <ion-item>
                     <ion-icon name="call-outline" class="ion-icon-listing"></ion-icon>
-                    <ion-label class="ion-item-listing ion-text-wrap">{{app.technician.technicianPhone}}</ion-label>
+                    <ion-label class="ion-item-listing ion-text-wrap"><a href="tel:{{app.technician.technicianPhone}}">{{app.technician.technicianPhone}}</a></ion-label>
                 </ion-item>
+                
                 <ion-item *ngIf='app.appointmentStatus === "pending"' lines="none">
                     <ion-icon name="time" class="ion-icon-listing"></ion-icon>
                     <ion-label class="ion-item-listing ion-text-wrap" color="">Status: {{app.appointmentStatus}}

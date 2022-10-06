@@ -44,9 +44,9 @@ export class AppointmentsPageCustomerPage implements OnInit {
   }
 
   async sortAppointments() {
-
+    this.loading.dismiss();
     await this.appointments.sort((a, b) => a.appointmentDate > b.appointmentDate ? 1 : -1);
-    console.log(this.appointments);
+    
   }
 
   async doRefresh(event) {
