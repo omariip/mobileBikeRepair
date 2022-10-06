@@ -10,8 +10,13 @@
         <ion-card *ngFor="let app of appointments; index as i">
             <img src="{{app.appointmentImage}}">
             <ion-card-header>
-                <ion-card-subtitle>{{app.appointmentDate | date: 'MMM d, y, h:mm a'}}</ion-card-subtitle>
-                <ion-card-title>{{app.appointmentTitle}}</ion-card-title>
+                <ion-item lines="none">
+                    <ion-icon name="ellipsis-vertical-outline" slot="end"></ion-icon>
+
+                    <ion-card-subtitle >{{app.appointmentDate | date: 'MMM d, y, h:mm a'}}</ion-card-subtitle>
+                </ion-item>
+                <ion-card-title class="cardTitle"> {{app.appointmentTitle}} </ion-card-title>
+
             </ion-card-header>
 
             <ion-card-content>
@@ -53,7 +58,8 @@
                 </ion-item>
 
                 <ion-item lines="none" *ngIf='app.appointmentStatus === "approved"'>
-                    <ion-icon name="help-circle-outline" slot="end" class="ion-icon-listing" id="popoverApproved{{i}}"></ion-icon>
+                    <ion-icon name="help-circle-outline" slot="end" class="ion-icon-listing" id="popoverApproved{{i}}">
+                    </ion-icon>
                     <ion-icon name="checkmark-circle" class="ion-icon-listing-nocolor" color="success"></ion-icon>
                     <ion-label class="ion-item-listing ion-text-wrap">Status: {{app.appointmentStatus}}</ion-label>
 
@@ -66,9 +72,11 @@
                     </ion-popover>
                 </ion-item>
 
-                <ion-item *ngIf='app.appointmentStatus === "declined"' lines="none" >
-                    <ion-icon name="help-circle-outline" slot="end" class="ion-icon-listing" id="popoverDeclined{{i}}"></ion-icon>
-                    <ion-icon name="close-circle" class="ion-icon-listing-nocolor" color="danger" slot="start"></ion-icon>
+                <ion-item *ngIf='app.appointmentStatus === "declined"' lines="none">
+                    <ion-icon name="help-circle-outline" slot="end" class="ion-icon-listing" id="popoverDeclined{{i}}">
+                    </ion-icon>
+                    <ion-icon name="close-circle" class="ion-icon-listing-nocolor" color="danger" slot="start">
+                    </ion-icon>
                     <ion-label class="ion-item-listing ion-text-wrap">Status: {{app.appointmentStatus}}</ion-label>
 
                     <ion-popover trigger="popoverDeclined{{i}}" triggerAction="click" side="top">
