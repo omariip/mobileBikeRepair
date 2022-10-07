@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth/auth-guard.service';
 import { canActivate, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import { RememberSignInGuard } from './guards/remember-sign-in.guard';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['sign-in']);
-//const redirectLoggedInCustomerToHome = () => redirectLoggedInTo(['home-page-customer']);
+//const redirectLoggedInCustomerToHome = () => redirectLoggedInTo(['customer']);
 //const redirectLoggedInTechnicianToHome = () => redirectLoggedInTo(['home-page-technician']);
 
 const routes: Routes = [
@@ -30,7 +31,8 @@ const routes: Routes = [
   {
     path: 'sign-in',
     loadChildren: () => import('./sign-in/sign-in.module').then( m => m.SignInPageModule),
-    //...canActivate(redirectLoggedInToHome)
+    //...canActivate(redirectLoggedInCustomerToHome)
+    canActivate: [RememberSignInGuard]
   },
   {
     path: 'customer',
@@ -41,7 +43,7 @@ const routes: Routes = [
     path: 'technician',
     loadChildren: () => import('./tabs-technician/tabs-technician.module').then( m => m.TabsTechnicianPageModule),
     ...canActivate(redirectUnauthorizedToLogin),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   }
   // {
   //   path: 'profile-page-customer',

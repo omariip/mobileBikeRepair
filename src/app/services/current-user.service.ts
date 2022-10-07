@@ -25,29 +25,34 @@ export class CurrentUserService {
    */
   async getCurrentUserType() {
     return new Promise((resolve, reject) => {
+      if (!this.auth.currentUser) {
+        reject(null);
+      } else {
 
-      this.auth.onAuthStateChanged(async (user) => {
-        if (user) {
-          let docRef = await doc(this.firestore, "customer", this.auth.currentUser.uid);
-          let docSnap = await getDoc(docRef);
-
-          if (docSnap.exists()) {
-            this.currentUser.next('customer');
-            console.log(this.currentUser.value);
-            resolve(this.currentUser.value);
-          } else {
-            let docRef = doc(this.firestore, "technician", this.auth.currentUser.uid);
+        this.auth.onAuthStateChanged(async (user) => {
+          if (user) {
+            let docRef = await doc(this.firestore, "customer", this.auth.currentUser.uid);
             let docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-              this.currentUser.next('technician');
+              this.currentUser.next('customer');
               console.log(this.currentUser.value);
               resolve(this.currentUser.value);
+            } else {
+              let docRef = doc(this.firestore, "technician", this.auth.currentUser.uid);
+              let docSnap = await getDoc(docRef);
+
+              if (docSnap.exists()) {
+                this.currentUser.next('technician');
+                console.log(this.currentUser.value);
+                resolve(this.currentUser.value);
+              }
             }
           }
-        }
-      })
+        })
+      }
     })
+
   }
 
   /**
