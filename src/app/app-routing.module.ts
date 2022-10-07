@@ -36,14 +36,16 @@ const routes: Routes = [
   {
     path: 'customer',
     loadChildren: () => import('./tabs-customer/tabs-customer.module').then(m => m.TabsCustomerPageModule),
-    ...canActivate(redirectUnauthorizedToLogin),
-    canActivate: [AuthGuardCustomerGuard]
+    // working, enable them in deployment
+    //...canActivate(redirectUnauthorizedToLogin),
+    //canActivate: [AuthGuardCustomerGuard]
   },
   {
     path: 'technician',
     loadChildren: () => import('./tabs-technician/tabs-technician.module').then(m => m.TabsTechnicianPageModule),
-    ...canActivate(redirectUnauthorizedToLogin),
-    canActivate: [AuthGuardTechnician]
+    // working, enable them in deployment
+    //...canActivate(redirectUnauthorizedToLogin),
+    //canActivate: [AuthGuardTechnician]
   }
   // {
   //   path: 'profile-page-customer',

@@ -25,10 +25,6 @@ export class CurrentUserService {
    */
   async getCurrentUserType() {
     return new Promise((resolve, reject) => {
-      if (!this.auth.currentUser) {
-        reject(null);
-      } else {
-
         this.auth.onAuthStateChanged(async (user) => {
           if (user) {
             let docRef = await doc(this.firestore, "customer", this.auth.currentUser.uid);
@@ -46,11 +42,11 @@ export class CurrentUserService {
                 resolve(this.currentUser.value);
               }
             }
+          } else {
+            reject(null);
           }
         })
-      }
     })
-
   }
 
   /**
