@@ -20,7 +20,7 @@ export class SettingsPageTechnicianPage implements OnInit {
   /**
    * Signs out the technician
    */
-  signOut(){
+  signOut() {
     this.auth.signOut();
     this.router.navigateByUrl('/home', { replaceUrl: true });
   }

@@ -1,5 +1,6 @@
-
-<h1><ion-title>Your Settings</ion-title></h1>  
+<h1>
+  <ion-title>Your Settings</ion-title>
+</h1>
 
 
 <ion-content>
@@ -9,7 +10,7 @@
       <ion-label>Name</ion-label>
     </ion-item>
     <ion-card-content *ngIf="customerInfo !== null">
-      <h3>{{customerInfo.userName}}</h3>  
+      <h3>{{customerInfo.userName}}</h3>
     </ion-card-content>
   </ion-card>
   <ion-card>
@@ -19,7 +20,7 @@
       <!--<ion-button fill="outline" slot="end">Edit</ion-button>-->
     </ion-item>
     <ion-card-content *ngIf="customerInfo !== null">
-      <h3>{{customerInfo.userEmail}}</h3>  
+      <h3>{{customerInfo.userEmail}}</h3>
     </ion-card-content>
   </ion-card>
   <ion-card>
@@ -30,7 +31,7 @@
     </ion-item>
 
     <ion-card-content id="editPh2" *ngIf="customerInfo !== null">
-      <h3>{{customerInfo.userPhone}}</h3>  
+      <h3>{{customerInfo.userPhone}}</h3>
     </ion-card-content>
   </ion-card>
   <ion-card>
@@ -57,7 +58,8 @@
             </ion-buttons>
             <ion-title>Edit Location</ion-title>
             <ion-buttons slot="end">
-              <ion-button (click)="confirmAddress()" [strong]="true" [disabled]="!registrationForm.valid">Edit</ion-button>
+              <ion-button (click)="confirmAddress()" [strong]="true" [disabled]="!registrationForm.valid">Edit
+              </ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>

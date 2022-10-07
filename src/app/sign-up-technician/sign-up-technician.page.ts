@@ -105,8 +105,8 @@ export class SignUpTechnicianPage implements OnInit {
       return (this.registrationForm.get('insurance.insuranceCompany').invalid && (this.registrationForm.get('insurance.insuranceCompany').touched || this.registrationForm.get('insurance.insuranceCompany').dirty))
         || (this.registrationForm.get('insurance.insuranceNumber').invalid && (this.registrationForm.get('insurance.insuranceNumber').touched || this.registrationForm.get('insurance.insuranceNumber').dirty))
     } else if (index === 3) {
-      return (this.registrationForm.get('password').invalid && (this.registrationForm.get('password').touched || this.registrationForm.get('password').dirty)) 
-      || (this.registrationForm.get('confirmPassword').invalid && (this.registrationForm.get('confirmPassword').touched || this.registrationForm.get('confirmPassword').dirty)) 
+      return (this.registrationForm.get('password').invalid && (this.registrationForm.get('password').touched || this.registrationForm.get('password').dirty))
+        || (this.registrationForm.get('confirmPassword').invalid && (this.registrationForm.get('confirmPassword').touched || this.registrationForm.get('confirmPassword').dirty))
     }
   }
 
@@ -174,7 +174,7 @@ export class SignUpTechnicianPage implements OnInit {
    * A function that shows a loading screen
    * @param message message to display
    */
-   async showLoading(message) {
+  async showLoading(message) {
     this.loading = await this.loadingCtrl.create({
       message: message,
     })

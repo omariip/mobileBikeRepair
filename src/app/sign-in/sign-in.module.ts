@@ -18,4 +18,4 @@ import { SignInPage } from './sign-in.page';
   ],
   declarations: [SignInPage]
 })
-export class SignInPageModule {}
+export class SignInPageModule { }

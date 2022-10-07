@@ -9,7 +9,7 @@ describe('TabsCustomerPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TabsCustomerPage ],
+      declarations: [TabsCustomerPage],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 

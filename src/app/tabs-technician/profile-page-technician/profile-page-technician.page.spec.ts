@@ -9,7 +9,7 @@ describe('ProfilePageTechnicianPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfilePageTechnicianPage ],
+      declarations: [ProfilePageTechnicianPage],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 

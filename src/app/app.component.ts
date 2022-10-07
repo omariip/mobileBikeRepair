@@ -16,7 +16,7 @@ export class AppComponent {
 
   constructor(
     private alertController: AlertController
-    ) {
+  ) {
     // if (!navigator.onLine){
     //   this.presentAlert();
     // }

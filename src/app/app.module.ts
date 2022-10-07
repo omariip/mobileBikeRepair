@@ -4,7 +4,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment'
 import { AuthService } from './services/auth.service';
 
@@ -19,16 +19,16 @@ import { provideStorage, getStorage } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [], 
+  entryComponents: [],
   imports: [
-    BrowserModule, 
-    IonicModule.forRoot(), 
-    AppRoutingModule, 
-    FormsModule, 
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => {
-      if(Capacitor.isNativePlatform()) {
+      if (Capacitor.isNativePlatform()) {
         return initializeAuth(getApp(), {
           persistence: indexedDBLocalPersistence,
         });
@@ -39,11 +39,11 @@ import { provideStorage, getStorage } from '@angular/fire/storage';
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage())
   ],
-  providers: 
-  [
-    AuthService,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
-  ],
+  providers:
+    [
+      AuthService,
+      { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

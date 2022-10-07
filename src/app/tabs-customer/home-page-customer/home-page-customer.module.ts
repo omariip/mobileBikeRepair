@@ -17,4 +17,4 @@ import { HomePagePage } from './home-page-customer.page';
   ],
   declarations: [HomePagePage]
 })
-export class HomePagePageModule {}
+export class HomePagePageModule { }

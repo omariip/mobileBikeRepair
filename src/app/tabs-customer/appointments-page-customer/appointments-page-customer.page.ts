@@ -24,14 +24,12 @@ export class AppointmentsPageCustomerPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    console.log(this.appointments)
     this.getData();
   }
 
   async getData() {
     this.showLoading("Loading appointments...");
     await this.currentUser.getCurrentUserDetails().then(data => {
-      console.log(data);
       this.customerInfo = data;
     });
 

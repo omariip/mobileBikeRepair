@@ -47,9 +47,7 @@ export class ProfilePageTechnicianPage implements OnInit {
 
   ngOnInit() {
     this.currentUser.getCurrentUserDetails().then(data => {
-
       this.technicianInfo = data;
-      console.log(data)
     })
   }
 
@@ -136,7 +134,7 @@ export class ProfilePageTechnicianPage implements OnInit {
       this.presentToast("Something went wrong!", "danger");
       await this.loading.dismiss();
     })
-    
+
   }
 
   /**
@@ -174,7 +172,7 @@ export class ProfilePageTechnicianPage implements OnInit {
       this.presentToast("Something went wrong!", "danger");
       await this.loading.dismiss();
     })
-    
+
     this.ngOnInit();
   }
 

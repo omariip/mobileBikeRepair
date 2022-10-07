@@ -92,9 +92,9 @@
                 <ion-button (click)="modal2.dismiss()">Cancel</ion-button>
               </ion-buttons>
               <ion-buttons slot="end">
-                <ion-button (click)="confirmBooking(i)" 
-                [disabled]='bookingDetails.bookingService === "" || bookingDetails.bookingDescription === "" || bookingDetails.bookingDate === "" || image === null'
-                >Book</ion-button>
+                <ion-button (click)="confirmBooking(i)"
+                  [disabled]='bookingDetails.bookingService === "" || bookingDetails.bookingDescription === "" || bookingDetails.bookingDate === "" || image === null'>
+                  Book</ion-button>
               </ion-buttons>
             </ion-toolbar>
           </ion-header>
@@ -112,13 +112,13 @@
               <ion-item lines="none">
                 <ion-label class="labels ion-text-wrap">Upload an Image of your Bike</ion-label>
               </ion-item>
-              <ion-item >
+              <ion-item>
                 <ion-button (click)="uploadImage()">Select</ion-button>
                 <ion-item *ngIf="image" lines="none">
                   <img [src]="displayImage" class="displayImg">
                 </ion-item>
               </ion-item>
-              
+
               <ion-item lines="none" id="picker">
                 <ion-label class="labels">Pick Date and Time</ion-label>
                 <ion-icon name="calendar" slot="end"></ion-icon>

@@ -17,4 +17,4 @@ import { TabsTechnicianPage } from './tabs-technician.page';
   ],
   declarations: [TabsTechnicianPage]
 })
-export class TabsTechnicianPageModule {}
+export class TabsTechnicianPageModule { }

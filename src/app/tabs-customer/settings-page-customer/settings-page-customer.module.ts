@@ -18,4 +18,4 @@ import { SettingsPageCustomerPage } from './settings-page-customer.page';
   ],
   declarations: [SettingsPageCustomerPage]
 })
-export class SettingsPageCustomerPageModule {}
+export class SettingsPageCustomerPageModule { }

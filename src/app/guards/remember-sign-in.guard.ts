@@ -16,7 +16,7 @@ export class RememberSignInGuard implements CanActivate {
     private currentUserService: CurrentUserService,
     private auth: Auth,
     private router: Router
-  ) { 
+  ) {
   }
 
 
@@ -24,21 +24,19 @@ export class RememberSignInGuard implements CanActivate {
 
     await this.currentUserService.getCurrentUserType().then(x => {
       this.currentUser = x;
-    }).catch(x=> {
+    }).catch(x => {
       this.currentUser = x;
     });
-  
-    console.log(this.currentUser)
+
     if (this.currentUser === "technician") {
-      console.log("tech")
-      this.router.navigateByUrl('/technician', {replaceUrl: true});
-      
+
+      this.router.navigateByUrl('/technician', { replaceUrl: true });
     } else if (this.currentUser === "customer") {
-      console.log("cust")
-      this.router.navigateByUrl('/customer', {replaceUrl: true});
+
+      this.router.navigateByUrl('/customer', { replaceUrl: true });
       return false;
     } else {
-      console.log("none")
+
       return true;
     }
   }

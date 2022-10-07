@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AuthGuardTechnician } from './auth-guard.service';
+import { AuthGuardTechnician } from './auth-guard-technician.service';
 
 
 describe('AuthGuardTechnician', () => {

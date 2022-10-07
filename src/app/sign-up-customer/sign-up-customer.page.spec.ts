@@ -6,8 +6,8 @@ import { SignUpPage } from './sign-up-customer.page';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 
-import { AngularFireAuthModule} from '@angular/fire/compat/auth';
-import { AngularFireModule} from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/environments/environment';
 
@@ -24,14 +24,14 @@ describe('SignUpPage', () => {
     TestBed.configureTestingModule({
       declarations: [SignUpPage],
       imports: [
-        IonicModule.forRoot(), 
-        FormsModule, 
+        IonicModule.forRoot(),
+        FormsModule,
         ReactiveFormsModule,
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFireAuthModule,
         AngularFirestoreModule,
       ],
-      providers: [ AuthService ]
+      providers: [AuthService]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SignUpPage);
@@ -80,19 +80,19 @@ describe('SignUpPage', () => {
   });
 
   it('Email field should be invalid when provided with input not in email format', () => {
-      form.get('email').setValue('aslkdaslkd');
-      expect(form.get('email').valid).toBeFalsy();
-      form.get('email').setValue('aslkdaslkd@saduad');
-      expect(form.get('email').valid).toBeFalsy();
-      form.get('email').setValue('aslkdaslkd@saduad.com');
-      expect(form.get('email').valid).toBeTruthy();
-    });
+    form.get('email').setValue('aslkdaslkd');
+    expect(form.get('email').valid).toBeFalsy();
+    form.get('email').setValue('aslkdaslkd@saduad');
+    expect(form.get('email').valid).toBeFalsy();
+    form.get('email').setValue('aslkdaslkd@saduad.com');
+    expect(form.get('email').valid).toBeTruthy();
+  });
 
   it('Email field should not be longer than 100 characters', () => {
     // passing 101 characters to setValue function
     form.get('email').setValue('aslkdnaslkdnasldknaskdnasldknsalkdnalskdnalskndalskndalskdnalskdnaskldnaslkdnalksdnalsndalskdnalsdnad');
     expect(form.get('email').valid).toBeFalsy();
-    
+
     // passing 100 characters to setValue function
     form.get('name').setValue('alkdnaslkdnasldknaskdnasldknsalkdnalskdnalskndalskndalskdnalskdnaskldnaslkdnalksdnalsndkdnl@gmail.ca');
     expect(form.get('name').valid).toBeTruthy();
@@ -136,7 +136,7 @@ describe('SignUpPage', () => {
     expect(form.get('phone').valid).toBeFalsy();
   });
 
-  
+
   /********************
    * Address Fields Tests
    ********************/
@@ -193,7 +193,7 @@ describe('SignUpPage', () => {
     expect(form.get('address').get('postal').valid).toBeFalsy();
   });
 
-  it('Postal field should be invalid when passed a string not formatted as a postal code', () =>{
+  it('Postal field should be invalid when passed a string not formatted as a postal code', () => {
     form.get('address').get('postal').setValue('2f4 4ff');
     expect(form.get('address').get('postal').valid).toBeFalsy();
 

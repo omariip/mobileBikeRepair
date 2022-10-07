@@ -36,7 +36,6 @@ export class CurrentUserService {
 
             if (docSnap.exists()) {
               this.currentUser.next('customer');
-              console.log(this.currentUser.value);
               resolve(this.currentUser.value);
             } else {
               let docRef = doc(this.firestore, "technician", this.auth.currentUser.uid);
@@ -44,7 +43,6 @@ export class CurrentUserService {
 
               if (docSnap.exists()) {
                 this.currentUser.next('technician');
-                console.log(this.currentUser.value);
                 resolve(this.currentUser.value);
               }
             }
@@ -65,8 +63,6 @@ export class CurrentUserService {
     if (this.currentUser.value === '' || this.currentUser.value === null) {
       await this.getCurrentUserType();
     }
-    console.log(this.currentUser.value);
-    console.log(this.auth.currentUser.uid);
     const docRef = await doc(this.firestore, this.currentUser.value, this.auth.currentUser.uid);
     const docSnap = await getDoc(docRef);
 

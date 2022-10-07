@@ -17,4 +17,4 @@ import { SettingsPageTechnicianPage } from './settings-page-technician.page';
   ],
   declarations: [SettingsPageTechnicianPage]
 })
-export class SettingsPageTechnicianPageModule {}
+export class SettingsPageTechnicianPageModule { }

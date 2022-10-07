@@ -10,15 +10,15 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('./home-page-customer/home-page-customer.module').then(m=>m.HomePagePageModule)
+        loadChildren: () => import('./home-page-customer/home-page-customer.module').then(m => m.HomePagePageModule)
       },
       {
         path: 'settings',
-        loadChildren: ()=>import('./settings-page-customer/settings-page-customer.module').then(m=>m.SettingsPageCustomerPageModule)
+        loadChildren: () => import('./settings-page-customer/settings-page-customer.module').then(m => m.SettingsPageCustomerPageModule)
       },
       {
         path: 'appointments',
-        loadChildren: ()=>import('./appointments-page-customer/appointments-page-customer.module').then(m=>m.AppointmentsPageCustomerPageModule)
+        loadChildren: () => import('./appointments-page-customer/appointments-page-customer.module').then(m => m.AppointmentsPageCustomerPageModule)
       },
       {
         path: '',
@@ -33,4 +33,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class TabsCustomerPageRoutingModule {}
+export class TabsCustomerPageRoutingModule { }

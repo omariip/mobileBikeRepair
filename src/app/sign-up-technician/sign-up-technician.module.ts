@@ -13,9 +13,9 @@ import { SignUpTechnicianPage } from './sign-up-technician.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    SignUpTechnicianPageRoutingModule, 
+    SignUpTechnicianPageRoutingModule,
     ReactiveFormsModule
   ],
   declarations: [SignUpTechnicianPage]
 })
-export class SignUpTechnicianPageModule {}
+export class SignUpTechnicianPageModule { }

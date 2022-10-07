@@ -54,8 +54,6 @@ export class SignUpPage implements OnInit {
     addressForm.get('city').setValue(findCity(place.address_components));
     addressForm.get('province').setValue(findState(place.address_components));
     addressForm.get('postal').setValue(findZipCode(place.address_components));
-
-    console.log(this.registrationForm.value);
   }
 
   /**
@@ -103,8 +101,8 @@ export class SignUpPage implements OnInit {
         || (this.registrationForm.get('address.province').invalid && (this.registrationForm.get('address.province').touched || this.registrationForm.get('address.province').dirty))
         || (this.registrationForm.get('address.postal').invalid && (this.registrationForm.get('address.postal').touched || this.registrationForm.get('address.postal').dirty))
     } else if (index === 2) {
-      return (this.registrationForm.get('password').invalid && (this.registrationForm.get('password').touched || this.registrationForm.get('password').dirty)) 
-      || (this.registrationForm.get('confirmPassword').invalid && (this.registrationForm.get('confirmPassword').touched || this.registrationForm.get('confirmPassword').dirty)) 
+      return (this.registrationForm.get('password').invalid && (this.registrationForm.get('password').touched || this.registrationForm.get('password').dirty))
+        || (this.registrationForm.get('confirmPassword').invalid && (this.registrationForm.get('confirmPassword').touched || this.registrationForm.get('confirmPassword').dirty))
     }
   }
 
@@ -148,7 +146,7 @@ export class SignUpPage implements OnInit {
         this.toast('Unknown error', 'danger');
       }
     } else {
-      
+
       this.router.navigateByUrl('/customer', { replaceUrl: true });
       this.toast('Successfully Signed in', 'success');
     }
@@ -174,7 +172,7 @@ export class SignUpPage implements OnInit {
    * A function that shows a loading screen
    * @param message message to display
    */
-   async showLoading(message) {
+  async showLoading(message) {
     this.loading = await this.loadingCtrl.create({
       message: message,
     })

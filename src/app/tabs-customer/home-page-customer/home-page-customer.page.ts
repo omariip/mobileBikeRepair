@@ -82,7 +82,6 @@ export class HomePagePage implements OnInit {
 
     const querySnapshot = await getDocs(q);
     if (querySnapshot.empty) {
-      console.log("No nearby technicians available")
       await loading.dismiss();
     } else {
       await querySnapshot.forEach((doc) => {
@@ -147,7 +146,6 @@ export class HomePagePage implements OnInit {
       console.log(e);
     })
 
-    console.log(this.image)
     if (this.image !== null && this.image !== undefined) {
       this.displayImage = "data:image/jpeg;base64," + this.image.base64String;
     } else {
@@ -164,11 +162,9 @@ export class HomePagePage implements OnInit {
 
     try {
       await uploadString(storageRef, this.image.base64String, 'base64').catch((e) => {
-        console.log(e);
       })
 
       this.imageUrl = await getDownloadURL(storageRef).catch((e) => {
-        console.log(e);
       });
 
     } catch (e) {

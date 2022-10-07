@@ -12,7 +12,7 @@ const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['sign-in']);
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   {
     path: '',
@@ -21,27 +21,27 @@ const routes: Routes = [
   },
   {
     path: 'sign-up-customer',
-    loadChildren: () => import('./sign-up-customer/sign-up-customer.module').then( m => m.SignUpPageModule),
+    loadChildren: () => import('./sign-up-customer/sign-up-customer.module').then(m => m.SignUpPageModule),
   },
   {
     path: 'sign-up-technician',
-    loadChildren: () => import('./sign-up-technician/sign-up-technician.module').then( m => m.SignUpTechnicianPageModule),
+    loadChildren: () => import('./sign-up-technician/sign-up-technician.module').then(m => m.SignUpTechnicianPageModule),
   },
   {
     path: 'sign-in',
-    loadChildren: () => import('./sign-in/sign-in.module').then( m => m.SignInPageModule),
+    loadChildren: () => import('./sign-in/sign-in.module').then(m => m.SignInPageModule),
     //...canActivate(redirectLoggedInCustomerToHome)
     canActivate: [RememberSignInGuard]
   },
   {
     path: 'customer',
-    loadChildren: () => import('./tabs-customer/tabs-customer.module').then( m => m.TabsCustomerPageModule),
+    loadChildren: () => import('./tabs-customer/tabs-customer.module').then(m => m.TabsCustomerPageModule),
     ...canActivate(redirectUnauthorizedToLogin),
     canActivate: [AuthGuardCustomerGuard]
   },
   {
     path: 'technician',
-    loadChildren: () => import('./tabs-technician/tabs-technician.module').then( m => m.TabsTechnicianPageModule),
+    loadChildren: () => import('./tabs-technician/tabs-technician.module').then(m => m.TabsTechnicianPageModule),
     ...canActivate(redirectUnauthorizedToLogin),
     canActivate: [AuthGuardTechnician]
   }

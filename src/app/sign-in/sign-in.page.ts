@@ -65,14 +65,14 @@ export class SignInPage implements OnInit {
       const docRef = doc(this.firestore, "customer", this.auth.currentUser.uid);
       const docSnap = await getDoc(docRef);
 
-       
-      if(docSnap.exists()) {
+
+      if (docSnap.exists()) {
         this.router.navigateByUrl('/customer', { replaceUrl: true });
       } else {
         const docRef = doc(this.firestore, "technician", this.auth.currentUser.uid);
         const docSnap = await getDoc(docRef);
 
-        if(docSnap.exists()) {
+        if (docSnap.exists()) {
           this.router.navigateByUrl('/technician', { replaceUrl: true });
         }
       }
@@ -96,7 +96,7 @@ export class SignInPage implements OnInit {
       .catch(async (error) => {
         this.toast(error.message, 'danger');
         await this.loading.dismiss();
-      });    
+      });
   }
 
   /**
@@ -119,13 +119,13 @@ export class SignInPage implements OnInit {
    * A function that shows a loading screen
    * @param message message to display
    */
-   async showLoading(message) {
+  async showLoading(message) {
     this.loading = await this.loadingCtrl.create({
       message: message,
     })
     await this.loading.present();
   }
-  
+
   ngOnInit() {
   }
 }

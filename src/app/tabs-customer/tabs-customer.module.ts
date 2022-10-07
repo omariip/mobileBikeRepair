@@ -17,4 +17,4 @@ import { TabsCustomerPage } from './tabs-customer.page';
   ],
   declarations: [TabsCustomerPage]
 })
-export class TabsCustomerPageModule {}
+export class TabsCustomerPageModule { }

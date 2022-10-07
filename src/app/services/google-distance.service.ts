@@ -16,15 +16,15 @@ export class GoogleDistanceService {
    * @param destination the second address
    * @returns the distance between the two addresses
    */
-  getDistanceinKM(origin, destination){
+  getDistanceinKM(origin, destination) {
     const matrix = new google.maps.DistanceMatrixService();
     return new Promise((resolve, reject) => {
       matrix.getDistanceMatrix({
         origins: [origin],
         destinations: [destination],
         travelMode: 'DRIVING'
-      }, function(response, status) {
-        if(status === 'OK') {
+      }, function (response, status) {
+        if (status === 'OK') {
           resolve(response.rows[0].elements[0].distance.value);
         } else {
           reject(null);

@@ -44,7 +44,6 @@ export class SettingsPageCustomerPage implements OnInit {
 
   ngOnInit() {
     this.currentUser.getCurrentUserDetails().then(data => {
-      console.log(data);
       this.customerInfo = data;
     })
   }
@@ -142,7 +141,7 @@ export class SettingsPageCustomerPage implements OnInit {
   /**
    * Signs out the customer
    */
-   signOut() {
+  signOut() {
     this.auth.signOut();
     this.router.navigateByUrl('/home', { replaceUrl: true });
   }
@@ -161,7 +160,7 @@ export class SettingsPageCustomerPage implements OnInit {
   /**
    * A function that fires an alert controller with phone field
    */
-   async presentPhoneAlert() {
+  async presentPhoneAlert() {
 
     const alert = await this.alertController.create({
       header: 'Edit phone number',

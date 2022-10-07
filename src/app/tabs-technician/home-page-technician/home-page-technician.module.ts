@@ -17,4 +17,4 @@ import { HomePageTechnicianPage } from './home-page-technician.page';
   ],
   declarations: [HomePageTechnicianPage]
 })
-export class HomePageTechnicianPageModule {}
+export class HomePageTechnicianPageModule { }

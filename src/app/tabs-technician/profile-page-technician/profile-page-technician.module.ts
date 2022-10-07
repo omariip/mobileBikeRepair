@@ -18,4 +18,4 @@ import { ProfilePageTechnicianPage } from './profile-page-technician.page';
   ],
   declarations: [ProfilePageTechnicianPage]
 })
-export class ProfilePageTechnicianPageModule {}
+export class ProfilePageTechnicianPageModule { }

@@ -31,7 +31,7 @@ export class AuthGuardTechnician implements CanActivate {
     if (this.currentUser === "technician") {
       return true;
     } else {
-      this.router.navigateByUrl("/sign-in", {replaceUrl: true});
+      this.router.navigateByUrl("/sign-in", { replaceUrl: true });
       return false;
     }
   }
