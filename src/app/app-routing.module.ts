@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth/auth-guard.service';
+import { AuthGuardTechnician } from './guards/auth/auth-guard-technician.service'
 import { canActivate, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { RememberSignInGuard } from './guards/remember-sign-in.guard';
+import { AuthGuardCustomerGuard } from './guards/auth/auth-guard-customer.guard';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['sign-in']);
 //const redirectLoggedInCustomerToHome = () => redirectLoggedInTo(['customer']);
@@ -21,12 +22,10 @@ const routes: Routes = [
   {
     path: 'sign-up-customer',
     loadChildren: () => import('./sign-up-customer/sign-up-customer.module').then( m => m.SignUpPageModule),
-    //...canActivate(redirectLoggedInToHome)
   },
   {
     path: 'sign-up-technician',
     loadChildren: () => import('./sign-up-technician/sign-up-technician.module').then( m => m.SignUpTechnicianPageModule),
-    //...canActivate(redirectLoggedInToHome)
   },
   {
     path: 'sign-in',
@@ -37,13 +36,14 @@ const routes: Routes = [
   {
     path: 'customer',
     loadChildren: () => import('./tabs-customer/tabs-customer.module').then( m => m.TabsCustomerPageModule),
-    ...canActivate(redirectUnauthorizedToLogin)
+    ...canActivate(redirectUnauthorizedToLogin),
+    canActivate: [AuthGuardCustomerGuard]
   },
   {
     path: 'technician',
     loadChildren: () => import('./tabs-technician/tabs-technician.module').then( m => m.TabsTechnicianPageModule),
     ...canActivate(redirectUnauthorizedToLogin),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuardTechnician]
   }
   // {
   //   path: 'profile-page-customer',
