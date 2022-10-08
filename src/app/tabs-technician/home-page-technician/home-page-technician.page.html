@@ -3,5 +3,60 @@
 </ion-header>
 
 <ion-content>
-  Welcome technician!
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div
+    *ngIf="technicianInfo?.appointments !== null && technicianInfo.appointments !== undefined && technicianInfo.appointments?.length !== 0; else noAppointments">
+    <ion-card *ngFor="let app of technicianInfo.appointments; index as i">
+      <img src="{{app.appointmentImage}}">
+      <ion-card-header>
+        <ion-card-subtitle>{{app.appointmentDate | date: 'MMM d, y, h:mm a'}}</ion-card-subtitle>
+        <ion-card-title> {{app.appointmentTitle}} </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item>
+          <ion-icon name="document-text-outline" class="ion-icon-listing"></ion-icon>
+          <ion-label class="ion-item-listing ion-text-wrap">{{app.appointmentDescription}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="person-circle-outline" class="ion-icon-listing"></ion-icon>
+          <ion-label class="ion-item-listing ion-text-wrap">{{app.customer.userName}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="mail-outline" class="ion-icon-listing"></ion-icon>
+          <ion-label class="ion-item-listing ion-text-wrap link"><a
+              href="mailto:{{app.customer.userEmail}}">{{app.customer.userEmail}}</a>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="call-outline" class="ion-icon-listing"></ion-icon>
+          <ion-label class="ion-item-listing ion-text-wrap"><a
+              href="tel:{{app.customer.userPhone}}">{{app.customer.userPhone}}</a>
+          </ion-label>
+        </ion-item>
+
+        <ion-accordion-group>
+          <ion-accordion toggleIcon="home-outline" toggleIconSlot="start" class=".only">
+            <ion-item slot="header">
+              <ion-label class="ion-item-listing">Address</ion-label>
+            </ion-item>
+            <ion-card slot="content">
+              <ion-item lines="none">
+                <ion-label (click)="openMap(i)" class="ion-item-listing ion-text-wrap link">{{app.customer.userAddress.street}}, {{app.customer.userAddress.city}}
+                  , {{app.customer.userAddress.postal}}, {{app.customer.userAddress.province}} <ion-icon name="open-outline"></ion-icon>
+                </ion-label>
+                
+
+              </ion-item>
+            </ion-card>
+
+          </ion-accordion>
+        </ion-accordion-group>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
