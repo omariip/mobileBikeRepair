@@ -6,13 +6,20 @@
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <div *ngIf="appointments !== null && appointments !== undefined && appointments?.length !== 0; else noAppointments">
-        <ion-card *ngFor="let app of appointments; index as i">
+    <div *ngIf="customerInfo?.appointments !== null && customerInfo.appointments !== undefined && customerInfo.appointments?.length !== 0; else noAppointments">
+        <ion-card *ngFor="let app of customerInfo.appointments; index as i">
             <img src="{{app.appointmentImage}}">
             <ion-card-header>
                 <ion-item lines="none">
-                    <ion-icon name="ellipsis-vertical-outline" slot="end"></ion-icon>
-
+                    <ion-icon *ngIf="app.appointmentStatus === 'pending' && !checkAppointmentDone(i)" name="ellipsis-vertical-outline" slot="end" id="cancel{{i}}"></ion-icon>
+                    <ion-popover trigger="cancel{{i}}" [dismissOnSelect]="true">
+                        <ng-template>
+                            <ion-content>
+                                <ion-item [button]="true" [detail]="false" (click)="cancelAppointment(i)">Cancel
+                                    Appointment</ion-item>
+                            </ion-content>
+                        </ng-template>
+                    </ion-popover>
                     <ion-card-subtitle>{{app.appointmentDate | date: 'MMM d, y, h:mm a'}}</ion-card-subtitle>
                 </ion-item>
                 <ion-card-title class="cardTitle"> {{app.appointmentTitle}} </ion-card-title>
@@ -83,6 +90,22 @@
                         <ng-template>
                             <ion-content class="ion-padding">
                                 the technician has declined your appointment, contact them to re-book
+                            </ion-content>
+                        </ng-template>
+                    </ion-popover>
+                </ion-item>
+
+                <ion-item *ngIf='app.appointmentStatus === "cancelled"' lines="none">
+                    <ion-icon name="help-circle-outline" slot="end" class="ion-icon-listing" id="popoverCancelled{{i}}">
+                    </ion-icon>
+                    <ion-icon name="close-circle" class="ion-icon-listing-nocolor" color="danger" slot="start">
+                    </ion-icon>
+                    <ion-label class="ion-item-listing ion-text-wrap">Status: cancelled</ion-label>
+
+                    <ion-popover trigger="popoverCancelled{{i}}" triggerAction="click" side="top">
+                        <ng-template>
+                            <ion-content class="ion-padding">
+                                the appointment has been cancelled by the customer
                             </ion-content>
                         </ng-template>
                     </ion-popover>
