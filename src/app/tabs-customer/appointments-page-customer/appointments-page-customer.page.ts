@@ -15,7 +15,7 @@ export class AppointmentsPageCustomerPage implements OnInit {
   customerInfo = null;
   //appointments = null;
   displayImage = false;
-  loading = null;
+  //loading = null;
 
   constructor(
     private currentUser: CurrentUserService,
@@ -26,6 +26,7 @@ export class AppointmentsPageCustomerPage implements OnInit {
 
   async ngOnInit() {
     this.getData();
+    this.loadingCtrl.dismiss().catch(()=>{})
   }
 
   async getData() {
@@ -39,13 +40,13 @@ export class AppointmentsPageCustomerPage implements OnInit {
 
       this.sortAppointments();
     }
-    this.loading.dismiss();
+    this.loadingCtrl.dismiss().catch(()=>{})
   }
 
   async sortAppointments() {
-    //this.loading.dismiss();
+    this.loadingCtrl.dismiss().catch(()=>{})
     await this.customerInfo.appointments.sort((a, b) => a.appointmentDate > b.appointmentDate ? 1 : -1);
-    //this.loading.dismiss();
+    this.loadingCtrl.dismiss().catch(()=>{})
   }
 
   async cancelAppointment(i) {
@@ -113,10 +114,11 @@ export class AppointmentsPageCustomerPage implements OnInit {
    * @param message message to display
    */
   async showLoading(message) {
-    this.loading = await this.loadingCtrl.create({
+    await this.loadingCtrl.create({
       message: message,
+    }).then((r) => {
+      r.present();
     })
-    this.loading.present();
   }
 
   /**
