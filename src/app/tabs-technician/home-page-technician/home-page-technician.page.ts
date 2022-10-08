@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
 import { LoadingController } from '@ionic/angular';
 import { CurrentUserService } from 'src/app/services/current-user.service';
+import { GoogleDistanceService } from 'src/app/services/google-distance.service';
 @Component({
   selector: 'app-home-page-technician',
   templateUrl: './home-page-technician.page.html',
@@ -18,7 +19,8 @@ export class HomePageTechnicianPage implements OnInit {
   constructor(
     private currentUser: CurrentUserService,
     private loadingCtrl: LoadingController,
-    private firestore: Firestore
+    private firestore: Firestore,
+    private distanceService: GoogleDistanceService,
   ) { }
 
   async ngOnInit() {
@@ -31,17 +33,37 @@ export class HomePageTechnicianPage implements OnInit {
       this.technicianInfo = data;
     });
 
-    //this.appointments = this.customerInfo.appointments;
+    let i = 0;
+
+    for await (let a of this.technicianInfo.appointments) {
+      await this.distanceService.getDistanceinKM(this.getAddressInOneLine(a.customer.userAddress),
+        this.getAddressInOneLine(this.technicianInfo.technicianAddress))
+        .then((d) => {
+          a.distance = d;
+        })
+    }
+    console.log(this.technicianInfo);
     if (this.technicianInfo.appointments !== null && this.technicianInfo.appointments !== undefined && this.technicianInfo.appointments !== 0) {
 
-      await this.sortAppointments();
+      await this.sortAppointments("date");
     }
-
   }
 
-  async sortAppointments() {
-    await this.technicianInfo.appointments.sort((a, b) => a.appointmentDate > b.appointmentDate ? 1 : -1);
-    this.loading.dismiss();
+  async sortChanged(e) {
+    await this.sortAppointments(e.detail.value);
+  }
+
+  async sortAppointments(type) {
+    if (type === "date") {
+      await this.technicianInfo.appointments.sort((a, b) => a.appointmentDate > b.appointmentDate ? 1 : -1);
+      this.loading.dismiss();
+    } else if (type === "distance") {
+      await this.technicianInfo.appointments.sort((a, b) => a.distance > b.distance ? 1 : -1);
+      this.loading.dismiss();
+    } else if (type === "pending") {
+      await this.technicianInfo.appointments.sort((a) => a.appointmentStatus === "pending" ? -1 : 1);
+      this.loading.dismiss();
+    }
   }
 
   async setStatus(status, i) {
@@ -49,36 +71,41 @@ export class HomePageTechnicianPage implements OnInit {
     const technicianRef = doc(this.firestore, "technician", this.technicianInfo.technicianId);
     const customerRef = doc(this.firestore, "customer", this.technicianInfo.appointments[i].customer.userId);
 
-      let customerAppointment = JSON.parse(JSON.stringify(this.technicianInfo.appointments[i])); 
-      console.log(customerAppointment);
+    let technicianInfoCopy = JSON.parse(JSON.stringify(this.technicianInfo));
 
-      delete customerAppointment.customer;
-      customerAppointment.technician = {
-        technicianAddress: this.technicianInfo.technicianAddress,
-        technicianEmail: this.technicianInfo.technicianEmail,
-        technicianId: this.technicianInfo.technicianId,
-        technicianName: this.technicianInfo.technicianName,
-        technicianPhone: this.technicianInfo.technicianPhone
-      }
+    delete technicianInfoCopy.appointments[i].distance;
 
-      await updateDoc(technicianRef, {
-        appointments: arrayRemove(this.technicianInfo.appointments[i])
-      });
+    let customerAppointment = JSON.parse(JSON.stringify(technicianInfoCopy.appointments[i]));
+    console.log(customerAppointment);
 
-      await updateDoc(customerRef, {
-        appointments: arrayRemove(customerAppointment)
-      });
+    delete customerAppointment.customer;
+    customerAppointment.technician = {
+      technicianAddress: technicianInfoCopy.technicianAddress,
+      technicianEmail: technicianInfoCopy.technicianEmail,
+      technicianId: technicianInfoCopy.technicianId,
+      technicianName: technicianInfoCopy.technicianName,
+      technicianPhone: technicianInfoCopy.technicianPhone
+    }
 
-      this.technicianInfo.appointments[i].appointmentStatus = status;
-      customerAppointment.appointmentStatus = status;
+    await updateDoc(technicianRef, {
+      appointments: arrayRemove(technicianInfoCopy.appointments[i])
+    });
 
-      await updateDoc(technicianRef, {
-        appointments: arrayUnion(this.technicianInfo.appointments[i])
-      })
+    await updateDoc(customerRef, {
+      appointments: arrayRemove(customerAppointment)
+    });
 
-      await updateDoc(customerRef, {
-        appointments: arrayUnion(customerAppointment)
-      })
+    this.technicianInfo.appointments[i].appointmentStatus = status;
+    technicianInfoCopy.appointments[i].appointmentStatus = status;
+    customerAppointment.appointmentStatus = status;
+
+    await updateDoc(technicianRef, {
+      appointments: arrayUnion(technicianInfoCopy.appointments[i])
+    })
+
+    await updateDoc(customerRef, {
+      appointments: arrayUnion(customerAppointment)
+    })
   }
 
   openMap(i) {
@@ -97,6 +124,15 @@ export class HomePageTechnicianPage implements OnInit {
   async doRefresh(event) {
     await this.getData();
     event.target.complete();
+  }
+
+  /**
+   * Arranges the address as a single line
+   * @param t address
+   * @returns address in one line
+   */
+  getAddressInOneLine(t) {
+    return `${t.street}, ${t.city}, ${t.province}, ${t.postal}`;
   }
 
   /**
