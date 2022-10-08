@@ -14,7 +14,7 @@ import { GoogleDistanceService } from 'src/app/services/google-distance.service'
 export class HomePageTechnicianPage implements OnInit {
 
   technicianInfo = null;
-  loading = null;
+  //loading = null;
 
   constructor(
     private currentUser: CurrentUserService,
@@ -46,6 +46,7 @@ export class HomePageTechnicianPage implements OnInit {
     if (this.technicianInfo.appointments !== null && this.technicianInfo.appointments !== undefined && this.technicianInfo.appointments !== 0) {
 
       await this.sortAppointments("date");
+      this.loadingCtrl.dismiss().catch(()=>{})
     }
   }
 
@@ -56,13 +57,13 @@ export class HomePageTechnicianPage implements OnInit {
   async sortAppointments(type) {
     if (type === "date") {
       await this.technicianInfo.appointments.sort((a, b) => a.appointmentDate > b.appointmentDate ? 1 : -1);
-      this.loading.dismiss();
+      //this.loadingCtrl.dismiss();
     } else if (type === "distance") {
       await this.technicianInfo.appointments.sort((a, b) => a.distance > b.distance ? 1 : -1);
-      this.loading.dismiss();
+      //this.loadingCtrl.dismiss();
     } else if (type === "pending") {
       await this.technicianInfo.appointments.sort((a) => a.appointmentStatus === "pending" ? -1 : 1);
-      this.loading.dismiss();
+      //this.loadingCtrl.dismiss();
     }
   }
 
@@ -140,9 +141,10 @@ export class HomePageTechnicianPage implements OnInit {
    * @param message message to display
    */
   async showLoading(message) {
-    this.loading = await this.loadingCtrl.create({
+    await this.loadingCtrl.create({
       message: message,
+    }).then((r) => {
+      r.present();
     })
-    this.loading.present();
   }
 }
