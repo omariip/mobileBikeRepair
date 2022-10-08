@@ -22,7 +22,6 @@ export class HomePageTechnicianPage implements OnInit {
 
   async ngOnInit() {
     await this.getData();
-    console.log(this.technicianInfo);
   }
 
   async getData() {
