@@ -37,29 +37,56 @@
               href="tel:{{app.customer.userPhone}}">{{app.customer.userPhone}}</a>
           </ion-label>
         </ion-item>
-        <ion-item lines="none">
+        <ion-item>
           <ion-icon name="home-outline" class="ion-icon-listing"></ion-icon>
           <ion-label (click)="openMap(i)" class="ion-item-listing ion-text-wrap link">
-            {{app.customer.userAddress.street}}, {{app.customer.userAddress.city}}, 
-            {{app.customer.userAddress.postal}}, {{app.customer.userAddress.province}} 
+            {{app.customer.userAddress.street}}, {{app.customer.userAddress.city}},
+            {{app.customer.userAddress.postal}}, {{app.customer.userAddress.province}}
             <ion-icon name="open-outline"></ion-icon>
           </ion-label>
         </ion-item>
 
-        <ion-grid>
+        <ion-item *ngIf='app.appointmentStatus === "pending"' lines="none">
+          <ion-icon name="time" class="ion-icon-listing"></ion-icon>
+          <ion-label class="ion-item-listing ion-text-wrap">{{app.appointmentStatus}}
+            approval</ion-label>
+        </ion-item>
+
+        <ion-item lines="none" *ngIf='app.appointmentStatus === "approved"'>
+          <ion-icon name="checkmark-circle" class="ion-icon-listing-nocolor" color="success"></ion-icon>
+          <ion-label class="ion-item-listing ion-text-wrap">Status: {{app.appointmentStatus}}</ion-label>
+        </ion-item>
+
+        <ion-item *ngIf='app.appointmentStatus === "declined"' lines="none">
+          <ion-icon name="close-circle" class="ion-icon-listing-nocolor" color="danger" slot="start">
+          </ion-icon>
+          <ion-label class="ion-item-listing ion-text-wrap">Status: {{app.appointmentStatus}}</ion-label>
+        </ion-item>
+
+        <ion-item *ngIf='app.appointmentStatus === "cancelled"' lines="none">
+          <ion-icon name="close-circle" class="ion-icon-listing-nocolor" color="danger" slot="start">
+          </ion-icon>
+          <ion-label class="ion-item-listing ion-text-wrap">Status: cancelled</ion-label>
+        </ion-item>
+
+
+        <ion-grid *ngIf="app.appointmentStatus === 'pending'">
           <ion-row>
-              <ion-col size="5" offset="1" class="ion-text-center">
-                  <ion-button size="small" color="success">
-                    <ion-icon slot="start" name="checkmark-outline"></ion-icon>
-                    Approve</ion-button>
-              </ion-col>
-      
-              <ion-col size="5"  class="ion-text-center">
-                  <ion-button size="small" color="danger"><ion-icon slot="start" name="close-outline"></ion-icon>
-                    Decline</ion-button>
-              </ion-col>
+            <ion-col size="5" offset="1" class="ion-text-center">
+              <ion-button size="small" color="success" (click)='setStatus("approved", i)'>
+                <ion-icon slot="start" name="checkmark-outline"></ion-icon>
+                Approve
+              </ion-button>
+            </ion-col>
+
+            <ion-col size="5" class="ion-text-center">
+              <ion-button size="small" color="danger" (click)='setStatus("declined", i)'>
+                <ion-icon slot="start" name="close-outline"></ion-icon>
+                Decline
+              </ion-button>
+            </ion-col>
           </ion-row>
-      </ion-grid>
+        </ion-grid>
       </ion-card-content>
     </ion-card>
   </div>
