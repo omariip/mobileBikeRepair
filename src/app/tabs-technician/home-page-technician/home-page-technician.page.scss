@@ -19,10 +19,6 @@ a:link {
     text-decoration: none;
 }
 
-.cardTitle {
-    padding-left: 17px;
-}
-
 :host ::ng-deep {
     ion-accordion-group {
         ion-accordion {
@@ -37,4 +33,13 @@ a:link {
 
 .link {
     color: #3880ff;
+}
+
+.min-max-width {
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+ion-grid {
+    margin-top: 20px;
 }

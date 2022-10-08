@@ -54,7 +54,7 @@ export class HomePageTechnicianPage implements OnInit {
     } else if(Capacitor.getPlatform() === 'android'){
       window.location.href = 'geo:' + oneLineAddress;
     } else {
-      window.location.href = 'https://www.google.com/maps/search/' + oneLineAddress;
+      window.open('https://www.google.com/maps/search/' + oneLineAddress, '_blank');
     }
   }
   async doRefresh(event) {
