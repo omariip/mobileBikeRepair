@@ -17,8 +17,14 @@ export class AppComponent {
 
   networkListener: PluginListenerHandle;
 
+  ngOnDestroy() {
+    if (this.networkListener) {
+      this.networkListener.remove();
+    }
+  }
+
   async ngOnInit() {
-    if (!(await Network.getStatus()).connected) {
+    if (!((await Network.getStatus()).connected)) {
       if (Capacitor.getPlatform() === 'ios'|| !Capacitor.isNativePlatform()) {
         this.presentAlertiOS("No connection", "Please connect to the internet to use this app!");
       } else {
@@ -29,9 +35,9 @@ export class AppComponent {
     this.networkListener = Network.addListener('networkStatusChange', (status) => {
       if (!status.connected) {
         if (Capacitor.getPlatform() === 'ios' || !Capacitor.isNativePlatform()) {
-          this.presentAlertiOS("Oops", "Seems like you lost connection to the internet");
+          this.presentAlertiOS("Oops", "Seems like you lost connection to the internet. . Please connect to continue using the app");
         } else {
-          this.presentAlertAndroid("Oops", "Seems like you lost connection to the internet");
+          this.presentAlertAndroid("Oops", "Seems like you lost connection to the internet. Please connect to continue using the app");
         }
       }
     })
