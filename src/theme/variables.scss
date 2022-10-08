@@ -76,6 +76,10 @@
   --ion-color-light-tint: #f5f6f9;
 }
 
+.ios{
+  --ion-safe-area-top : 0 !important;
+}
+
 // @media (prefers-color-scheme: dark) {
 //   /*
 //    * Dark Colors
