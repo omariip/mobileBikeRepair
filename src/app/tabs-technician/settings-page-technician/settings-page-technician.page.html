@@ -66,22 +66,13 @@
       <h3>{{technicianInfo.technicianInsurance.insuranceNumber}}</h3>
     </ion-card-content>
   </ion-card>
-  <ion-card>
-    <ion-item>
-      <ion-icon name="log-out" slot="start"></ion-icon>
-      <ion-label>Log out</ion-label>
-    </ion-item>
-    <ion-card-content>
-      <ion-button (click)="alertSignOut()" expand="full">Log out</ion-button>
-    </ion-card-content>
-  </ion-card>
 
   <ion-card>
     <ion-accordion-group>
       <ion-accordion value="first">
         <ion-item slot="header">
           <ion-icon name="construct" slot="start"></ion-icon>
-          <ion-label>Services and Pricing</ion-label>
+          <ion-label class="ion-text-wrap">Services and Pricing</ion-label>
           <ion-button fill="outline" slot="end" id="open-modal" expand="block">Add</ion-button><br>
         </ion-item>
 
@@ -110,6 +101,15 @@
     </ion-accordion-group>
   </ion-card>
 
+  <ion-card>
+    <ion-item>
+      <ion-icon name="log-out" slot="start"></ion-icon>
+      <ion-label>Log out</ion-label>
+    </ion-item>
+    <ion-card-content>
+      <ion-button (click)="alertSignOut()" expand="full">Log out</ion-button>
+    </ion-card-content>
+  </ion-card>
 
   <ion-modal #modal trigger="open-modal">
     <ng-template>
