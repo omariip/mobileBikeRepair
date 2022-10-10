@@ -138,6 +138,27 @@ export class SettingsPageCustomerPage implements OnInit {
     }, 500)
   }
 
+  async alertSignOut() {
+    const alert = await this.alertController.create({
+      header: 'Are you sure you want to sign out?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          role: 'confirm',
+          handler: () => {
+            this.signOut();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
   /**
    * Signs out the customer
    */
