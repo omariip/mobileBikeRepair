@@ -3,7 +3,7 @@ import { Auth } from '@angular/fire/auth';
 import { arrayRemove, arrayUnion, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { CurrentUserService } from 'src/app/services/current-user.service';
 import { GoogleDistanceService } from 'src/app/services/google-distance.service';
 @Component({
@@ -21,6 +21,7 @@ export class HomePageTechnicianPage implements OnInit {
     private loadingCtrl: LoadingController,
     private firestore: Firestore,
     private distanceService: GoogleDistanceService,
+    private alertController: AlertController
   ) { }
 
   async ngOnInit() {
@@ -107,6 +108,27 @@ export class HomePageTechnicianPage implements OnInit {
     await updateDoc(customerRef, {
       appointments: arrayUnion(customerAppointment)
     })
+  }
+
+  async alertStatus(header, status, i) {
+    const alert = await this.alertController.create({
+      header: header,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          role: 'confirm',
+          handler: () => {
+            this.setStatus(status, i);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   openMap(i) {
