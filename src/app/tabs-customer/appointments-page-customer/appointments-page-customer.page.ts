@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { arrayRemove, arrayUnion, collection, doc, Firestore, getDoc, getDocs, query, updateDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { CurrentUserService } from 'src/app/services/current-user.service';
 
 @Component({
@@ -21,7 +21,8 @@ export class AppointmentsPageCustomerPage implements OnInit {
     private currentUser: CurrentUserService,
     private firestore: Firestore,
     private loadingCtrl: LoadingController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private alertController: AlertController
   ) { }
 
   async ngOnInit() {
@@ -49,6 +50,26 @@ export class AppointmentsPageCustomerPage implements OnInit {
     this.loadingCtrl.dismiss().catch(()=>{})
   }
 
+  async presentCancel(i) {
+    const alert = await this.alertController.create({
+      header: 'Are you sure you want to cancel this appointment?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          role: 'confirm',
+          handler: () => {
+            this.cancelAppointment(i);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
   async cancelAppointment(i) {
     const appTime = new Date(this.customerInfo.appointments[i].appointmentDate);
     const nowTime = new Date();
@@ -88,11 +109,13 @@ export class AppointmentsPageCustomerPage implements OnInit {
 
       await updateDoc(technicianRef, {
         appointments: arrayUnion(technicianAppointment)
-      })
+      });
 
       await updateDoc(customerRef, {
         appointments: arrayUnion(this.customerInfo.appointments[i])
-      })
+      });
+
+      this.presentToast("Appointment cancelled successfully!", "success", 3000)
     }
   }
 

@@ -14,7 +14,7 @@
                     <ion-icon *ngIf="app.appointmentStatus === 'pending' && !checkAppointmentDone(i)" name="ellipsis-vertical-outline" slot="end" id="cancel{{i}}"></ion-icon>
                     <ion-popover trigger="cancel{{i}}" [dismissOnSelect]="true">
                         <ng-template>
-                                <ion-item [button]="true" [detail]="false" (click)="cancelAppointment(i)">Cancel
+                                <ion-item [button]="true" [detail]="false" (click)="presentCancel(i)">Cancel
                                     Appointment</ion-item>
                         </ng-template>
                     </ion-popover>
@@ -103,7 +103,7 @@
                     <ion-popover trigger="popoverCancelled{{i}}" triggerAction="click" side="top">
                         <ng-template>
                             <ion-content class="ion-padding">
-                                the appointment has been cancelled by the customer
+                                the appointment has been cancelled by you
                             </ion-content>
                         </ng-template>
                     </ion-popover>
