@@ -53,7 +53,7 @@ export class AuthService {
         value.password
       );
 
-      await setDoc(doc(this.firestore, 'technician', user.user.uid), {
+      await setDoc(doc(this.firestore, 'technicianPending', user.user.uid), {
         technicianId: user.user.uid,
         technicianName: value.name,
         technicianEmail: value.email,
