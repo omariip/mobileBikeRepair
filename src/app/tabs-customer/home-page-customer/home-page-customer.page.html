@@ -92,7 +92,7 @@
                 <ion-button (click)="modal2.dismiss()">Cancel</ion-button>
               </ion-buttons>
               <ion-buttons slot="end">
-                <ion-button (click)="confirmBooking(i)"
+                <ion-button (click)="confirmBooking(i); modal2.dismiss()"
                   [disabled]='bookingDetails.bookingService === "" || bookingDetails.bookingDescription === "" || bookingDetails.bookingDate === "" || image === null'>
                   Book</ion-button>
               </ion-buttons>

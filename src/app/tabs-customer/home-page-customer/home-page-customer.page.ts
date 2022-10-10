@@ -25,7 +25,7 @@ export class Booking {
 })
 export class HomePagePage implements OnInit {
 
-  @ViewChild('modal2') bookingModal: IonModal;
+  //@ViewChild('modal2') bookingModal: IonModal;
 
   distance;
   currentUserDetails;
@@ -209,7 +209,7 @@ export class HomePagePage implements OnInit {
       })
     });
 
-    await this.bookingModal.dismiss('book');
+    //this.bookingModal.dismiss();
     this.loading.dismiss();
     this.presentToast("Request sent successfully", "success");
     this.bookingDetails = new Booking();
