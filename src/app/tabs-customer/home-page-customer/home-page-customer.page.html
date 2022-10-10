@@ -73,7 +73,7 @@
               <ion-item *ngFor="let s of t.service">
                 <ion-label class="ion-no-padding">
                   <ion-label>{{s.title}}</ion-label><br>
-                  <ion-textarea color="medium" readonly autoGrow="true">{{s.description}}</ion-textarea>
+                  <p *ngIf="s.description" color="medium">{{s.description}}</p>
                 </ion-label>
                 <ion-label slot="end">${{s.price}}</ion-label>
               </ion-item>
