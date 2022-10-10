@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { IonInput, LoadingController, ToastController } from '@ionic/angular';
 import { findAddressComponent, findAddressNumber, findCity, findState, findStateShortName, findStreet, findZipCode } from 'src/utils/address-utils';
 import { Router } from '@angular/router';
+import { Auth } from '@angular/fire/auth';
 declare var google;
 
 @Component({
@@ -22,7 +23,8 @@ export class SignUpTechnicianPage implements OnInit {
     private authService: AuthService,
     private loadingCtrl: LoadingController,
     private toastController: ToastController,
-    private router: Router
+    private router: Router,
+    private auth: Auth
   ) { }
 
   /**
@@ -149,6 +151,7 @@ export class SignUpTechnicianPage implements OnInit {
         this.toast('Unknown error', 'danger');
       }
     } else {
+      this.auth.updateCurrentUser(null);
       this.router.navigateByUrl('/sign-in', { replaceUrl: true });
       //this.toast('Successfully Signed in', 'success');
     }
