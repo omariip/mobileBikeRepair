@@ -14,10 +14,8 @@
                     <ion-icon *ngIf="app.appointmentStatus === 'pending' && !checkAppointmentDone(i)" name="ellipsis-vertical-outline" slot="end" id="cancel{{i}}"></ion-icon>
                     <ion-popover trigger="cancel{{i}}" [dismissOnSelect]="true">
                         <ng-template>
-                            <ion-content>
                                 <ion-item [button]="true" [detail]="false" (click)="cancelAppointment(i)">Cancel
                                     Appointment</ion-item>
-                            </ion-content>
                         </ng-template>
                     </ion-popover>
                     <ion-card-subtitle>{{app.appointmentDate | date: 'MMM d, y, h:mm a'}}</ion-card-subtitle>
