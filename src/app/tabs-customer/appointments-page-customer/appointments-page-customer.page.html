@@ -11,7 +11,7 @@
             <img src="{{app.appointmentImage}}">
             <ion-card-header>
                 <ion-item lines="none">
-                    <ion-icon *ngIf="app.appointmentStatus === 'pending' && !checkAppointmentDone(i)" name="ellipsis-vertical-outline" slot="end" id="cancel{{i}}"></ion-icon>
+                    <ion-icon *ngIf="((app.appointmentStatus === 'pending') || (app.appointmentStatus === 'approved')) && !checkAppointmentDone(i)" name="ellipsis-vertical-outline" slot="end" id="cancel{{i}}"></ion-icon>
                     <ion-popover trigger="cancel{{i}}" [dismissOnSelect]="true">
                         <ng-template>
                                 <ion-item [button]="true" [detail]="false" (click)="presentCancel(i)">Cancel
@@ -56,7 +56,7 @@
                     <ion-popover trigger="popoverPending{{i}}" triggerAction="click" side="top">
                         <ng-template>
                             <ion-content class="ion-padding">
-                                appointment is awaitng confirmation from the technician
+                                Appointment is awaitng confirmation from the technician
                             </ion-content>
                         </ng-template>
                     </ion-popover>
@@ -71,7 +71,7 @@
                     <ion-popover trigger="popoverApproved{{i}}" triggerAction="click" side="top">
                         <ng-template>
                             <ion-content class="ion-padding">
-                                the technician has approved your appointment
+                                The technician has approved your appointment
                             </ion-content>
                         </ng-template>
                     </ion-popover>
@@ -87,7 +87,7 @@
                     <ion-popover trigger="popoverDeclined{{i}}" triggerAction="click" side="top">
                         <ng-template>
                             <ion-content class="ion-padding">
-                                the technician has declined your appointment, contact them to re-book
+                                The technician has declined your appointment, contact them to re-book
                             </ion-content>
                         </ng-template>
                     </ion-popover>
@@ -103,7 +103,7 @@
                     <ion-popover trigger="popoverCancelled{{i}}" triggerAction="click" side="top">
                         <ng-template>
                             <ion-content class="ion-padding">
-                                the appointment has been cancelled by you
+                                The appointment has been cancelled by you
                             </ion-content>
                         </ng-template>
                     </ion-popover>
