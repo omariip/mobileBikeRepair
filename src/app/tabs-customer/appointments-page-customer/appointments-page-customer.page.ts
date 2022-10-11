@@ -26,28 +26,26 @@ export class AppointmentsPageCustomerPage implements OnInit {
   ) { }
 
   async ngOnInit() {
+
     this.getData();
-    this.loadingCtrl.dismiss().catch(()=>{})
   }
 
   async getData() {
-    this.showLoading("Loading appointments...");
+    await this.showLoading("Loading appointments...");
     await this.currentUser.getCurrentUserDetails().then(data => {
       this.customerInfo = data;
     });
 
-    //this.appointments = this.customerInfo.appointments;
     if (this.customerInfo.appointments !== null && this.customerInfo.appointments !== undefined && this.customerInfo.appointments !== 0) {
 
-      this.sortAppointments();
+      await this.sortAppointments();
     }
-    this.loadingCtrl.dismiss().catch(()=>{})
+    await this.loadingCtrl.dismiss().catch((e)=>{console.log(e)})
   }
 
   async sortAppointments() {
-    this.loadingCtrl.dismiss().catch(()=>{})
+
     await this.customerInfo.appointments.sort((a, b) => a.appointmentDate > b.appointmentDate ? 1 : -1);
-    this.loadingCtrl.dismiss().catch(()=>{})
   }
 
   async presentCancel(i) {
