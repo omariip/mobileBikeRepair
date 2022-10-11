@@ -45,7 +45,7 @@ export class AppointmentsPageCustomerPage implements OnInit {
 
   async sortAppointments() {
 
-    await this.customerInfo.appointments.sort((a, b) => a.appointmentDate > b.appointmentDate ? 1 : -1);
+    await this.customerInfo.appointments.sort((a, b) => a.appointmentDate > b.appointmentDate ? -1 : 1);
   }
 
   async presentCancel(i) {

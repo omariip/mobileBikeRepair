@@ -11,11 +11,16 @@
     *ngIf="technicianInfo?.appointments !== null && technicianInfo.appointments !== undefined && technicianInfo.appointments?.length !== 0; else noAppointments">
 
     <ion-list>
-      <ion-item>
-        <ion-select interface="alert" placeholder="Sort By Date" (ionChange)="sortChanged($event)">
+      <ion-item >
+        <ion-select #sortSelected interface="alert" placeholder="Sort By Date" (ionChange)="sortChanged($event, orderCurrent)" [(ngModel)]="selectCurrent">
           <ion-select-option value="date">Sort by Date</ion-select-option>
           <ion-select-option value="distance">Sort By Distance</ion-select-option>
           <ion-select-option value="pending">Sort By Pending</ion-select-option>
+        </ion-select>
+
+        <ion-select slot="end" interface="alert" placeholder="Ascending" (ionChange)="sortChanged($event)" [(ngModel)]="orderCurrent" [disabled]="orderDisabled">
+          <ion-select-option value="ascending">Ascending</ion-select-option>
+          <ion-select-option value="descending">Descending</ion-select-option>
         </ion-select>
       </ion-item>
     </ion-list>

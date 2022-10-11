@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { arrayRemove, arrayUnion, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController, IonInput, LoadingController } from '@ionic/angular';
 import { CurrentUserService } from 'src/app/services/current-user.service';
 import { GoogleDistanceService } from 'src/app/services/google-distance.service';
 @Component({
@@ -14,6 +14,9 @@ import { GoogleDistanceService } from 'src/app/services/google-distance.service'
 export class HomePageTechnicianPage implements OnInit {
 
   technicianInfo = null;
+  selectCurrent="date";
+  orderCurrent = "descending"
+  orderDisabled= false;
   //loading = null;
 
   constructor(
@@ -29,7 +32,7 @@ export class HomePageTechnicianPage implements OnInit {
   }
 
   async getData() {
-    this.showLoading("Loading appointments...");
+    await this.showLoading("Loading appointments...");
     await this.currentUser.getCurrentUserDetails().then(data => {
       this.technicianInfo = data;
     });
@@ -46,25 +49,37 @@ export class HomePageTechnicianPage implements OnInit {
     console.log(this.technicianInfo);
     if (this.technicianInfo.appointments !== null && this.technicianInfo.appointments !== undefined && this.technicianInfo.appointments !== 0) {
 
-      await this.sortAppointments("date");
-      this.loadingCtrl.dismiss().catch(()=>{})
+      await this.sortAppointments();
+      await this.loadingCtrl.dismiss().catch(()=>{})
     }
   }
 
   async sortChanged(e) {
-    await this.sortAppointments(e.detail.value);
+    await this.sortAppointments();
   }
 
-  async sortAppointments(type) {
-    if (type === "date") {
-      await this.technicianInfo.appointments.sort((a, b) => a.appointmentDate > b.appointmentDate ? 1 : -1);
-      //this.loadingCtrl.dismiss();
-    } else if (type === "distance") {
-      await this.technicianInfo.appointments.sort((a, b) => a.distance > b.distance ? 1 : -1);
-      //this.loadingCtrl.dismiss();
-    } else if (type === "pending") {
+  // async sortOrderChanged(type) {
+  //     this.technicianInfo.appointments.reverse();
+  // }
+
+  async sortAppointments() {
+    if (this.selectCurrent === "date") {
+      this.orderDisabled = false;
+      if(this.orderCurrent === "descending") {
+        await this.technicianInfo.appointments.sort((a, b) => a.appointmentDate > b.appointmentDate ? -1 : 1);
+      } else {
+        await this.technicianInfo.appointments.sort((a, b) => a.appointmentDate > b.appointmentDate ? 1 : -1);
+      }
+    } else if (this.selectCurrent === "distance") {
+      this.orderDisabled = false;
+      if(this.orderCurrent === "descending") {
+        await this.technicianInfo.appointments.sort((a, b) => a.distance > b.distance ? -1 : 1);
+      } else {
+        await this.technicianInfo.appointments.sort((a, b) => a.distance > b.distance ? 1 : -1);
+      }
+    } else if (this.selectCurrent === "pending") {
+      this.orderDisabled = true;
       await this.technicianInfo.appointments.sort((a) => a.appointmentStatus === "pending" ? -1 : 1);
-      //this.loadingCtrl.dismiss();
     }
   }
 
