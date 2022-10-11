@@ -36,7 +36,6 @@ export class RememberSignInGuard implements CanActivate {
       this.router.navigateByUrl('/customer', { replaceUrl: true });
       return false;
     } else {
-
       return true;
     }
   }

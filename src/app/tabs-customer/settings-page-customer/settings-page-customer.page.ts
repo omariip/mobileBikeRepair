@@ -162,9 +162,9 @@ export class SettingsPageCustomerPage implements OnInit {
   /**
    * Signs out the customer
    */
-  signOut() {
-    this.auth.signOut();
-    this.router.navigateByUrl('/home', { replaceUrl: true });
+  async signOut() {
+    await this.auth.signOut();
+    await this.router.navigateByUrl('/home', { replaceUrl: true });
   }
 
   /**
