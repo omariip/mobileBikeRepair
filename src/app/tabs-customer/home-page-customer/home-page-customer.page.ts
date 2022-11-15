@@ -219,6 +219,8 @@ export class HomePagePage implements OnInit {
         From: 'mobichanicapp@gmail.com',
         Subject: 'New Appointment in Mobichanic!',
         Body: `<h1>Hello ${this.techniciansFiltered[index].technicianName}!</h1><p>You have a new appointment pending, open Mobichanic app to check it.<br><br>Respectfully,<br>Mobichanic Team</p>`
+      }).catch(e => {
+        console.log(e);
       })
 
     } catch(e) {

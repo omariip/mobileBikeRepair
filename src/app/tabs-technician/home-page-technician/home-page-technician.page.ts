@@ -3,9 +3,11 @@ import { Auth } from '@angular/fire/auth';
 import { arrayRemove, arrayUnion, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
-import { AlertController, IonInput, LoadingController } from '@ionic/angular';
+import { AlertController, IonInput, LoadingController, ToastController } from '@ionic/angular';
 import { CurrentUserService } from 'src/app/services/current-user.service';
 import { GoogleDistanceService } from 'src/app/services/google-distance.service';
+import 'src/assets/smtp.js';
+
 @Component({
   selector: 'app-home-page-technician',
   templateUrl: './home-page-technician.page.html',
@@ -14,17 +16,17 @@ import { GoogleDistanceService } from 'src/app/services/google-distance.service'
 export class HomePageTechnicianPage implements OnInit {
 
   technicianInfo = null;
-  selectCurrent="date";
+  selectCurrent = "date";
   orderCurrent = "descending"
-  orderDisabled= false;
-  //loading = null;
+  orderDisabled = false;
 
   constructor(
     private currentUser: CurrentUserService,
     private loadingCtrl: LoadingController,
     private firestore: Firestore,
     private distanceService: GoogleDistanceService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private toastController: ToastController
   ) { }
 
   async ngOnInit() {
@@ -50,7 +52,7 @@ export class HomePageTechnicianPage implements OnInit {
     if (this.technicianInfo.appointments !== null && this.technicianInfo.appointments !== undefined && this.technicianInfo.appointments !== 0) {
 
       await this.sortAppointments();
-      await this.loadingCtrl.dismiss().catch(()=>{})
+      await this.loadingCtrl.dismiss().catch(() => { })
     }
   }
 
@@ -65,14 +67,14 @@ export class HomePageTechnicianPage implements OnInit {
   async sortAppointments() {
     if (this.selectCurrent === "date") {
       this.orderDisabled = false;
-      if(this.orderCurrent === "descending") {
+      if (this.orderCurrent === "descending") {
         await this.technicianInfo.appointments.sort((a, b) => a.appointmentDate > b.appointmentDate ? -1 : 1);
       } else {
         await this.technicianInfo.appointments.sort((a, b) => a.appointmentDate > b.appointmentDate ? 1 : -1);
       }
     } else if (this.selectCurrent === "distance") {
       this.orderDisabled = false;
-      if(this.orderCurrent === "descending") {
+      if (this.orderCurrent === "descending") {
         await this.technicianInfo.appointments.sort((a, b) => a.distance > b.distance ? -1 : 1);
       } else {
         await this.technicianInfo.appointments.sort((a, b) => a.distance > b.distance ? 1 : -1);
@@ -84,45 +86,62 @@ export class HomePageTechnicianPage implements OnInit {
   }
 
   async setStatus(status, i) {
-    console.log(i);
-    const technicianRef = doc(this.firestore, "technician", this.technicianInfo.technicianId);
-    const customerRef = doc(this.firestore, "customer", this.technicianInfo.appointments[i].customer.userId);
+    try {
+      const technicianRef = doc(this.firestore, "technician", this.technicianInfo.technicianId);
+      const customerRef = doc(this.firestore, "customer", this.technicianInfo.appointments[i].customer.userId);
 
-    let technicianInfoCopy = JSON.parse(JSON.stringify(this.technicianInfo));
+      let technicianInfoCopy = JSON.parse(JSON.stringify(this.technicianInfo));
 
-    delete technicianInfoCopy.appointments[i].distance;
+      delete technicianInfoCopy.appointments[i].distance;
 
-    let customerAppointment = JSON.parse(JSON.stringify(technicianInfoCopy.appointments[i]));
-    console.log(customerAppointment);
+      let customerAppointment = JSON.parse(JSON.stringify(technicianInfoCopy.appointments[i]));
+      console.log(customerAppointment);
 
-    delete customerAppointment.customer;
-    customerAppointment.technician = {
-      technicianAddress: technicianInfoCopy.technicianAddress,
-      technicianEmail: technicianInfoCopy.technicianEmail,
-      technicianId: technicianInfoCopy.technicianId,
-      technicianName: technicianInfoCopy.technicianName,
-      technicianPhone: technicianInfoCopy.technicianPhone
+      delete customerAppointment.customer;
+      customerAppointment.technician = {
+        technicianAddress: technicianInfoCopy.technicianAddress,
+        technicianEmail: technicianInfoCopy.technicianEmail,
+        technicianId: technicianInfoCopy.technicianId,
+        technicianName: technicianInfoCopy.technicianName,
+        technicianPhone: technicianInfoCopy.technicianPhone
+      }
+
+      await updateDoc(technicianRef, {
+        appointments: arrayRemove(technicianInfoCopy.appointments[i])
+      });
+
+      await updateDoc(customerRef, {
+        appointments: arrayRemove(customerAppointment)
+      });
+
+      this.technicianInfo.appointments[i].appointmentStatus = status;
+      technicianInfoCopy.appointments[i].appointmentStatus = status;
+      customerAppointment.appointmentStatus = status;
+
+      await updateDoc(technicianRef, {
+        appointments: arrayUnion(technicianInfoCopy.appointments[i])
+      })
+
+      await updateDoc(customerRef, {
+        appointments: arrayUnion(customerAppointment)
+      })
+
+      Email.send({
+        Host: "smtp.elasticemail.com",
+        Username: "mobichanicapp@gmail.com",
+        Password: "BA394CAFAD08FDB94BC7C701B8C0ABB8C8C7",
+        To: 'aboushaar.omar@gmail.com',
+        From: 'mobichanicapp@gmail.com',
+        Subject: `${this.technicianInfo.technicianName} has ${status} your Appointment!`,
+        Body: `<h1>Hello ${this.technicianInfo.appointments[i].customer.userName}!</h1><p>${this.technicianInfo.technicianName} has ${status} the appointment booked on ${new Date(this.technicianInfo.appointments[i].appointmentDate).toLocaleDateString()}. Open Mobichanic app to check it.<br><br>Respectfully,<br>Mobichanic Team</p>`
+      }).catch(e => {
+        console.log(e);
+      })
+
+    } catch (e) {
+      this.presentToast("Something went wrong, please try again", "danger", 3000);
+
     }
-
-    await updateDoc(technicianRef, {
-      appointments: arrayRemove(technicianInfoCopy.appointments[i])
-    });
-
-    await updateDoc(customerRef, {
-      appointments: arrayRemove(customerAppointment)
-    });
-
-    this.technicianInfo.appointments[i].appointmentStatus = status;
-    technicianInfoCopy.appointments[i].appointmentStatus = status;
-    customerAppointment.appointmentStatus = status;
-
-    await updateDoc(technicianRef, {
-      appointments: arrayUnion(technicianInfoCopy.appointments[i])
-    })
-
-    await updateDoc(customerRef, {
-      appointments: arrayUnion(customerAppointment)
-    })
   }
 
   async alertStatus(header, status, i) {
@@ -183,5 +202,19 @@ export class HomePageTechnicianPage implements OnInit {
     }).then((r) => {
       r.present();
     })
+  }
+
+  /**
+    * A method to present toasts
+    * @param message the message to be displayed
+    * @param status  the ionic color to be set on the toast
+    */
+   async presentToast(message, color, duration) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: duration,
+      color: color
+    })
+    await toast.present();
   }
 }

@@ -115,9 +115,8 @@ export class AppointmentsPageCustomerPage implements OnInit {
           appointments: arrayUnion(this.customerInfo.appointments[i])
         });
 
-        this.presentToast("Appointment cancelled successfully!", "success", 3000)
+        this.presentToast("Appointment cancelled successfully!", "success", 3000);
         
-        var fodate = 
         Email.send({
           Host: "smtp.elasticemail.com",
           Username: "mobichanicapp@gmail.com",
