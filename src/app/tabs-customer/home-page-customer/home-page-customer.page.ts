@@ -10,6 +10,7 @@ import { format, parseISO } from 'date-fns';
 import { getDownloadURL, ref, Storage, uploadString } from '@angular/fire/storage';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { v4 as uuidv4 } from 'uuid';
+import 'src/assets/smtp.js';
 
 export class Booking {
   bookingService: string = "";
@@ -168,46 +169,62 @@ export class HomePagePage implements OnInit {
       });
 
     } catch (e) {
-      this.loading.dismiss();
+      await this.loading.dismiss();
       this.presentToast("Something went wrong, please try again", "danger");
     }
 
     const customerRef = doc(this.firestore, "customer", this.currentUserDetails.userId);
     const technicianRef = doc(this.firestore, "technician", this.techniciansFiltered[index].technicianId);
 
-    await updateDoc(customerRef, {
-      appointments: arrayUnion({
-        appointmentStatus: "pending",
-        appointmentTitle: this.bookingDetails.bookingService,
-        appointmentDescription: this.bookingDetails.bookingDescription,
-        appointmentDate: this.bookingDetails.bookingDate,
-        appointmentImage: this.imageUrl,
-        technician: {
-          technicianId: this.techniciansFiltered[index].technicianId,
-          technicianEmail: this.techniciansFiltered[index].technicianEmail,
-          technicianName: this.techniciansFiltered[index].technicianName,
-          technicianPhone: this.techniciansFiltered[index].technicianPhone,
-          technicianAddress: this.techniciansFiltered[index].technicianAddress
-        }
-      })
-    });
+    try {
+      await updateDoc(customerRef, {
+        appointments: arrayUnion({
+          appointmentStatus: "pending",
+          appointmentTitle: this.bookingDetails.bookingService,
+          appointmentDescription: this.bookingDetails.bookingDescription,
+          appointmentDate: this.bookingDetails.bookingDate,
+          appointmentImage: this.imageUrl,
+          technician: {
+            technicianId: this.techniciansFiltered[index].technicianId,
+            technicianEmail: this.techniciansFiltered[index].technicianEmail,
+            technicianName: this.techniciansFiltered[index].technicianName,
+            technicianPhone: this.techniciansFiltered[index].technicianPhone,
+            technicianAddress: this.techniciansFiltered[index].technicianAddress
+          }
+        })
+      });
+  
+      await updateDoc(technicianRef, {
+        appointments: arrayUnion({
+          appointmentStatus: "pending",
+          appointmentTitle: this.bookingDetails.bookingService,
+          appointmentDescription: this.bookingDetails.bookingDescription,
+          appointmentDate: this.bookingDetails.bookingDate,
+          appointmentImage: this.imageUrl,
+          customer: {
+            userId: this.currentUserDetails.userId,
+            userName: this.currentUserDetails.userName,
+            userEmail: this.currentUserDetails.userEmail,
+            userPhone: this.currentUserDetails.userPhone,
+            userAddress: this.currentUserDetails.userAddress
+          }
+        })
+      });
 
-    await updateDoc(technicianRef, {
-      appointments: arrayUnion({
-        appointmentStatus: "pending",
-        appointmentTitle: this.bookingDetails.bookingService,
-        appointmentDescription: this.bookingDetails.bookingDescription,
-        appointmentDate: this.bookingDetails.bookingDate,
-        appointmentImage: this.imageUrl,
-        customer: {
-          userId: this.currentUserDetails.userId,
-          userName: this.currentUserDetails.userName,
-          userEmail: this.currentUserDetails.userEmail,
-          userPhone: this.currentUserDetails.userPhone,
-          userAddress: this.currentUserDetails.userAddress
-        }
+      Email.send({
+        Host: "smtp.elasticemail.com",
+        Username: "mobichanicapp@gmail.com",
+        Password: "BA394CAFAD08FDB94BC7C701B8C0ABB8C8C7",
+        To: 'aboushaar.omar@gmail.com',
+        From: 'mobichanicapp@gmail.com',
+        Subject: 'New Appointment in Mobichanic!',
+        Body: `<h1>Hello ${this.techniciansFiltered[index].technicianName}!</h1><p>You have a new appointment pending, open Mobichanic app to check it.<br><br>Respectfully,<br>Mobichanic Team</p>`
       })
-    });
+
+    } catch(e) {
+      this.presentToast("Something went wrong, please try again", "danger");
+    }
+    
 
     //this.bookingModal.dismiss();
     this.loading.dismiss();

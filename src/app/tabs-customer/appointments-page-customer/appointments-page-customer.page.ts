@@ -4,6 +4,7 @@ import { arrayRemove, arrayUnion, collection, doc, Firestore, getDoc, getDocs, q
 import { Router } from '@angular/router';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { CurrentUserService } from 'src/app/services/current-user.service';
+import 'src/assets/smtp.js';
 
 @Component({
   selector: 'app-appointments-page-customer',
@@ -40,7 +41,7 @@ export class AppointmentsPageCustomerPage implements OnInit {
 
       await this.sortAppointments();
     }
-    await this.loadingCtrl.dismiss().catch((e)=>{console.log(e)})
+    await this.loadingCtrl.dismiss().catch((e) => { console.log(e) })
   }
 
   async sortAppointments() {
@@ -75,45 +76,63 @@ export class AppointmentsPageCustomerPage implements OnInit {
     const milliseconds = Math.abs(appTime.getTime() - nowTime.getTime());
     const hoursBetweenTimes = milliseconds / (60 * 60 * 1000);
 
-    if(hoursBetweenTimes < 24) {
+    if (hoursBetweenTimes < 24) {
       this.presentToast("Can't cancel appointments before 24 hrs, please contact the technician to cancel", "danger", 5000)
       console.log(this.customerInfo.appointments[i])
     } else {
-      const technicianRef = doc(this.firestore, "technician", this.customerInfo.appointments[i].technician.technicianId);
-      const customerRef = doc(this.firestore, "customer", this.customerInfo.userId);
 
-      let technicianAppointment = JSON.parse(JSON.stringify(this.customerInfo.appointments[i])); 
-      console.log(technicianAppointment);
+      try {
+        const technicianRef = doc(this.firestore, "technician", this.customerInfo.appointments[i].technician.technicianId);
+        const customerRef = doc(this.firestore, "customer", this.customerInfo.userId);
 
-      delete technicianAppointment.technician;
-      technicianAppointment.customer = {
-        userAddress: this.customerInfo.userAddress,
-        userEmail: this.customerInfo.userEmail,
-        userId: this.customerInfo.userId,
-        userName: this.customerInfo.userName,
-        userPhone: this.customerInfo.userPhone
+        let technicianAppointment = JSON.parse(JSON.stringify(this.customerInfo.appointments[i]));
+
+        delete technicianAppointment.technician;
+        technicianAppointment.customer = {
+          userAddress: this.customerInfo.userAddress,
+          userEmail: this.customerInfo.userEmail,
+          userId: this.customerInfo.userId,
+          userName: this.customerInfo.userName,
+          userPhone: this.customerInfo.userPhone
+        }
+
+        await updateDoc(technicianRef, {
+          appointments: arrayRemove(technicianAppointment)
+        });
+
+        await updateDoc(customerRef, {
+          appointments: arrayRemove(this.customerInfo.appointments[i])
+        });
+
+        this.customerInfo.appointments[i].appointmentStatus = "cancelled";
+        technicianAppointment.appointmentStatus = "cancelled";
+
+        await updateDoc(technicianRef, {
+          appointments: arrayUnion(technicianAppointment)
+        });
+
+        await updateDoc(customerRef, {
+          appointments: arrayUnion(this.customerInfo.appointments[i])
+        });
+
+        this.presentToast("Appointment cancelled successfully!", "success", 3000)
+        
+        var fodate = 
+        Email.send({
+          Host: "smtp.elasticemail.com",
+          Username: "mobichanicapp@gmail.com",
+          Password: "BA394CAFAD08FDB94BC7C701B8C0ABB8C8C7",
+          To: 'aboushaar.omar@gmail.com',
+          From: 'mobichanicapp@gmail.com',
+          Subject: 'Customer Cancelled Appointment in Mobichanic!',
+          Body: `<h1>Hello ${this.customerInfo.appointments[i].technician.technicianName}!</h1><p>${this.customerInfo.userName} has cancelled the appointment booked on ${new Date(this.customerInfo.appointments[i].appointmentDate).toLocaleDateString()}. Open Mobichanic app to check it.<br><br>Respectfully,<br>Mobichanic Team</p>`
+        }).catch(e => {
+          console.log(e);
+        })
+
+      } catch (e) {
+        this.presentToast("Something went wrong, please try again", "danger", 3000);
       }
-
-      await updateDoc(technicianRef, {
-        appointments: arrayRemove(technicianAppointment)
-      });
-
-      await updateDoc(customerRef, {
-        appointments: arrayRemove(this.customerInfo.appointments[i])
-      });
-
-      this.customerInfo.appointments[i].appointmentStatus = "cancelled";
-      technicianAppointment.appointmentStatus = "cancelled";
-
-      await updateDoc(technicianRef, {
-        appointments: arrayUnion(technicianAppointment)
-      });
-
-      await updateDoc(customerRef, {
-        appointments: arrayUnion(this.customerInfo.appointments[i])
-      });
-
-      this.presentToast("Appointment cancelled successfully!", "success", 3000)
     }
   }
 
@@ -147,7 +166,7 @@ export class AppointmentsPageCustomerPage implements OnInit {
     * @param message the message to be displayed
     * @param status  the ionic color to be set on the toast
     */
-   async presentToast(message, color, duration) {
+  async presentToast(message, color, duration) {
     const toast = await this.toastController.create({
       message: message,
       duration: duration,
