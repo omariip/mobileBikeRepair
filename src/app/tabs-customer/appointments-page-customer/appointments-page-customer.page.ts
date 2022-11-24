@@ -117,7 +117,7 @@ export class AppointmentsPageCustomerPage implements OnInit {
 
         this.presentToast("Appointment cancelled successfully!", "success", 3000);
         
-        Email.send({
+        await Email.send({
           Host: "smtp.elasticemail.com",
           Username: "mobichanicapp@gmail.com",
           Password: "BA394CAFAD08FDB94BC7C701B8C0ABB8C8C7",

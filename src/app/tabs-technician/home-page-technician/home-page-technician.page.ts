@@ -126,7 +126,7 @@ export class HomePageTechnicianPage implements OnInit {
         appointments: arrayUnion(customerAppointment)
       })
 
-      Email.send({
+      await Email.send({
         Host: "smtp.elasticemail.com",
         Username: "mobichanicapp@gmail.com",
         Password: "BA394CAFAD08FDB94BC7C701B8C0ABB8C8C7",
