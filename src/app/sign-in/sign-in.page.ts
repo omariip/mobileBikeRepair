@@ -58,6 +58,10 @@ export class SignInPage implements OnInit {
           + ' has no account', 'danger');
       } else if (user == 'auth/wrong-password') {
         this.toast('Wrong password', 'danger');
+      } else if (user == 'not-approved') {
+        this.toast("You've not been approved yet", 'danger')
+      } else if(user == 'rejected') {
+        this.toast("Sorry, you've been rejected", 'danger')
       } else {
         this.toast('Unknown error', 'danger');
       }

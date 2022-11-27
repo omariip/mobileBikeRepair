@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { addDoc, doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { addDoc, doc, Firestore, setDoc, getDoc } from '@angular/fire/firestore';
 import { ToastController } from '@ionic/angular';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
 
@@ -23,6 +23,8 @@ export class AuthService {
         value.email,
         value.password
       );
+
+      this.auth.signOut();
 
       await setDoc(doc(this.firestore, 'customer', user.user.uid), {
         userId: user.user.uid,
@@ -76,11 +78,29 @@ export class AuthService {
    */
   async signIn(value) {
     try {
+
       const user = await signInWithEmailAndPassword(
         this.auth,
         value.email,
         value.password
       );
+
+      const docRef = doc(this.firestore, "technicianPending", this.auth.currentUser.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        this.auth.signOut();
+        return "not-approved";
+      }
+
+      const docRef2 = doc(this.firestore, "technicianRejected", this.auth.currentUser.uid);
+      const docSnap2 = await getDoc(docRef2);
+
+      if (docSnap2.exists()) {
+        this.auth.signOut();
+        return "rejected";
+      }
+
       return user;
     } catch (error) {
       return error.code;
