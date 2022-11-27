@@ -39,21 +39,18 @@ export class HomePageTechnicianPage implements OnInit {
       this.technicianInfo = data;
     });
 
-    let i = 0;
-
-    for await (let a of this.technicianInfo.appointments) {
-      await this.distanceService.getDistanceinKM(this.getAddressInOneLine(a.customer.userAddress),
-        this.getAddressInOneLine(this.technicianInfo.technicianAddress))
-        .then((d) => {
-          a.distance = d;
-        })
+    if(this.technicianInfo.appointments !== null && this.technicianInfo.appointments !== undefined && this.technicianInfo.appointments !== 0) {
+      for await (let a of this.technicianInfo.appointments) {
+        await this.distanceService.getDistanceinKM(this.getAddressInOneLine(a.customer.userAddress),
+          this.getAddressInOneLine(this.technicianInfo.technicianAddress))
+          .then((d) => {
+            a.distance = d;
+          })
+      }
+        await this.sortAppointments();
+        await this.loadingCtrl.dismiss().catch(() => { })
     }
-    console.log(this.technicianInfo);
-    if (this.technicianInfo.appointments !== null && this.technicianInfo.appointments !== undefined && this.technicianInfo.appointments !== 0) {
-
-      await this.sortAppointments();
-      await this.loadingCtrl.dismiss().catch(() => { })
-    }
+    await this.loadingCtrl.dismiss().catch(() => { })
   }
 
   async sortChanged(e) {
