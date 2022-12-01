@@ -143,16 +143,17 @@ export class SignUpTechnicianPage implements OnInit {
     if (typeof user === 'string') {
       if (user == 'auth/email-already-in-use') {
         this.toast('Email ' + this.registrationForm.value.email
-          + ' already in use', 'danger');
+          + ' already in use', 'danger', 4000);
       } else if (user == 'auth/invalid-email') {
         this.toast('Email ' + this.registrationForm.value.email
-          + ' is invalid', 'danger');
+          + ' is invalid', 'danger', 4000);
       } else {
-        this.toast('Unknown error', 'danger');
+        this.toast('Unknown error', 'danger', 4000);
       }
     } else {
       this.auth.updateCurrentUser(null);
       this.router.navigateByUrl('/sign-in', { replaceUrl: true });
+      this.toast("Your request has been received, awaiting approval!", "success", 5000)
       //this.toast('Successfully Signed in', 'success');
     }
   }
@@ -162,12 +163,12 @@ export class SignUpTechnicianPage implements OnInit {
    * @param message the message to be displayed
    * @param status  the ionic color to be set on the toast
    */
-  async toast(message, status) {
+  async toast(message, status, duration) {
 
     const toast = await this.toastController.create({
       message: message,
       color: status,
-      duration: 3000
+      duration: duration
     });
 
     toast.present();
