@@ -24,8 +24,6 @@ export class AuthService {
         value.password
       );
 
-      this.auth.signOut();
-
       await setDoc(doc(this.firestore, 'customer', user.user.uid), {
         userId: user.user.uid,
         userName: value.name,
@@ -65,6 +63,9 @@ export class AuthService {
         technicianPassword: value.password, //remove in production
         createdAt: Date.now()
       });
+
+      await this.auth.signOut();
+      
       return user;
     } catch (error) {
       return error.code;
