@@ -38,7 +38,7 @@ OR<br><br>
 * Install the app
   1. Clone the project
       ```sh
-      git clone https://github.com/github_username/repo_name.git
+      git clone https://github.com/omariip/mobileBikeRepair.git
       ```
   2. Install NPM packages
       ```sh
