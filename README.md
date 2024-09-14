@@ -19,6 +19,18 @@
 * ![Capacitor]
 * ![Jasmine]
 
+## Screenshots
+<p align="center">
+  <img src="src/assets/icon/screenshot5.jpg" width="700" /><br>
+  <img src="src/assets/icon/screenshot1.png" height="550" />
+  <img src="src/assets/icon/screenshot2.png" width="250" />
+  <img src="src/assets/icon/screenshot3.png" width="250" />
+
+</p>
+
+### Demo Video
+
+[![Watch the demo](./screenshots/video-thumbnail.png)](https://www.youtube.com/watch?v=your-video-id)
 
 
 [Angular]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
