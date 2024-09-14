@@ -30,7 +30,7 @@
 
 ### Demo Video
 
-[![Watch the demo](./screenshots/video-thumbnail.png)](https://www.youtube.com/watch?v=your-video-id)
+[![Watch the demo](https://img.youtube.com/vi/tDlTODvmCeQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=tDlTODvmCeQ)
 
 
 [Angular]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
