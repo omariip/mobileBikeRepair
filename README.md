@@ -33,7 +33,8 @@
 [![Watch the demo](https://img.youtube.com/vi/tDlTODvmCeQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=tDlTODvmCeQ)
 
 ## Getting Started
-* Try the app using the hosted version on Appetize: https://appetize.io/app/7emjjtifz5ittgt3rse2pqoeym?device=iphone14pro&osVersion=16.2 <br><br>
+* Try the app using the hosted version on Appetize from [here](https://appetize.io/app/7emjjtifz5ittgt3rse2pqoeym?device=iphone14pro&osVersion=16.2) <br><br>
+OR<br><br>
 * Install the app
   1. Clone the project
       ```sh
