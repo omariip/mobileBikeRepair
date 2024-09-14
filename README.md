@@ -44,7 +44,7 @@ OR<br><br>
       ```sh
        npm install
        ```
-  3. Run app in iOS
+  3. Run app in iOS or Android
      ```sh
      npx cap run ios
      ```
