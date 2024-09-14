@@ -9,7 +9,7 @@
   </p>
 </div>
 
-### Built With
+## Built With
 
 * ![Angular]
 * ![Html]
@@ -28,9 +28,32 @@
 
 </p>
 
-### Demo Video
+## Demo Video
 
 [![Watch the demo](https://img.youtube.com/vi/tDlTODvmCeQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=tDlTODvmCeQ)
+
+## Getting Started
+* Try the app using the hosted version on Appetize: https://appetize.io/app/7emjjtifz5ittgt3rse2pqoeym?device=iphone14pro&osVersion=16.2 <br><br>
+* Install the app
+  1. Clone the project
+      ```sh
+      git clone https://github.com/github_username/repo_name.git
+      ```
+  2. Install NPM packages
+      ```sh
+       npm install
+       ```
+  3. Run app in iOS
+     ```sh
+     npx cap run ios
+     ```
+
+
+
+
+
+
+
 
 
 [Angular]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
