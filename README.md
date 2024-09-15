@@ -21,11 +21,11 @@
 
 ## Screenshots
 <p align="center">
-  <img src="src/assets/icon/screenshot5.jpg" width="700" /><br>
-  <img src="src/assets/icon/screenshot1.png" height="550" />
-  <img src="src/assets/icon/screenshot2.png" width="250" />
-  <img src="src/assets/icon/screenshot3.png" width="250" />
-
+  <img src="src/assets/icon/screenshot1.jpg" width="500" />
+  <img src="src/assets/icon/screenshot2.jpg" width="500" />
+  <img src="src/assets/icon/screenshot3.jpg" width="500" />
+  <img src="src/assets/icon/screenshot4.jpg" width="500" />
+  <img src="src/assets/icon/screenshot5.jpg" width="500" />
 </p>
 
 ## Demo Video
